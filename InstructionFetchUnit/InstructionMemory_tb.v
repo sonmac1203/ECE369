@@ -13,15 +13,18 @@ module InstructionMemory_tb();
 
     reg [31:0] Address;
 
+    integer i;
+    
 	InstructionMemory u0(
 		.Address(Address),
         .Instruction(Instruction)
 	);
 
 	initial begin
-	
     /* Please fill in the implementation here... */
-	
+    for(i = 0; i < 127; i = i + 1) begin
+        #100 Address <= i;
+    end /* end of for loop */
 	end
 
 endmodule
