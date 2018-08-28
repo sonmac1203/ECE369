@@ -18,9 +18,15 @@ module PCAdder_tb();
         .PCAddResult(PCAddResult)
     );
 
+    
 	initial begin
-	
-    /* Please fill in the implementation here... */
+	/* Please fill in the implementation here... */
+    #200
+    PCResult = 0;
+    
+    #200
+    PCResult = 4;
+    
 	
 	end
 
