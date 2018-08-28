@@ -47,7 +47,7 @@ module InstructionMemory(Address, Instruction);
 
     //initializing memory with 0-127    
     integer index;
-    always @* begin
+    initial begin
         for (index = 0; index < 127; index = index + 1) begin
             Memory[index] <= index;
         end
