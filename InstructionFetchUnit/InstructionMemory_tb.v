@@ -22,9 +22,9 @@ module InstructionMemory_tb();
 
 	initial begin
     /* Please fill in the implementation here... */
-    for(i = 0; i < 127; i = i + 1) begin
-        #100 Address <= i;
-    end /* end of for loop */
+        for(i = 0; i < 127; i = i + 1) begin
+            #100 Address <= i;
+        end /* end of for loop */
 	end
 
 endmodule

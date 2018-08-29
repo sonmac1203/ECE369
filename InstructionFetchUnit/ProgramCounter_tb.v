@@ -25,10 +25,41 @@ module ProgramCounter_tb();
 		Clk <= 1'b0;
 		forever #10 Clk <= ~Clk;
 	end
-
+    
 	initial begin
 	
-    /* Please fill in the implementation here... */
+	Address = 0;
+	Reset = 0;
+	Clk = 0;
+	//module ProgramCounter(Address, PCResult, Reset, Clk);
+
+    #200;
+    Address = 0;
+    Reset = 0;
+    
+    #200;
+    Address = 4;
+    Reset = 0;
+    
+    #200;
+    Reset = 1;
+    
+	#200;
+	Reset = 0;
+	
+	#200;
+	Address = 8;
+	
+	#200;
+	Address = 12;
+	
+	#200;
+	Reset = 1;
+	
+	#200;
+	Reset = 0;
+	
+	
 	
 	end
 
