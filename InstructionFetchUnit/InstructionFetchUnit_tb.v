@@ -23,18 +23,13 @@
 module InstructionFetchUnit_tb();
 
     reg Reset, Clk;
-    wire [6:0] out7;
-    wire [7:0] en_out; 
+    wire [31:0] Instruction;
     
     InstructionFetchUnit p1(
         .Reset(Reset),
         .Clk(Clk),
-        .out7(out7),
-        .en_out(en_out)
-    );
-    
-    //module InstructionFetchUnit(Instruction, Reset, Clk, en_out);
-    
+        .Instruction(Instruction)
+    );    
     initial begin
         Clk <= 1'b0;
         forever #100 Clk <= ~Clk;
