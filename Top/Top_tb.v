@@ -27,15 +27,15 @@ module Top_tb();
    reg Reset, Clk;
    wire [6:0] out7;
    wire [7:0] en_out;
-   wire [31:0] Instruction;
+//   wire [31:0] Instruction;
     
     
    Top t1(
        .Clk(Clk),
        .Reset(Reset),
        .out7(out7),
-       .en_out(en_out),
-       .Instruction(Instruction)
+       .en_out(en_out)
+//       .Instruction(Instruction)
    );
     
    initial begin

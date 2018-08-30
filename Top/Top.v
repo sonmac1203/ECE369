@@ -20,13 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Top(Clk, Reset, out7, en_out, Instruction);
+module Top(Clk, Reset, out7, en_out);
 
     input Clk, Reset;
     output [7:0] en_out;
     output [6:0] out7;
     wire Clk_out;
-    output [31:0] Instruction;
+    wire [31:0] Instruction;
 
     //module ClkDiv(Clk, Rst, ClkOut);
     ClkDiv IFU_Clk(Clk, Reset, Clk_out);
