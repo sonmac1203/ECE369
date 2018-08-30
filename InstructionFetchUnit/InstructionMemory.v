@@ -46,11 +46,14 @@ module InstructionMemory(Address, Instruction);
 
     //initializing memory with 0-127    
     integer index;
+    
+    
     initial begin
-        for (index = 0; index < 127; index = index + 1) begin
+        for (index = 0; index < 128; index = index + 1) begin
             Memory[index] = index * 3;
         end
     end
+    
     
     always @ Address begin
         Instruction = Memory[Address];

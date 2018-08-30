@@ -16,6 +16,7 @@ set_property PACKAGE_PIN K2 [get_ports {en_out[6]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {en_out[7]}]
 set_property PACKAGE_PIN U13 [get_ports {en_out[7]}]
 
+
 ##This part is to assign a pin number to 100MHz clock signal
 set_property PACKAGE_PIN E3 [get_ports Clk]
 set_property IOSTANDARD LVCMOS33 [get_ports Clk]

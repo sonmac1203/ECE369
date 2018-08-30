@@ -30,6 +30,10 @@ module ProgramCounter(Address, PCResult, Reset, Clk);
 	input Reset, Clk;
 
 	output reg [31:0] PCResult;
+	
+	initial begin
+	   PCResult <= 0;
+	end
 
     //If Reset = 1, set PCResult to 0, otherwise set to Address
     always @ (posedge Clk)  begin

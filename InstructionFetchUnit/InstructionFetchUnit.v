@@ -37,37 +37,39 @@
 // which generates a continuous clock pulse into the module.
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionFetchUnit(Instruction, Reset, Clk, en_out);
+module InstructionFetchUnit(Instruction, Reset, Clk);
 
     input Reset;
     input Clk;
-    
+   
     
     output [31:0] Instruction;
-    output [6:0] en_out;
+    wire [6:0] en_out;
+    
+    wire [6:0] out7;
     
     wire Clk_out;
     
     //wire [31:0] IM_out;
-    wire [31:0] address = 0;
+    wire [31:0] address;
     
     wire [31:0] ProgramCounter_out;
     
-    
-    ClkDiv Clk_1(Clk, Reset, Clk_out);
+    //module ClkDiv(Clk, Rst, ClkOut);
+    ClkDiv IFU_Clk(Clk, Reset, Clk_out);
     
     //module ProgramCounter(Address, PCResult, Reset, Clk);
     //ProgramCounter_out goes to IM and PCAdder
-    ProgramCounter ProgramBoi(address, ProgramCounter_out, Reset, Clk_out);
+    ProgramCounter IFU_PC(address, ProgramCounter_out, Reset, Clk_out);
     
     //module PCAdder(PCResult, PCAddResult)
-    PCAdder PCAdder_1(ProgramCounter_out, address);
+    PCAdder IFU_PCAdd(ProgramCounter_out, address);
             
     //module InstructionMemory(Address, Instruction); 
-    InstructionMemory IM_1(ProgramCounter_out, Instruction);
+    InstructionMemory IFU_IM(ProgramCounter_out, Instruction);
     
     //module Two4DigitDisplay(Clk, NumberA, NumberB, out7, en_out);
-    Two4DigitDisplay DisplayBoi(Clk_out, Instruction[15:0], Instruction[31:16], en_out);
+    Two4DigitDisplay IFU_Display(Clk_out, Instruction[15:0], Instruction[31:16], out7, en_out);
     
     /* Please fill in the implementation here... */
 endmodule
