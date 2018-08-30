@@ -37,16 +37,16 @@
 // which generates a continuous clock pulse into the module.
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionFetchUnit(Instruction, Reset, Clk);
+module InstructionFetchUnit(Reset, Clk, out7, en_out);
 
     input Reset;
     input Clk;
    
     
-    output [31:0] Instruction;
-    wire [6:0] en_out;
+    wire [31:0] Instruction;
+    output [7:0] en_out;
     
-    wire [6:0] out7;
+    output [6:0] out7;
     
     wire Clk_out;
     

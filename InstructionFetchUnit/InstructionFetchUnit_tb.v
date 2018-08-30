@@ -22,13 +22,15 @@
 
 module InstructionFetchUnit_tb();
 
-    wire [31:0] Instruction;
     reg Reset, Clk;
+    wire [6:0] out7;
+    wire [7:0] en_out; 
     
     InstructionFetchUnit p1(
-        .Instruction(Instruction),
         .Reset(Reset),
-        .Clk(Clk)
+        .Clk(Clk),
+        .out7(out7),
+        .en_out(en_out)
     );
     
     //module InstructionFetchUnit(Instruction, Reset, Clk, en_out);

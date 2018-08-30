@@ -1,3 +1,7 @@
+set_property IOSTANDARD LVCMOS33 [get_ports {Reset}]
+set_property PACKAGE_PIN E16 [get_ports {Reset}]
+
+
 ## This part is to activate or deactive ANODE of each display digit
 set_property IOSTANDARD LVCMOS33 [get_ports {en_out[0]}]
 set_property PACKAGE_PIN J17 [get_ports {en_out[0]}]
