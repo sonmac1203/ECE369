@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
 ////////////////////////////////////////////////////////////////////////////////
-// Team Members:
-// Overall percent effort of each team meber: 
+// Team Members: Mitchell Dzurick & Lena Voytek
+// Overall percent effort of each team meber: 50% - 50%
 // 
 // ECE369A - Computer Architecture
 // Laboratory 3 (PostLab)
