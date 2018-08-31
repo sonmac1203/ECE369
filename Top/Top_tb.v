@@ -27,6 +27,7 @@ module Top_tb();
    reg Reset, Clk;
    wire [6:0] out7;
    wire [7:0] en_out;
+   reg top_clock_reset;
 //   wire [31:0] Instruction;
     
     
@@ -34,21 +35,27 @@ module Top_tb();
        .Clk(Clk),
        .Reset(Reset),
        .out7(out7),
-       .en_out(en_out)
+       .en_out(en_out),
+       .top_clock_reset(top_clock_reset)
 //       .Instruction(Instruction)
    );
     
    initial begin
        Clk <= 1'b0;
-       forever #100 Clk <= ~Clk;
+       forever #75 Clk <= ~Clk;
    end
    
    initial begin
    #200;
    Reset = 1;
+   top_clock_reset = 1;
    
    #200;
    Reset = 0;
+   top_clock_reset = 0;
    end
+   
+   
+   
    
 endmodule

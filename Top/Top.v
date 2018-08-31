@@ -20,16 +20,17 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Top(Clk, Reset, out7, en_out);
+module Top(Clk, Reset, out7, en_out ,top_clock_reset);
 
     input Clk, Reset;
     output [7:0] en_out;
     output [6:0] out7;
     wire Clk_out;
     wire [31:0] Instruction;
+    input top_clock_reset;
 
     //module ClkDiv(Clk, Rst, ClkOut);
-    ClkDiv IFU_Clk(Clk, Reset, Clk_out);
+    ClkDiv IFU_Clk(Clk, top_clock_reset, Clk_out);
     
     //module InstructionFetchUnit(Reset, Clk, Instruction);
     InstructionFetchUnit top_IFU(Reset, Clk_out, Instruction);

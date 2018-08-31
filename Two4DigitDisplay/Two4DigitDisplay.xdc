@@ -1,6 +1,10 @@
 set_property IOSTANDARD LVCMOS33 [get_ports {Reset}]
 set_property PACKAGE_PIN N17 [get_ports {Reset}]
 
+set_property IOSTANDARD LVCMOS33 [get_ports {top_clock_reset}]
+set_property PACKAGE_PIN M17 [get_ports {top_clock_reset}]
+
+
 
 ## This part is to activate or deactive ANODE of each display digit
 set_property IOSTANDARD LVCMOS33 [get_ports {en_out[0]}]
@@ -19,7 +23,6 @@ set_property IOSTANDARD LVCMOS33 [get_ports {en_out[6]}]
 set_property PACKAGE_PIN K2 [get_ports {en_out[6]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {en_out[7]}]
 set_property PACKAGE_PIN U13 [get_ports {en_out[7]}]
-
 
 ##This part is to assign a pin number to 100MHz clock signal
 set_property PACKAGE_PIN E3 [get_ports Clk]
@@ -78,4 +81,3 @@ set_property IOSTANDARD LVCMOS33 [get_ports {out7[1]}]
 set_property PACKAGE_PIN T11 [get_ports {out7[1]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {out7[0]}]
 set_property PACKAGE_PIN L18 [get_ports {out7[0]}]
-

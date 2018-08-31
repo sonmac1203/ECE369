@@ -26,4 +26,3 @@ module SevenSegment(numin, segout);
        endcase
      end
 endmodule
-
