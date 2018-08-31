@@ -36,7 +36,7 @@ module Top(Clk, Reset, out7, en_out ,top_clock_reset);
     InstructionFetchUnit top_IFU(Reset, Clk_out, Instruction);
     
     //module Two4DigitDisplay(Clk, NumberA, NumberB, out7, en_out);
-    Two4DigitDisplay top_Display(Clk_out, Instruction[15:0], Instruction[31:16], out7, en_out);
+    Two4DigitDisplay top_Display(Clk, Instruction[15:0], Instruction[31:16], out7, en_out);
 
 
 endmodule
