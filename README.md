@@ -5,3 +5,5 @@ ___Index___
 ---
 * Lab 1-3
 	- InstructionFetchUnit
+* Lab 4
+	- QtSpim
