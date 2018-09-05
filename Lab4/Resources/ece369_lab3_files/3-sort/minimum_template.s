@@ -1,13 +1,13 @@
 # Exercise 3
 # Max Score: 30 points
 #
-# Students: 
+# Students: Mitchell Dzurick & Lena Voytek
 #
-# minimum.s 
+# minimum.s
 # Finds the index of the smallest element in an integer array
-# V[], which contains n items.  
-# 
-# Below is the C function.  
+# V[], which contains n items.
+#
+# Below is the C function.
 #
 #   int minimum(int V[], int n)
 #   {
@@ -22,24 +22,24 @@
 #     return min_idx;
 #    }
 #
-# In the MIPS implementation given below, registers 
-# $a0 and $a1 correspond to V[] and n. The index of the minimal 
+# In the MIPS implementation given below, registers
+# $a0 and $a1 correspond to V[] and n. The index of the minimal
 # element is placed in $v0 as the return value.
 #
-# Task 1: Modify the "minimum" function given below so that it returns the index of the largest 
-# element in the array. Insert your code into this file where "MaxIndex" is defined and demonstrate the 
-# functionality   
+# Task 1: Modify the "minimum" function given below so that it returns the index of the largest
+# element in the array. Insert your code into this file where "MaxIndex" is defined and demonstrate the
+# functionality
 #
-# Task 2: The pseudo code of a new sorting algorithm is given below along with 
-# most of the assembly code. You need to fill in for the missing part and demonstrate 
+# Task 2: The pseudo code of a new sorting algorithm is given below along with
+# most of the assembly code. You need to fill in for the missing part and demonstrate
 # the functionality using the same test cases used for MaxIndex function.
 #
 #
-# This algorithm first finds the largest element in A[0]..A[n] and moves it to 
-# position n, then finds the largest element in A[0]..A[n-1] and puts that in position n-1, 
+# This algorithm first finds the largest element in A[0]..A[n] and moves it to
+# position n, then finds the largest element in A[0]..A[n-1] and puts that in position n-1,
 # and so forth.
-# -Use  MIPS function MaxIndex from Task 1, which takes two arguments A and n, and returns 
-# the index of the largest element of A[0]..A[n]. The arguments and return values are passed 
+# -Use  MIPS function MaxIndex from Task 1, which takes two arguments A and n, and returns
+# the index of the largest element of A[0]..A[n]. The arguments and return values are passed
 # in registers $a0, $a1 and $v0 respectively.
 # -Remember that integers are 32-bit, or 4-byte, MIPS quantities.
 #
@@ -58,19 +58,19 @@ len0:       .word 10
 list1:      .word 3, 9, 1, 8, 6, 5, 4, 7, 3, 11
 len1:       .word 10
 
-list2:      .word 1, 4, 0, 0, 0, 0, 0, 0, 0, 0 
+list2:      .word 1, 4, 0, 0, 0, 0, 0, 0, 0, 0
 len2:       .word 10
 
-list3:      .word -1, -2, -3, -4, -5, -6, -7, -8, -9, -10 
+list3:      .word -1, -2, -3, -4, -5, -6, -7, -8, -9, -10
 len3:       .word 10
 
-list4:      .word 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 
+list4:      .word 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 len4:       .word 10
 
-list5:      .word 1, 5, 0, 3, 4, 0, 6, -7, 8, 9, 10 
+list5:      .word 1, 5, 0, 3, 4, 0, 6, -7, 8, 9, 10
 len5:       .word 11
 
-newline:    .asciiz     "\n" 
+newline:    .asciiz     "\n"
 space:      .asciiz     " "
 
 ################# minimum routine that prints the index of the min element in an array ############
@@ -93,7 +93,7 @@ loop:
 next:
     addi    $t1,$t1,1       # i++
     j       loop            # Loop back
-done: 
+done:
     add     $v0,$t3,$0      # return min
     jr      $ra
 
@@ -101,13 +101,30 @@ done:
 .text
 .globl MaxIndex
 
-MaxIndex:   
+MaxIndex:
     # Please fill in your implementation for 'MaxIndex' below this line !##########################
     # Your code begins
+    lw      $t0, 0($a0)     # min=V[0]
+    addi    $t1,$0, 1       # i=1
+    add     $t3,$0, 0       # $t3=0
 
-    # Your code ends
+loop_Max:
+    bge     $t1,$a1,done_Max    # i>=n ?
+    sll     $t2, $t1, 2     # $t2 = $t1 * 4
+    add     $t2,$t2,$a0
+    lw      $t2, 0($t2)     # $t2 = V[i]
+    ble     $t2,$t0,next_Max    # V[i] <= min ?
+    add     $t0,$t2,$0      # min=V[i]
+    add     $t3,$t1,$0      # min_index=min
+next_Max:
+    addi    $t1,$t1,1       # i++
+    j       loop_Max            # Loop back
+done_Max:
+    add     $v0,$t3,$0      # return min
+    jr      $ra
+   # Your code ends
 
-    
+
 #################### Sort function that sorts and prints the sorted array ##########################
 .text
 .globl sort
@@ -119,7 +136,7 @@ MaxIndex:
 #   n = n - 1, update the "last position" of an array, every element after n - 1 is sorted
 # end
 
-sort: 
+sort:
     sub     $sp,$sp,28          # [sp=sp-24] Adjust the stack pointer
     sw      $ra,0($sp)          # [stack[$sp]=$ra] Backup return address
     sw      $s0,4($sp)          # [stack[$sp+4]=$s0] Backup $s0
@@ -137,20 +154,20 @@ sloop:
     lw      $a0,20($sp)         # [$a0=($sp+20)] Load the address of 'list'
     move    $a1,$s0             # [$a1=$s0] Update 'n' elements to search
     jal MaxIndex                # Call function 'MaxIndex'
-    
+
     # You will need 10-15 lines of code!
     # Your code begins
-            # [$t0=MaxIndex] MaxIndex ($v0), that needs to be swapped with index n - 1
-            # [$t0=4*$t0] Calculate the offset for MaxIndex
-            # [$t0=$t0+$a0] Calculate the address for V[MaxIndex]
-            # [$t2=V[$t0]] Load the value of memory address $t0 to $t2, $t2 = V[MaxIndex]
-            # [$t1=$s0-1] The index (n - 1) that will be swapped with MaxIndex
-            # [$t1=4*$t1] Calculate offset for index n - 1
-            # [$t1=$t1+$a0] Calculate the address for V[n - 1]
-            # [$t3=V[$t1]] Load the value of memory address $t1 to $t3, $t3 = V[n - 1]
-            # [V[$t1]=$t2] Store V[n-1] to be V[MaxIndex]
-            # [V[$t0]=$t3] Store V[MaxIndex] to be the original V[n - 1]
-            # [$s0=$s0-1] Len = Len - 1    
+    add     $t0,$v0,$0        # [$t0=MaxIndex] MaxIndex ($v0), that needs to be swapped with index n - 1
+    sll     $t0,$t0,2         # [$t0=4*$t0] Calculate the offset for MaxIndex
+    add     $t0,$t0,$a0       # [$t0=$t0+$a0] Calculate the address for V[MaxIndex]
+    lw      $t2,0($t0)        # [$t2=V[$t0]] Load the value of memory address $t0 to $t2, $t2 = V[MaxIndex]
+    addi    $t1,$s0,-1        # [$t1=$s0-1] The index (n - 1) that will be swapped with MaxIndex
+    sll     $t1,$t1,2         # [$t1=4*$t1] Calculate offset for index n - 1
+    add     $t1,$t1,$a0       # [$t1=$t1+$a0] Calculate the address for V[n - 1]
+    lw      $t3,0($t1)        # [$t3=V[$t1]] Load the value of memory address $t1 to $t3, $t3 = V[n - 1]
+    sw      $t2,0($t1)        # [V[$t1]=$t2] Store V[n-1] to be V[MaxIndex]
+    sw      $t3,0($t0)        # [V[$t0]=$t3] Store V[MaxIndex] to be the original V[n - 1]
+    addi    $s0,$s0,-1        # [$s0=$s0-1] Len = Len - 1
     # Your code ends
     j       sloop           # Jump back to sort loop
 
@@ -173,11 +190,11 @@ test:
     addi    $sp, $sp, -4        # Make space on stack
     sw      $ra, 0($sp)         # Save return address
 
-    jal    minimum             # call 'minimum' function
-#    jal    MaxIndex            # call 'MaxIndex' function
+    # jal    minimum             # call 'minimum' function
+    jal    MaxIndex            # call 'MaxIndex' function
     jal    print_integer       # Jump to the routine that prints the index
-   
-# Comment out minimum, MaxIndex and print_integer function calls and uncomment sort and 
+
+# Comment out minimum, MaxIndex and print_integer function calls and uncomment sort and
 # print_sorted_array functions to test your sort routine.
 
 #    jal     sort                # Call sort function
@@ -188,24 +205,24 @@ test:
     addi    $sp, $sp, 4        # Restore stack pointer
     jr      $ra                  # Return
 
-    
-########### A function that prints an integer #####################################################  
+
+########### A function that prints an integer #####################################################
 .text
 .globl print_integer
 
 print_integer:
-    move    $a0, $v0           # a0 = result, for printing 
-    li      $v0, 1               # Load the system call number 
+    move    $a0, $v0           # a0 = result, for printing
+    li      $v0, 1               # Load the system call number
     syscall
-    
-    # Print newline 
-    la      $a0, newline     # Load the address of the string 
+
+    # Print newline
+    la      $a0, newline     # Load the address of the string
     li      $v0, 4               # Load the system call number
     syscall
     jr      $ra
 
-    
-############################# A function that prints an array #####################################    
+
+############################# A function that prints an array #####################################
 .text
 .globl print_array
 
@@ -213,7 +230,7 @@ print_array:
     blez    $a1,print_return    # No need to print if Len <= 0
     and     $t0,$t0,$0          #[$t0 = $t0 & $0] Initialize $t0 = 0
     and     $t1,$t1,$0          #[$t1 = $t0 & $0] Initialize $t1 = 0
-    
+
 print_loop:
     bge     $t1,$a1,print_return    # If $t0 >= Len, return
     addi    $sp, $sp, -4           # Make space on stack
@@ -222,11 +239,11 @@ print_loop:
     add     $t0,$t0,$a0             # [$t0 = $t0 + $a0] Calculate the address for current element
     lw      $t2, 0($t0)              #[$t2 = V[$t0]] Load the value in address $t0 to $1
     move    $a0, $t2               # [$a0 = $t2] Print current element
-    li      $v0, 1                   # Load the system call number 
+    li      $v0, 1                   # Load the system call number
     syscall
     addi    $t1, $t1, 1            #[$t1 = $t1 + 1] Increment index by one for next element
     # Print comma
-    la      $a0, space               # Load the address of the string 
+    la      $a0, space               # Load the address of the string
     li      $v0, 4                   # Load the system call number
     syscall
     lw      $a0, 0($sp)              # $a0, array address
@@ -236,7 +253,7 @@ print_loop:
 print_return:
 
     # Print space
-    la      $a0, newline # Load the address of the string 
+    la      $a0, newline # Load the address of the string
     li      $v0, 4 # Load the system call number
     syscall
     jr      $ra
@@ -246,7 +263,7 @@ print_return:
 ############################# Main function, your MIPS program starts here! ######################$
 .text
 .globl main
-main:   
+main:
     addi    $sp, $sp, -4    # Make space on stack
     sw      $ra, 0($sp)     # Save return address
 
@@ -280,7 +297,7 @@ main:
     lw      $a1, 0($a1)
     jal     test            # call function
 
-return:	
+return:
     li      $v0, 0          # Return value
     lw      $ra, 0($sp)     # Restore return address
     addi    $sp, $sp, 4    # Restore stack pointer
