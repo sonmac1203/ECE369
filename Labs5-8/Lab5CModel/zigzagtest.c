@@ -695,9 +695,15 @@ void testzigzag() {
 
         testmin = vbsme(tests[i]._asize, tests[i]._frame, tests[i]._window);
 
-        printf("Test%d:\n", i);
+        printf("Test%d ", i);
+
+        if(testmin[1] == tests[i]._result[0] && testmin[2] == tests[i]._result[1])
+            printf("SUCCESS:\n");
+        else
+            printf("FAILED:\n");
+
         printf("\tResult: %d %d\n", testmin[1], testmin[2]);
-        printf("\tAnswer: %d %d\n", tests[i]._result[0], tests[i]._result[1]);
+        printf("\tAnswer: %d %d\n\n", tests[i]._result[0], tests[i]._result[1]);
     }
 
 }
