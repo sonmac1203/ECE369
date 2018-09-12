@@ -6,6 +6,12 @@
 
 #IncludeRegexTransform: 
 
+/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzag.c
+stdio.h
+-
+zigzag.h
+/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzag.h
+
 /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzag.h
 
 /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzagtest.c

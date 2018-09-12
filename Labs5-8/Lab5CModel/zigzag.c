@@ -104,15 +104,15 @@ int * vbsme(int * asize, int * frame, int * window){
     //          number, frameX, frameY
     static int min[3];
     min[0] = 2147483647;
-    min[1] = 0;
     min[2] = 0;
+    min[1] = 0;
     int temp;
 
 
 
     if(frameSizeX > windowSizeX && frameSizeY > windowSizeY){
         //int SAD(int * frame, int * window, int * asize, int frameX, int frameY){
-        if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[1] = frameLoc[0];min[2] = frameLoc[1];}
+        if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[2] = frameLoc[0];min[1] = frameLoc[1];}
 
         //error detect right
         if (frameLoc[0] < frameSizeX - windowSizeX){
@@ -120,18 +120,18 @@ int * vbsme(int * asize, int * frame, int * window){
             RightSubroutine(frameLoc);
         }
         else{//right collision
-            //error detect down        
+            //error detect down
             if (frameLoc[1] < frameSizeY - windowSizeY){
                 //no collision
                 DownSubroutine(frameLoc);
             }
             else{//down collision
-                printf("%d %d\n", min[1], min[2]);
+                printf("%d %d\n", min[2], min[1]);
                 return 0;
             }
         }
 
-        if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[1] = frameLoc[0];min[2] = frameLoc[1];}
+        if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[2] = frameLoc[0];min[1] = frameLoc[1];}
 
 
 
@@ -162,10 +162,10 @@ int * vbsme(int * asize, int * frame, int * window){
                     loopflag = 0;
                 }
 
-                if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[1] = frameLoc[0];min[2] = frameLoc[1];}
+                if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[2] = frameLoc[0];min[1] = frameLoc[1];}
             }
 
-            if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[1] = frameLoc[0];min[2] = frameLoc[1];}
+            if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[2] = frameLoc[0];min[1] = frameLoc[1];}
             if(finalLocation == FrameLoc(frameLoc[0], frameLoc[1], frameSizeX))
                 break;
 
@@ -193,15 +193,15 @@ int * vbsme(int * asize, int * frame, int * window){
                     loopflag = 0;
                 }
 
-                if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[1] = frameLoc[0];min[2] = frameLoc[1];}
+                if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[2] = frameLoc[0];min[1] = frameLoc[1];}
             }
 
-            if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[1] = frameLoc[0];min[2] = frameLoc[1];}
+            if ((temp = SAD(frame, window, asize, frameLoc[0], frameLoc[1])) <= min[0]){min[0] = temp;min[2] = frameLoc[0];min[1] = frameLoc[1];}
             if(finalLocation == FrameLoc(frameLoc[0], frameLoc[1], frameSizeX))
                 break;
         }
     }
-    //printf("%d %d\n", min[1], min[2]);
+    //printf("%d %d\n", min[2], min[1]);
 
     return min;
 }

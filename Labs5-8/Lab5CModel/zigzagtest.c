@@ -690,20 +690,25 @@ void testzigzag() {
 
     //Run all tests
     int *testmin;
+    int i, numSuccess = 0;
 
-    for(int i = 0;i < NUM_TESTS; i++){
+    for(i = 0;i < NUM_TESTS; i++){
 
         testmin = vbsme(tests[i]._asize, tests[i]._frame, tests[i]._window);
 
         printf("Test%d ", i);
 
-        if(testmin[1] == tests[i]._result[0] && testmin[2] == tests[i]._result[1])
+        if(testmin[1] == tests[i]._result[0] && testmin[2] == tests[i]._result[1]) {
             printf("SUCCESS:\n");
+            numSuccess ++;
+        }
         else
             printf("FAILED:\n");
 
         printf("\tResult: %d %d\n", testmin[1], testmin[2]);
         printf("\tAnswer: %d %d\n\n", tests[i]._result[0], tests[i]._result[1]);
     }
+
+    printf("%d of %d tests succeeded\nFinal score: %.2f%%", numSuccess, i, 100.0*numSuccess/i);
 
 }
