@@ -20,6 +20,8 @@
 #endif
 
 
+#define NUM_TESTS 15
+
 
 typedef struct testDescription_struct{
     int * _frame;

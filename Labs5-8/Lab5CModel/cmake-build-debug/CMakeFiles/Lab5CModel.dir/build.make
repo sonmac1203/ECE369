@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /opt/clion-2018.2.3/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/lena/clion-2018.2.3/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /opt/clion-2018.2.3/bin/cmake/linux/bin/cmake -E remove -f
+RM = /home/lena/clion-2018.2.3/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mitch/git/ECE369/Labs5-8/Lab5CModel
+CMAKE_SOURCE_DIR = /home/lena/Documents/ECE369/Labs5-8/Lab5CModel
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug
+CMAKE_BINARY_DIR = /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Lab5CModel.dir/depend.make
@@ -59,42 +59,42 @@ include CMakeFiles/Lab5CModel.dir/flags.make
 
 CMakeFiles/Lab5CModel.dir/main.c.o: CMakeFiles/Lab5CModel.dir/flags.make
 CMakeFiles/Lab5CModel.dir/main.c.o: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Lab5CModel.dir/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Lab5CModel.dir/main.c.o   -c /home/mitch/git/ECE369/Labs5-8/Lab5CModel/main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Lab5CModel.dir/main.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Lab5CModel.dir/main.c.o   -c /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/main.c
 
 CMakeFiles/Lab5CModel.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Lab5CModel.dir/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mitch/git/ECE369/Labs5-8/Lab5CModel/main.c > CMakeFiles/Lab5CModel.dir/main.c.i
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/main.c > CMakeFiles/Lab5CModel.dir/main.c.i
 
 CMakeFiles/Lab5CModel.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Lab5CModel.dir/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mitch/git/ECE369/Labs5-8/Lab5CModel/main.c -o CMakeFiles/Lab5CModel.dir/main.c.s
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/main.c -o CMakeFiles/Lab5CModel.dir/main.c.s
 
 CMakeFiles/Lab5CModel.dir/zigzag.c.o: CMakeFiles/Lab5CModel.dir/flags.make
 CMakeFiles/Lab5CModel.dir/zigzag.c.o: ../zigzag.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Lab5CModel.dir/zigzag.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Lab5CModel.dir/zigzag.c.o   -c /home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzag.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Lab5CModel.dir/zigzag.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Lab5CModel.dir/zigzag.c.o   -c /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzag.c
 
 CMakeFiles/Lab5CModel.dir/zigzag.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Lab5CModel.dir/zigzag.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzag.c > CMakeFiles/Lab5CModel.dir/zigzag.c.i
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzag.c > CMakeFiles/Lab5CModel.dir/zigzag.c.i
 
 CMakeFiles/Lab5CModel.dir/zigzag.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Lab5CModel.dir/zigzag.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzag.c -o CMakeFiles/Lab5CModel.dir/zigzag.c.s
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzag.c -o CMakeFiles/Lab5CModel.dir/zigzag.c.s
 
 CMakeFiles/Lab5CModel.dir/zigzagtest.c.o: CMakeFiles/Lab5CModel.dir/flags.make
 CMakeFiles/Lab5CModel.dir/zigzagtest.c.o: ../zigzagtest.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Lab5CModel.dir/zigzagtest.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Lab5CModel.dir/zigzagtest.c.o   -c /home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzagtest.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Lab5CModel.dir/zigzagtest.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Lab5CModel.dir/zigzagtest.c.o   -c /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzagtest.c
 
 CMakeFiles/Lab5CModel.dir/zigzagtest.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Lab5CModel.dir/zigzagtest.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzagtest.c > CMakeFiles/Lab5CModel.dir/zigzagtest.c.i
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzagtest.c > CMakeFiles/Lab5CModel.dir/zigzagtest.c.i
 
 CMakeFiles/Lab5CModel.dir/zigzagtest.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Lab5CModel.dir/zigzagtest.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzagtest.c -o CMakeFiles/Lab5CModel.dir/zigzagtest.c.s
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzagtest.c -o CMakeFiles/Lab5CModel.dir/zigzagtest.c.s
 
 # Object files for target Lab5CModel
 Lab5CModel_OBJECTS = \
@@ -110,7 +110,7 @@ Lab5CModel: CMakeFiles/Lab5CModel.dir/zigzag.c.o
 Lab5CModel: CMakeFiles/Lab5CModel.dir/zigzagtest.c.o
 Lab5CModel: CMakeFiles/Lab5CModel.dir/build.make
 Lab5CModel: CMakeFiles/Lab5CModel.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable Lab5CModel"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable Lab5CModel"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Lab5CModel.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -123,6 +123,6 @@ CMakeFiles/Lab5CModel.dir/clean:
 .PHONY : CMakeFiles/Lab5CModel.dir/clean
 
 CMakeFiles/Lab5CModel.dir/depend:
-	cd /home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mitch/git/ECE369/Labs5-8/Lab5CModel /home/mitch/git/ECE369/Labs5-8/Lab5CModel /home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug /home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug /home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles/Lab5CModel.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/lena/Documents/ECE369/Labs5-8/Lab5CModel /home/lena/Documents/ECE369/Labs5-8/Lab5CModel /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles/Lab5CModel.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Lab5CModel.dir/depend
 
