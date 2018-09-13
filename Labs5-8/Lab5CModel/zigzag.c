@@ -5,7 +5,7 @@
 #define row 0
 #define column 1
 
-#define verbose 0
+#define verbose 1
 
 static int min[3];
 int temp;
@@ -70,6 +70,7 @@ void UpRightSubroutine(int * frameLoc){
     if (verbose) printf("\tUpRight: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], min[0], temp);
 }
 
+//if(finalLocation == FrameLoc(frameLoc[column], frameLoc[row], frameRowSize))
 int FrameLoc(int x, int y, int frameWidth){
     return x + y * frameWidth;
 }
@@ -121,7 +122,7 @@ int * vbsme(int * asize, int * frame, int * window){
 
 
 
-    if(frameRowSize > windowRowSize && frameColumnSize > windowColumnSize){
+    if((frameRowSize > windowRowSize) || (frameColumnSize > windowColumnSize)){
         //int SAD(int * frame, int * window, int * asize, int frameX, int frameY){
         if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= min[0]){min[0] = temp;min[1] = frameLoc[row];min[2] = frameLoc[column];}
 
@@ -199,8 +200,7 @@ int * vbsme(int * asize, int * frame, int * window){
                     }
                 }
                 else{
-
-                    //no up collision
+                    //up collision
                     //check right
                     if(frameLoc[column] < frameColumnSize - windowColumnSize){
                         //no right collision
