@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/main.c" "/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles/Lab5CModel.dir/main.c.o"
-  "/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzag.c" "/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles/Lab5CModel.dir/zigzag.c.o"
-  "/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/zigzagtest.c" "/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles/Lab5CModel.dir/zigzagtest.c.o"
+  "/home/mitch/git/ECE369/Labs5-8/Lab5CModel/main.c" "/home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles/Lab5CModel.dir/main.c.o"
+  "/home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzag.c" "/home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles/Lab5CModel.dir/zigzag.c.o"
+  "/home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzagtest.c" "/home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles/Lab5CModel.dir/zigzagtest.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

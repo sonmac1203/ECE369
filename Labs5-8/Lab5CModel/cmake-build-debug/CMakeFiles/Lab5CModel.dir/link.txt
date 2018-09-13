@@ -1,1 +1,1 @@
-/usr/bin/gcc -g   CMakeFiles/Lab5CModel.dir/main.c.o CMakeFiles/Lab5CModel.dir/zigzag.c.o CMakeFiles/Lab5CModel.dir/zigzagtest.c.o  -o Lab5CModel 
+/usr/bin/cc -g   CMakeFiles/Lab5CModel.dir/main.c.o CMakeFiles/Lab5CModel.dir/zigzag.c.o CMakeFiles/Lab5CModel.dir/zigzagtest.c.o  -o Lab5CModel 

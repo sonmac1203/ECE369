@@ -50,19 +50,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/lena/clion-2018.2.3/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /opt/clion-2018.2.3/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/lena/clion-2018.2.3/bin/cmake/linux/bin/cmake -E remove -f
+RM = /opt/clion-2018.2.3/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lena/Documents/ECE369/Labs5-8/Lab5CModel
+CMAKE_SOURCE_DIR = /home/mitch/git/ECE369/Labs5-8/Lab5CModel
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug
+CMAKE_BINARY_DIR = /home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug
 
 #=============================================================================
 # Target rules for target CMakeFiles/Lab5CModel.dir
@@ -71,7 +71,7 @@ CMAKE_BINARY_DIR = /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-de
 CMakeFiles/Lab5CModel.dir/all:
 	$(MAKE) -f CMakeFiles/Lab5CModel.dir/build.make CMakeFiles/Lab5CModel.dir/depend
 	$(MAKE) -f CMakeFiles/Lab5CModel.dir/build.make CMakeFiles/Lab5CModel.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4 "Built target Lab5CModel"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4 "Built target Lab5CModel"
 .PHONY : CMakeFiles/Lab5CModel.dir/all
 
 # Include target in all.
@@ -81,9 +81,9 @@ all: CMakeFiles/Lab5CModel.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Lab5CModel.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Lab5CModel.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/Lab5CModel.dir/rule
 
 # Convenience name for target.

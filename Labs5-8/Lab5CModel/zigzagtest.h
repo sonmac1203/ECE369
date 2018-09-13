@@ -20,7 +20,7 @@
 #endif
 
 
-#define NUM_TESTS 15
+#define NUM_TESTS 16
 
 
 typedef struct testDescription_struct{

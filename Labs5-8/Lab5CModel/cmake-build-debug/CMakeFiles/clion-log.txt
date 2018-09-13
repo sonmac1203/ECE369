@@ -1,17 +1,11 @@
-/home/lena/clion-2018.2.3/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/gcc -G "CodeBlocks - Unix Makefiles" /home/lena/Documents/ECE369/Labs5-8/Lab5CModel
+/opt/clion-2018.2.3/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/mitch/git/ECE369/Labs5-8/Lab5CModel
 -- The C compiler identification is GNU 7.3.0
--- Check for working C compiler: /usr/bin/gcc
--- Check for working C compiler: /usr/bin/gcc -- works
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
 -- Detecting C compile features
 -- Detecting C compile features - done
 -- Configuring done
 -- Generating done
-CMake Warning:
-  Manually-specified variables were not used by the project:
-
-    CMAKE_CXX_COMPILER
-
-
--- Build files have been written to: /home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug
+-- Build files have been written to: /home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug

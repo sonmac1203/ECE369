@@ -3,6 +3,16 @@
 #include "zigzagtest.h"
 
 
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
+
+
 
 //int SAD(int * frame, int * window, int * asize, int frameX, int frameY){
 testDescription createDescription(int * frame, int * window, int * asize, int * result){
@@ -681,6 +691,30 @@ void testzigzag() {
 
 
 
+    /* for example SAD of two 4x4 arrays "window" and "block" shown below is 3
+     * window         block
+     * SAD should be 3
+     *
+     * TEST CASE FOR WINDOWSIZE = FRAMESIZE
+     */
+    int result15[] = {0, 0};
+    int asize15[]   = {4, 4, 4, 4};
+    int frame15[]  = {1, 2, 2, 3,
+                      0, 0, 3, 2,
+                      0, 0, 0, 0,
+                      1, 0, 0, 5};
+
+    int window15[] = {1, 4, 2, 3,
+                      0, 0, 3, 2,
+                      0, 0, 0, 0,
+                      1, 0, 0, 4};
+
+    results[15] = result15;
+    asizes[15] = asize15;
+    frames[15] = frame15;
+    windows[15] = window15;
+
+
     //Create the tests
     testDescription tests[NUM_TESTS];
 
@@ -692,18 +726,20 @@ void testzigzag() {
     int *testmin;
     int i, numSuccess = 0;
 
-    for(i = 0;i < NUM_TESTS; i++){
+    for(i = 0 ;i < NUM_TESTS; i++){
 
         testmin = vbsme(tests[i]._asize, tests[i]._frame, tests[i]._window);
+
+        //printf("SAD = %d\n", testmin[0]);
 
         printf("Test%d ", i);
 
         if(testmin[1] == tests[i]._result[0] && testmin[2] == tests[i]._result[1]) {
-            printf("SUCCESS:\n");
+            printf("%sSUCCESS%s:\n", ANSI_COLOR_GREEN, ANSI_COLOR_RESET);
             numSuccess ++;
         }
         else
-            printf("FAILED:\n");
+            printf("%sFAILED%s:\n", ANSI_COLOR_RED, ANSI_COLOR_RESET);
 
         printf("\tResult: %d %d\n", testmin[1], testmin[2]);
         printf("\tAnswer: %d %d\n\n", tests[i]._result[0], tests[i]._result[1]);

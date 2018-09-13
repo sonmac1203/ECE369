@@ -1,4 +1,4 @@
-# Install script for directory: /home/lena/Documents/ECE369/Labs5-8/Lab5CModel
+# Install script for directory: /home/mitch/git/ECE369/Labs5-8/Lab5CModel
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/lena/Documents/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/mitch/git/ECE369/Labs5-8/Lab5CModel/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
