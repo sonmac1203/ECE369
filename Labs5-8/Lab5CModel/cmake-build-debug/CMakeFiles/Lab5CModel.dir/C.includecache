@@ -6,16 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/mitch/git/ECE369/Labs5-8/Lab5CModel/main.c
-stdio.h
--
-stdlib.h
--
-zigzagtest.h
-/home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzagtest.h
-zigzag.h
-/home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzag.h
-
 /home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzag.h
 
 /home/mitch/git/ECE369/Labs5-8/Lab5CModel/zigzagtest.c

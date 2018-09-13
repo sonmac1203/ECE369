@@ -715,6 +715,108 @@ void testzigzag() {
     windows[15] = window15;
 
 
+    /*
+     *
+     * Test 16
+     * different frame dimensions
+     *
+     */
+
+    int result16[] = {0, 2};
+
+    int asize16[] = {3, 6, 3, 3};
+
+    int frame16[] = {1, 1, 0, 0, 0, 1,
+                     1, 1, 0, 0, 0, 1,
+                     1, 1, 0, 0, 0, 1};
+
+    int window16[] = {0, 0, 0,
+                      0, 0, 0,
+                      0, 0, 0};
+
+    results[16] = result16;
+    asizes[16] = asize16;
+    frames[16] = frame16;
+    windows[16] = window16;
+
+
+    /*
+     *
+     * Test 17 odd frame and window size
+     *
+     *
+     */
+
+    int result17[] = {1, 1};
+
+    int asize17[] = {4, 5, 2, 3};
+
+    int frame17[] = {1, 1, 1, 1, 1,
+                     1, 0, 0, 0, 1,
+                     1, 0, 0, 0, 1,
+                     1, 1, 1, 1, 1};
+
+    int window17[] = {0, 0, 0,
+                      0, 0, 0};
+
+    results[17] = result17;
+    asizes[17] = asize17;
+    frames[17] = frame17;
+    windows[17] = window17;
+
+
+    /*
+     * Test 18
+     * 1x1 window
+     *
+     */
+
+    int result18[] = {1, 1};
+
+    int asize18[] = {4, 5, 1, 1};
+
+    int frame18[] = {1, 1, 1, 1, 1,
+                     1, 0, 1, 1, 1,
+                     1, 1, 1, 1, 1,
+                     1, 1, 1, 1, 1};
+
+    int window18[] = {0};
+
+    results[18] = result18;
+    asizes[18] = asize18;
+    frames[18] = frame18;
+    windows[18] = window18;
+
+//--------------------------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------//
+
+    /*
+      * Test 19
+      * 1x1 window
+      *
+      */
+
+    int result19[] = {1, 1};
+
+    int asize19[] = {4, 5, 1, 1};
+
+    int frame19[] = {1, 1, 1, 1, 1,
+                     1, 0, 1, 1, 1,
+                     1, 1, 1, 1, 1,
+                     1, 1, 1, 1, 1};
+
+    int window19[] = {0};
+
+    results[19] = result19;
+    asizes[19] = asize19;
+    frames[19] = frame19;
+    windows[19] = window19;
+
+//--------------------------------------------------------------------------------------------------------------------//
+
+
+
+
     //Create the tests
     testDescription tests[NUM_TESTS];
 
