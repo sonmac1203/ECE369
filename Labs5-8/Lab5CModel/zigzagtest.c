@@ -728,15 +728,17 @@ void testzigzag() {
 
     int result16[] = {0, 2};
 
-    int asize16[] = {3, 6, 3, 3};
+    int asize16[] = {4, 7, 4, 4};
 
-    int frame16[] = {1, 1, 0, 0, 0, 1,
-                     1, 1, 0, 0, 0, 1,
-                     1, 1, 0, 0, 0, 1};
+    int frame16[] = {1, 1, 0, 0, 0, 0, 1,
+                     1, 1, 0, 0, 0, 0, 1,
+                     1, 1, 0, 0, 0, 0, 1,
+                     1, 1, 0, 0, 0, 0, 1};
 
-    int window16[] = {0, 0, 0,
-                      0, 0, 0,
-                      0, 0, 0};
+    int window16[] = {0, 0, 0, 0,
+                      0, 0, 0, 0,
+                      0, 0, 0, 0,
+                      0, 0, 0, 0};
 
     results[16] = result16;
     asizes[16] = asize16;
@@ -866,18 +868,28 @@ void testzigzag() {
     for(int i = 0; i < NUM_TESTS; i++)
         tests[i] = createDescription(frames[i], windows[i], asizes[i], results[i]);
 
-
     //Run all tests
     int *testmin;
     int i, numSuccess = 0;
 
+    int numTestsRan = 0;
+    /*
+     *
+     * START UNIT TESTS
+     *
+     */
     for(i = 0 ;i < NUM_TESTS; i++){
+
+//        printf("-----------------------------------------------------------------\n");
+
+
+        numTestsRan++;
 
         testmin = vbsme(tests[i]._asize, tests[i]._frame, tests[i]._window);
 
         //printf("SAD = %d\n", testmin[0]);
 
-        printf("Test%d ", i);
+        printf("\nTest%d ", i);
 
         if(testmin[1] == tests[i]._result[0] && testmin[2] == tests[i]._result[1]) {
             printf("%sSUCCESS%s:\n", ANSI_COLOR_GREEN, ANSI_COLOR_RESET);
@@ -888,8 +900,13 @@ void testzigzag() {
 
         printf("\tResult: %d %d\n", testmin[1], testmin[2]);
         printf("\tAnswer: %d %d\n\n", tests[i]._result[0], tests[i]._result[1]);
+
+
+        printf("-----------------------------------------------------------------\n");
+
+
     }
 
-    printf("%d of %d tests succeeded\nFinal score: %.2f%%", numSuccess, i, 100.0*numSuccess/i);
+    printf("%d of %d tests succeeded\nFinal score: %.2f%%", numSuccess, numTestsRan, 100.0*numSuccess/numTestsRan);
 
 }

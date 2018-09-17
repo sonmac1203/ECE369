@@ -5,7 +5,7 @@
 #define row 0
 #define column 1
 
-#define verbose 1
+#define verbose 0
 
 static int min[3];
 int temp;
@@ -146,9 +146,8 @@ int * vbsme(int * asize, int * frame, int * window){
         if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= min[0]){min[0] = temp;min[1] = frameLoc[row];min[2] = frameLoc[column];}
 
 
-
         //start going through zig zag pattern
-        while ((frameLoc[row] + frameLoc[column] * frameRowSize) < finalLocation){
+        while ((frameLoc[column] + frameLoc[row] * frameRowSize) < finalLocation){
 
             //DOWN-LEFT COLLISION DETECTION
             int loopflag = 1;
@@ -189,7 +188,7 @@ int * vbsme(int * asize, int * frame, int * window){
                 if(frameLoc[row] > 0){
                     //no up collision
                     //check right
-                    if(frameLoc[column] < frameColumnSize - windowColumnSize){
+                    if(frameLoc[column] < frameRowSize - windowRowSize){
                         //no right collision
                         UpRightSubroutine(frameLoc);
                     }
@@ -202,7 +201,7 @@ int * vbsme(int * asize, int * frame, int * window){
                 else{
                     //up collision
                     //check right
-                    if(frameLoc[column] < frameColumnSize - windowColumnSize){
+                    if(frameLoc[column] < frameRowSize - windowRowSize){
                         //no right collision
                         RightSubroutine(frameLoc);
                     }
