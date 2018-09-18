@@ -7,7 +7,7 @@
 
 #define verbose 0
 
-static int min[3];
+static int s6[3];
 int temp;
 
 int abs(int a){
@@ -32,15 +32,43 @@ int SAD(int * frame, int * window, int * asize, int currentColumn, int currentRo
     int windowSizeX = asize[3];
     int windowSizeY = asize[2];
 
-    int sum = 0;
+    int t0 = 0, t1 = 0, t2 = 0, t3 = 0, t4 = 0, t7 = 0;
+    int * t5, * t6;
 
     for(int j = 0; j < windowSizeY; j++){
-        for(int i = 0; i < windowSizeX; i++)
-            //sum += abs(frame[frameX + (frameY * framesizeX) + i + (j * frameSizeX)] - window[i + j * windowSizeX]);
+        for(int i = 0; i < windowSizeX; i++) {
 
-            sum += abs(frame[(j+currentRow) * frameSizeX + i + currentColumn] - window[i + j * windowSizeX]);
+
+
+
+            t1 = j + currentRow;
+            t1 = t1 * frameSizeX;
+            t1 = t1 + i;
+            t1 = t1 + currentColumn;
+
+            t2 = j * windowSizeX;
+            t2 = t2 + i;
+
+            t5 = frame + t1;
+            t6 = window + t2;
+
+            t3 = *t5 - *t6;
+
+
+
+
+
+            t4 = (t3 < 0) ? 1 : 0;
+
+            if(t4 != 0)
+                t3 = t3 * -1;
+
+            t0 = t0 + t3;
+
+
+        }
     }
-    return sum;
+    return t0;
 }
 
 /////Subroutines/////
@@ -49,31 +77,38 @@ int SAD(int * frame, int * window, int * asize, int currentColumn, int currentRo
 // increment FrameLoc by one to the right
 void RightSubroutine(int * frameLoc){
     frameLoc[column]++;
-    if (verbose) printf("\tRight: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], min[0], temp);
+    if (verbose) printf("\tRight: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], s6[0], temp);
 }
 
 void DownLeftSubroutine(int * frameLoc){
     frameLoc[row]++;
     frameLoc[column]--;
-    if (verbose) printf("\tDownLeft: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], min[0], temp);
+    if (verbose) printf("\tDownLeft: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], s6[0], temp);
 }
 
 
 void DownSubroutine(int * frameLoc){
     frameLoc[row]++;
-    if (verbose) printf("\tDown: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], min[0], temp);
+    if (verbose) printf("\tDown: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], s6[0], temp);
 }
 
 void UpRightSubroutine(int * frameLoc){
     frameLoc[row]--;
     frameLoc[column]++;
-    if (verbose) printf("\tUpRight: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], min[0], temp);
+    if (verbose) printf("\tUpRight: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], s6[0], temp);
 }
+
+
+
 
 //if(finalLocation == FrameLoc(frameLoc[column], frameLoc[row], frameRowSize))
 int FrameLoc(int x, int y, int frameWidth){
     return x + y * frameWidth;
 }
+
+
+
+
 
 
 
@@ -103,81 +138,95 @@ int * vbsme(int * asize, int * frame, int * window){
     //    asize[] = {16, 16, 4, 4};
 
 
-    int frameRowSize = asize[1];
-    int frameColumnSize = asize[0];
+    int s1 = asize[1];  //frame columns
+    int s0 = asize[0];  //frame rows
 
-    int windowRowSize = asize[3];
-    int windowColumnSize = asize[2];
+    int s3 = asize[3];  //window columns
+    int s2 = asize[2];  //window rows
 
-    int frameLoc[] = {0, 0};
+    int s4[] = {0, 0};  //window x,y
 
-    int finalLocation = (frameRowSize - windowRowSize) + (frameColumnSize - windowColumnSize)*frameRowSize;
+    int s5 = (s1 - s3) + (s0 - s2)*s1;
 
     //  2,147,483,647 for initial number because max 32 bit signed integer.
     //          number, frameX, frameY
 
-    min[0] = 2147483647;    //minimum SAD
-    min[1] = 0;             //min[1] = frameLoc[row]
-    min[2] = 0;             //min[2] = frameLoc[column]
+    s6[0] = 2147483647;    //minimum SAD
+    s6[1] = 0;             //s6[1] = s4[row]
+    s6[2] = 0;             //s6[2] = s4[column]
 
 
 
-    if((frameRowSize > windowRowSize) || (frameColumnSize > windowColumnSize)){
+    int t0 = 0, t1 = 0, t2 = 0, t3 = 0, t4 = 0, t5 = 0, t6 = 7, t7 = 0;
+
+
+//    if((s1 > s3) || (s0 > s2)){
+
+    t0 = (s3 < s1) ? 1 : 0; // slt, $t0, $s3, $s1  # is window column less than frame column
+    t2 = (s2 < s0) ? 1 : 0; // slt, $t0, $s2, $s0  # is window row less than frame row
+
+    t0 = (t0 | t2);  //or $t0, $t0, $t2    # t0 = 1 if t0 or t2 is 1
+
+    if (t0) {   // bne, $t0, $0 main
+
+    //main
+
+
         //int SAD(int * frame, int * window, int * asize, int frameX, int frameY){
-        if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= min[0]){min[0] = temp;min[1] = frameLoc[row];min[2] = frameLoc[column];}
+        if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
 
         //error detect right
-        if (frameLoc[column] < frameRowSize - windowRowSize){
+        if (s4[column] < s1 - s3){
             //no collision
-            RightSubroutine(frameLoc);
+            RightSubroutine(s4);
         }
         else{//right collision
             //error detect down
-            if (frameLoc[row] < frameColumnSize - windowColumnSize){
+            if (s4[row] < s0 - s2){
                 //no collision
-                DownSubroutine(frameLoc);
+                DownSubroutine(s4);
             }
             else{//down collision
-                printf("%d %d\n", min[1], min[2]);
-                return min;
+                printf("%d %d\n", s6[1], s6[2]);
+                return s6;
             }
         }
 
-        if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= min[0]){min[0] = temp;min[1] = frameLoc[row];min[2] = frameLoc[column];}
+        if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
 
 
         //start going through zig zag pattern
-        while ((frameLoc[column] + frameLoc[row] * frameRowSize) < finalLocation){
+        while ((s4[column] + s4[row] * s1) < s5){
 
             //DOWN-LEFT COLLISION DETECTION
             int loopflag = 1;
             while(loopflag){
 
                 //Check down
-                if(frameLoc[row] < frameColumnSize - windowColumnSize){
+                if(s4[row] < s0 - s2){
                     //no down collision
                     //check left
-                    if(frameLoc[column] > 0){
+                    if(s4[column] > 0){
                         //no left collision
-                        DownLeftSubroutine(frameLoc);
+                        DownLeftSubroutine(s4);
                     }
                     else{
                         //down collision
-                        DownSubroutine(frameLoc);
+                        DownSubroutine(s4);
                         loopflag = 0;
                     }
                 }
                 else{
                     //down collision
-                    RightSubroutine(frameLoc);
+                    RightSubroutine(s4);
                     loopflag = 0;
                 }
 
-                if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= min[0]){min[0] = temp;min[1] = frameLoc[row];min[2] = frameLoc[column];}
+                if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
             }
 
-            if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= min[0]){min[0] = temp;min[1] = frameLoc[row];min[2] = frameLoc[column];}
-            if(finalLocation == FrameLoc(frameLoc[column], frameLoc[row], frameRowSize))
+            if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
+            if(s5 == FrameLoc(s4[column], s4[row], s1))
                 break;
 
             //UP-RIGHT COLLISION DETECTION
@@ -185,41 +234,41 @@ int * vbsme(int * asize, int * frame, int * window){
             while(loopflag){
 
                 //Check up
-                if(frameLoc[row] > 0){
+                if(s4[row] > 0){
                     //no up collision
                     //check right
-                    if(frameLoc[column] < frameRowSize - windowRowSize){
+                    if(s4[column] < s1 - s3){
                         //no right collision
-                        UpRightSubroutine(frameLoc);
+                        UpRightSubroutine(s4);
                     }
                     else{
                         //right collision
-                        DownSubroutine(frameLoc);
+                        DownSubroutine(s4);
                         loopflag = 0;
                     }
                 }
                 else{
                     //up collision
                     //check right
-                    if(frameLoc[column] < frameRowSize - windowRowSize){
+                    if(s4[column] < s1 - s3){
                         //no right collision
-                        RightSubroutine(frameLoc);
+                        RightSubroutine(s4);
                     }
                     else{
                         //right collision
-                        DownSubroutine(frameLoc);
+                        DownSubroutine(s4);
                     }
 
                     loopflag = 0;
                 }
 
-                if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= min[0]){min[0] = temp;min[1] = frameLoc[row];min[2] = frameLoc[column];}
+                if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
             }
 
-            if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= min[0]){min[0] = temp;min[1] = frameLoc[row];min[2] = frameLoc[column];}
-            if(finalLocation == FrameLoc(frameLoc[column], frameLoc[row], frameRowSize))
+            if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
+            if(s5 == FrameLoc(s4[column], s4[row], s1))
                 break;
         }
     }
-    return min;
+    return s6;
 }
