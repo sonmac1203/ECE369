@@ -5,7 +5,7 @@
 #ifndef LAB5CMODEL_ZIGZAG_H
 #define LAB5CMODEL_ZIGZAG_H
 
-int * vbsme(int * asize, int * frame, int * window);
+int * vbsme(int * a0, int * a1, int * a2);
 
 
 int SAD(int * frame, int * window, int * asize, int frameX, int frameY);

@@ -76,7 +76,7 @@ int SAD(int * frame, int * window, int * asize, int currentColumn, int currentRo
 
 // increment FrameLoc by one to the right
 void RightSubroutine(int * frameLoc){
-    frameLoc[column]++;
+    frameLoc[column]++; //lw $t5, 0
     if (verbose) printf("\tRight: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], s6[0], temp);
 }
 
@@ -99,21 +99,8 @@ void UpRightSubroutine(int * frameLoc){
 }
 
 
-
-
-//if(finalLocation == FrameLoc(frameLoc[column], frameLoc[row], frameRowSize))
-int FrameLoc(int x, int y, int frameWidth){
-    return x + y * frameWidth;
-}
-
-
-
-
-
-
-
-int * vbsme(int * asize, int * frame, int * window){
-    // frame[] = {  0, 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+int * vbsme(int * a0, int * a1, int * a2){
+    // a1[] = {  0, 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     //                  1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
     //                  2, 3, 32, 1, 2, 3, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
     //                  3, 4, 1, 2, 3, 4, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45,
@@ -130,21 +117,28 @@ int * vbsme(int * asize, int * frame, int * window){
     //                  0, 14, 28, 42, 56, 70, 84, 98, 112, 126, 140, 154, 2, 3, 4, 5,
     //                  0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 3, 4, 5, 6 };
 
-    //    window[] = {0, 1, 2, 3,
+    //    a2[] = {0, 1, 2, 3,
     //                  1, 2, 3, 4,
     //                  2, 3, 4, 5,
     //                  3, 4, 5, 6 };
 
-    //    asize[] = {16, 16, 4, 4};
+    //    a0[] = {16, 16, 4, 4};
+
+    /****
+     *
+     *  Save Return address onto stack
+     *
+     *
+     */
 
 
-    int s1 = asize[1];  //frame columns
-    int s0 = asize[0];  //frame rows
+    int s1 = a0[1];  //a1 columns
+    int s0 = a0[0];  //a1 rows
 
-    int s3 = asize[3];  //window columns
-    int s2 = asize[2];  //window rows
+    int s3 = a0[3];  //a2 columns
+    int s2 = a0[2];  //a2 rows
 
-    int s4[] = {0, 0};  //window x,y
+    int s4[] = {0, 0};  //a2 x,y
 
     int s5 = (s1 - s3) + (s0 - s2)*s1;
 
@@ -155,120 +149,407 @@ int * vbsme(int * asize, int * frame, int * window){
     s6[1] = 0;             //s6[1] = s4[row]
     s6[2] = 0;             //s6[2] = s4[column]
 
+    int s7 = 0;
 
 
     int t0 = 0, t1 = 0, t2 = 0, t3 = 0, t4 = 0, t5 = 0, t6 = 7, t7 = 0;
 
+    int v0 = 0;
+
 
 //    if((s1 > s3) || (s0 > s2)){
 
-    t0 = (s3 < s1) ? 1 : 0; // slt, $t0, $s3, $s1  # is window column less than frame column
-    t2 = (s2 < s0) ? 1 : 0; // slt, $t0, $s2, $s0  # is window row less than frame row
+    t0 = (s3 < s1) ? 1 : 0; // slt, $t0, $s3, $s1  # is a2 column less than a1 column
+    t2 = (s2 < s0) ? 1 : 0; // slt, $t0, $s2, $s0  # is a2 row less than a1 row
 
     t0 = (t0 | t2);  //or $t0, $t0, $t2    # t0 = 1 if t0 or t2 is 1
 
-    if (t0) {   // bne, $t0, $0 main
+    if (t0) {   // bne, $t0, $0 pattern
 
-    //main
+    //pattern
+
+//
+//        //int SAD(int * a1, int * a2, int * a0, int frameX, int frameY){
+//        if ((temp = SAD(a1, a2, a0, s4[column], s4[row])) <= s6[0]) {
+//            s6[0] = temp;
+//            s6[1] = s4[row];
+//            s6[2] = s4[column];
+//        }
+
+        /************
+         *
+         *  SAD CHECK BEGINNING
+         *
+         *************/
+
+        v0 = SAD(a1, a2, a0, s4[column], s4[row]);  //jal SAD
+        t0 = s6[0]; //lw
+        t1 = (v0 == t0) ? 1 : 0;
+        if (t1){    //bne, $t1, $0, updatedatmin
+            s6[0] = v0;         //sw  $v0, 0($s6)
+            s6[1] = s4[row];    //lw  $t1, 0($s4)
+                                //sw  $t1, 4($s6)
+
+            s6[2] = s4[column]; //lw  $t2, 4($s4)
+                                //sw  $t2, 8($s4)
+        }
+
+        t1 = (v0 < t0) ? 1 : 0;
+        if (t1){    //bne, $t1, $0, updatedatmin
+            s6[0] = v0;         //sw  $v0, 0($s6)
+            s6[1] = s4[row];    //lw  $t1, 0($s4)
+            //sw  $t1, 4($s6)
+
+            s6[2] = s4[column]; //lw  $t2, 4($s4)
+            //sw  $t2, 8($s4)
+        }
+
+        /************
+         *
+         *  SAD CHECK ENDING
+         *
+         *************/
 
 
-        //int SAD(int * frame, int * window, int * asize, int frameX, int frameY){
-        if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
 
         //error detect right
-        if (s4[column] < s1 - s3){
-            //no collision
-            RightSubroutine(s4);
+//        if (s4[column] < s1 - s3){
+//            //no collision
+//            RightSubroutine(s4);
+//        }
+//
+        t0 = s1 - s3; //sub $t0, $s1, $s3
+        t1 = s4[column]; //lw $t1, 4($s4)
+        t1 = (t1 < t0) ? 1 : 0; //slt $t1, $t1, $t0
+
+        if (t1) {   //beq $t1, $0, errorDetectNext0
+            RightSubroutine(s4);    //jal rightsubroutine
+                                    //j donewitherrordetectright
         }
+        //next
+
+        /***
+         errorDetectNext0
+         ***/
+
         else{//right collision
-            //error detect down
-            if (s4[row] < s0 - s2){
-                //no collision
-                DownSubroutine(s4);
+
+//            //error detect down
+//            if (s4[row] < s0 - s2){
+//                //no collision
+//                DownSubroutine(s4);
+//            }
+
+            t0 = s0 - s2;   // sub $t0, $s0, $s2
+            t1 = s4[row];   // lw $t1, 0($s4)
+
+            t1 = (t1 < t0) ? 1 : 0; //slt $t1, $t1, $t0
+
+            if (t1) {   //beq $t1, $0, errorDetectNext1
+                DownSubroutine(s4); //jal DownSubroutine
+                                    //j donewitherrordetectright
             }
+
+            /***
+            errorDetectNext1
+            ***/
+
             else{//down collision
                 printf("%d %d\n", s6[1], s6[2]);
-                return s6;
+                return s6;  //j END
             }
+
+
         }
 
-        if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
+
+
+       /***
+       donewitherrordetectright
+       ***/
+
+
+
+
+        //DOTHESADSTUFF
+        if ((temp = SAD(a1, a2, a0, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
+
+
+
+
+
+        /*****
+         *
+         * BEGIN ZIGZAG
+         *
+         *****/
 
 
         //start going through zig zag pattern
-        while ((s4[column] + s4[row] * s1) < s5){
+//        while ((s4[column] + s4[row] * s1) < s5){
 
+        t1 = s4[row];       //lw $t1, 0($s4)
+        t0 = s4[column];    //lw $t0, 4($s4)
+        t1 = t1 * s1;       //mul $t1, $t1, $s1
+        t1 = t0 + t1;          //add $t1, $t0, $t1
+
+
+        s7 = (t1 < t0) ? 1 : 0; //slt $s7, $t1, $t0
+
+        //WHILE (s7)
+        while ((s4[column] + s4[row] * s1) < s5){ //bne $s7, $0, ENDZIGZAG
+
+
+
+
+            t7 = 1;
             //DOWN-LEFT COLLISION DETECTION
-            int loopflag = 1;
-            while(loopflag){
+//            int loopflag = 1;
+//            while(loopflag){
+
+            /******
+             *
+             * DOWNLEFTCOLLISIONDETECT
+             *
+             ******/
+            while (t7)  {   //beq $t7, $0, ENDDOWNLEFTCOLLISIONDETECT
 
                 //Check down
-                if(s4[row] < s0 - s2){
+//                if(s4[row] < s0 - s2){
+
+                t0 = s0 - s2;               //sub $t0, $s0, $s2
+                t1 = s4[row];               //lw $t1, 0($s4)
+                t1 = (t1 < t0)  ? 1 : 0;    //slt $t1, $t1, $t0
+
+                if (t1) {   //beq $t1, $0, DOWNCOLLISION
+
+
                     //no down collision
                     //check left
-                    if(s4[column] > 0){
+
+//                    if(s4[column] > 0){
+
+                    t0 = s4[column]; //lw $t0, 4($s4)
+                    t0 = ( 0 < t0) ? 1 : 0; //slt $t0, $0, $t0
+
+                    if (t0) {   //beq $t0, $0, DOWNCOLLISION2
+
+
+
                         //no left collision
-                        DownLeftSubroutine(s4);
+                        DownLeftSubroutine(s4); //jal downleftsubroutine
+                                                //j DOWNLEFTLOOPEND
                     }
+
+
+                    /****
+                     *
+                     * DOWNCOLLISION2
+                     *
+                     ****/
+
                     else{
+
+
                         //down collision
-                        DownSubroutine(s4);
-                        loopflag = 0;
+                        DownSubroutine(s4); //jal downsubroutine
+                        t7 = 0; //add t0    //add $t7, $0, $0
+                                            //j DOWNLEFTLOOPEND
+
                     }
                 }
+
+
+                /****
+                 *
+                 *  DOWNCOLLISION
+                 *
+                 ****/
+
                 else{
+
                     //down collision
-                    RightSubroutine(s4);
-                    loopflag = 0;
+                    RightSubroutine(s4);    //jal rightsubroutine
+                    t7 = 0;                 //add $t7, $0, $0
                 }
 
-                if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
-            }
 
-            if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
-            if(s5 == FrameLoc(s4[column], s4[row], s1))
-                break;
 
+                /*****
+                 *
+                 *
+                 * DOWNLEFTLOOPEND
+                 *
+                 */
+
+
+
+                if ((temp = SAD(a1, a2, a0, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
+
+
+
+            } // j DOWNLEFTCOLLISIONDETECT
+
+             /******
+             *
+             * ENDDOWNLEFTCOLLISIONDETECT
+             *
+             ******/
+
+
+
+
+
+            if ((temp = SAD(a1, a2, a0, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
+
+
+
+
+//
+//            if(s5 == FrameLoc(s4[column], s4[row], s1))
+//                break;
+
+            t0 = s4[column];    //lw $t0, 4($s4)
+            t1 = s4[row];       //lw $t1, 0($s4)
+
+            t1 = t1 * s1;       //mul $t1, $t1, $s1
+            t0 = t0 + t1;       //add $t0, $t1, $t0
+
+            if (s5 == t0) break; //beq $s5, $t0, END
+
+            t7 = 1;
+            /****
+             *
+             *  UPRIGHTCOLLISIONDETECT
+             *
+             *****/
             //UP-RIGHT COLLISION DETECTION
-            loopflag = 1;
-            while(loopflag){
+
+            while(t7){  //beq $t7, $0, ENDUPRIGHTCOLLISIONDETECT
+
+
+
 
                 //Check up
-                if(s4[row] > 0){
+                //if(s4[row] > 0){
+
+                t0 = s4[row];   //lw $t0, 0($s4)
+                t0 = (0 < t0) ? 1 : 0; //slt $t0, $0, $t0
+
+                if(t0){ //beq $t0, $0, UPCOLLISION1
+
                     //no up collision
                     //check right
-                    if(s4[column] < s1 - s3){
+
+                    t0 = s4[column]; //lw $t0, 0($s4)
+                    t1 = s1 - s3; //sub $t1, $s1, $s3
+                    t0 = (t0 < t1) ? 1 : 0; //slt $t0, $t0, $t1
+
+                    if(t0){ //beq $t0, $0, RIGHTCOLLISION1
+                    //if(s4[column] < s1 - s3){
                         //no right collision
-                        UpRightSubroutine(s4);
+
+                        UpRightSubroutine(s4); //jal uprightsubroutine
+                                               //j UPRIGHTLOOPEND
                     }
+
+
+                        /****
+                         *
+                         *  RIGHTCOLLISION1
+                         *
+                         *****/
+
+
+
                     else{
                         //right collision
-                        DownSubroutine(s4);
-                        loopflag = 0;
+                        DownSubroutine(s4); //jal downsubroutine
+                        t7 = 0; //add $t7, $0, $0
+                                //j UPRIGHTLOOPEND
                     }
                 }
+
+
+                    /****
+                     *
+                     *  UPCOLLISION1
+                     *
+                     *****/
+
+
                 else{
                     //up collision
                     //check right
-                    if(s4[column] < s1 - s3){
-                        //no right collision
-                        RightSubroutine(s4);
+
+                    t0 = s4[column]; //lw $t0, 4($s4)
+                    t1 = s1 - s3; //sub $t1, $s1, $s3
+                    t0 = (t0 < t1) ? 1 : 0; //slt $t0, $t0, $t1
+
+                    if(t0){
+
+                    //if(s4[column] < s1 - s3){
+                    //no right collision
+
+                        RightSubroutine(s4); //jal rightsubroutine
+                                             //j UPRIGHTLOOPEND
                     }
                     else{
                         //right collision
-                        DownSubroutine(s4);
+                        DownSubroutine(s4); //jal downsubroutine
                     }
 
-                    loopflag = 0;
+                    t7 = 0; //add $t7, $0, $0
                 }
 
-                if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
+
+                /*****
+                 *
+                 *
+                 * UPRIGHTLOOPEND
+                 *
+                 */
+
+
+
+                if ((temp = SAD(a1, a2, a0, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
             }
 
-            if ((temp = SAD(frame, window, asize, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
-            if(s5 == FrameLoc(s4[column], s4[row], s1))
-                break;
-        }
+
+            /****
+             *
+             *  ENDUPRIGHTCOLLISIONDETECT
+             *
+             *****/
+
+
+
+            if ((temp = SAD(a1, a2, a0, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
+
+
+
+            //if(s5 == FrameLoc(s4[column], s4[row], s1))
+            //  break;
+
+            t0 = s4[column];    //lw $t0, 4($s4)
+            t1 = s4[row];       //lw $t1, 0($s4)
+
+            t1 = t1 * s1;       //mul $t1, $t1, $s1
+            t0 = t0 + t1;       //add $t0, $t1, $t0
+
+            if (s5 == t0) break; //beq $s5, $t0, END
+
+
+
+        } //j ZIGZAG
+
+        /*****
+        *
+        * END ZIGZAG
+        *
+        *****/
+
+
     }
     return s6;
 }
