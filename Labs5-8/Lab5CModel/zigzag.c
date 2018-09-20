@@ -41,6 +41,8 @@ int SAD(int * frame, int * window, int * asize, int currentColumn, int currentRo
 
 
 
+
+
             t1 = j + currentRow;
             t1 = t1 * frameSizeX;
             t1 = t1 + i;
@@ -76,7 +78,10 @@ int SAD(int * frame, int * window, int * asize, int currentColumn, int currentRo
 
 // increment FrameLoc by one to the right
 void RightSubroutine(int * frameLoc){
-    frameLoc[column]++; //lw $t5, 0
+    frameLoc[column]++; //lw $t5, 4
+
+
+
     if (verbose) printf("\tRight: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], s6[0], temp);
 }
 
@@ -291,13 +296,31 @@ int * vbsme(int * a0, int * a1, int * a2){
         t1 = s4[row];       //lw $t1, 0($s4)
         t0 = s4[column];    //lw $t0, 4($s4)
         t1 = t1 * s1;       //mul $t1, $t1, $s1
-        t1 = t0 + t1;          //add $t1, $t0, $t1
+        t1 = t0 + t1;       //add $t1, $t0, $t1
 
 
         s7 = (t1 < t0) ? 1 : 0; //slt $s7, $t1, $t0
 
         //WHILE (s7)
-        while ((s4[column] + s4[row] * s1) < s5){ //bne $s7, $0, ENDZIGZAG
+        while (
+
+
+//                (s4[column] + s4[row] * s1) < s5
+
+        t1 = s4[row];       //lw $t1, 0($s4)
+        t0 = s4[column];    //lw $t0, 4($s4)
+        t1 = t1 * s1;       //mul $t1, $t1, $s1
+        t1 = t0 + t1;          //add $t1, $t0, $t1
+
+
+        s7 = (t1 < t0) ? 1 : 0; //slt $s7, $t1, $t0
+
+
+
+
+
+
+        ){ //bne $s7, $0, ENDZIGZAG
 
 
 
@@ -505,7 +528,6 @@ int * vbsme(int * a0, int * a1, int * a2){
 
                 /*****
                  *
-                 *
                  * UPRIGHTLOOPEND
                  *
                  */
@@ -552,4 +574,10 @@ int * vbsme(int * a0, int * a1, int * a2){
 
     }
     return s6;
+
+
+
+
+
+
 }
