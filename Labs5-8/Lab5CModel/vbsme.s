@@ -1,7 +1,7 @@
-#  Team Members:    
-#  % Effort    :   
+#  Team Members: Lena Voytek, Mitchell Dzurick   
+#  % Effort    50:50   
 #
-# ECE369A,  
+# ECE369A,  Lab 2:00 - 3:15
 # 
 
 ########################################################################################################################
@@ -775,239 +775,226 @@ print_result:
 #          (v1) y coordinate of the block in the frame with the minimum SAD
 
 
-# Begin subroutine
+# $s0 = frameSizeY 
+# $s1 = frameSizeX
+# $s2 = windowSizeY
+# $s3 = windowSizeX
+# $t8 = currentRow
+# $t9 = currentColumn
+# $a1 = frame
+# $a2 = window
+# $t6 = frameLoc[row]
+# $t7 = frameLoc[column]
+# $s4 = loopflag
+# $s5 = final location
+# $s6 = address of min array: min = {current min, min row, min col}
+
 vbsme:  
-    li      $v0, 0              # reset $v0 and $V1
-    li      $v1, 0
+   li   $v0,  0                     # reset $v0 and $V1
+   li   $v1,  0
 
+# Get frame sizes from memory and initialize x, y
+   lw   $s0,  0($a0)                # s0 = a0[0] (frameSizeY)
+   lw   $s1,  4($a0)                # s1 = a0[1] (frameSizeX)
+   lw   $s2,  8($a0)                # s2 = a0[2] (windowSizeY) 
+   lw   $s3, 12($a0)                # s3 = a0[3] (windowSizeX)
+   li   $t6,  0                     # x = 0
+   li   $t7,  0                     # y = 0
 
-------------------------------------------------------------------------------------------------------------------------
+# Get Final Location
+   sub  $t0, $s0, $s2               # t0 = frameSizeY - windowSizeY
+   mul  $t0, $t0, $s1               # t0 = t0 * frameSizeX
+   sub  $t1, $s1, $s3               # t1 = frameSizeX - windowSizeX
+   add  $s5, $t0, $t1               # final location = t0 + t1
 
+# Initialize min array
+   add  $sp, $sp, -16               # make room for 4 elements on the stack
+   addi $t0, $0,  2147483647        # t0 = max integer value
+   sw   $t0, 4($sp)                 # current min = max int value
+   sw   $0,  8($sp)                 # x = 0
+   sw   $0, 12($sp)                 # y = 0
+   addi $s6, $sp, 4                 # s6 = location of min
 
+   sw   $ra, 0($sp)                 # store the return address for vbsme on the stack
 
-static int s6[3];
-int temp;
+# If windowSize is greater than frameSize in x or y direction
+   slt  $t0, $s3, $s1               # is window column # less than frame column #
+   slt  $t1, $s2, $s0               # is window row # less than frame row #
+   or   $t0, $t0, $t1               # t0 = t0 | t1
+   beq  $t0, $0,  endzigzag         # skip zigzag if window is larger
 
-int abs(int a){
-    //return (a < 0) ? -1 * a : a;
-    if(a < 0)
-        return a * -1;
-    else
-        return a;
-}
+   jal sad                          # initial call to sad
 
-/*
-* Arguments:
-* frame - The pointer to the beginning of the frame matrix
-* window - The pointer to the beginning of the window matrix
-* asize - The pointer to the array of four elements containing [Frame Width, Frame Height, Window Width, Window Height]
-* frameLoc - The offset location of the top left comparison value in the frame
-*/
-int SAD(int * frame, int * window, int * asize, int currentColumn, int currentRow){
-    int frameSizeX = asize[1];
-    int frameSizeY = asize[0];
+# Error detect right initial
+   sub  $t0, $s1, $s3               # t0 = frameSizeX - windowSizeX;
+   slt  $t0, $t7, $t0               # t0 = (frameLoc[column] < t0)
+   beq  $t0, $0, errordetectnexta   # if(frameLoc[column] < t0)
+   jal  rightsubroutine             # move right
+   j    doneerrordetectright        # skip else
 
-    int windowSizeX = asize[3];
-    int windowSizeY = asize[2];
-
-    int sum = 0;
-
-    for(int j = 0; j < windowSizeY; j++){
-        for(int i = 0; i < windowSizeX; i++)
-            //sum += abs(frame[frameX + (frameY * framesizeX) + i + (j * frameSizeX)] - window[i + j * windowSizeX]);
-
-            sum += abs(frame[(j+currentRow) * frameSizeX + i + currentColumn] - window[i + j * windowSizeX]);
-    }
-    return sum;
-}
-
-/////Subroutines/////
-
-
-// increment FrameLoc by one to the right
-void RightSubroutine(int * frameLoc){
-    frameLoc[column]++;
-    if (verbose) printf("\tRight: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], s6[0], temp);
-}
-
-void DownLeftSubroutine(int * frameLoc){
-    frameLoc[row]++;
-    frameLoc[column]--;
-    if (verbose) printf("\tDownLeft: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], s6[0], temp);
-}
-
-
-void DownSubroutine(int * frameLoc){
-    frameLoc[row]++;
-    if (verbose) printf("\tDown: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], s6[0], temp);
-}
-
-void UpRightSubroutine(int * frameLoc){
-    frameLoc[row]--;
-    frameLoc[column]++;
-    if (verbose) printf("\tUpRight: (%d, %d) %d, %d\n", frameLoc[row], frameLoc[column], s6[0], temp);
-}
-
-//if(finalLocation == FrameLoc(frameLoc[column], frameLoc[row], frameRowSize))
-int FrameLoc(int x, int y, int frameWidth){
-    return x + y * frameWidth;
-}
-
-
-
-int * vbsme(int * asize, int * frame, int * window){
-    // frame[] = {  0, 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    //                  1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-    //                  2, 3, 32, 1, 2, 3, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
-    //                  3, 4, 1, 2, 3, 4, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45,
-    //                  0, 4, 2, 3, 4, 5, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60,
-    //                  0, 5, 3, 4, 5, 6, 30, 35, 40, 45, 50, 55, 60, 65, 70,  75,
-    //                  0, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84, 90,
-    //                  0, 4, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91, 98, 105,
-    //                  0, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120,
-    //                  0, 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108, 117, 126, 135,
-    //                  0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150,
-    //                  0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132, 143, 154, 165,
-    //                  0, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 0, 1, 2, 3,
-    //                  0, 13, 26, 39, 52, 65, 78, 91, 104, 114, 130, 143, 1, 2, 3, 4,
-    //                  0, 14, 28, 42, 56, 70, 84, 98, 112, 126, 140, 154, 2, 3, 4, 5,
-    //                  0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 3, 4, 5, 6 };
-
-    //    window[] = {0, 1, 2, 3,
-    //                  1, 2, 3, 4,
-    //                  2, 3, 4, 5,
-    //                  3, 4, 5, 6 };
-
-    //    asize[] = {16, 16, 4, 4};
-
-
-    int frameRowSize = asize[1];
-    int frameColumnSize = asize[0];
-
-    int windowRowSize = asize[3];
-    int windowColumnSize = asize[2];
-
-    int frameLoc[] = {0, 0};
-
-    int finalLocation = (frameRowSize - windowRowSize) + (frameColumnSize - windowColumnSize)*frameRowSize;
-
-    //  2,147,483,647 for initial number because max 32 bit signed integer.
-    //          number, frameX, frameY
-
-    s6[0] = 2147483647;    //minimum SAD
-    s6[1] = 0;             //s6[1] = frameLoc[row]
-    s6[2] = 0;             //s6[2] = frameLoc[column]
-
-
-
-    if((frameRowSize > windowRowSize) || (frameColumnSize > windowColumnSize)){
-        //int SAD(int * frame, int * window, int * asize, int frameX, int frameY){
-        if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= s6[0]){s6[0] = temp;s6[1] = frameLoc[row];s6[2] = frameLoc[column];}
-
-        //error detect right
-        if (frameLoc[column] < frameRowSize - windowRowSize){
-            //no collision
-            RightSubroutine(frameLoc);
-        }
-        else{//right collision
-            //error detect down
-            if (frameLoc[row] < frameColumnSize - windowColumnSize){
-                //no collision
-                DownSubroutine(frameLoc);
-            }
-            else{//down collision
-                printf("%d %d\n", s6[1], s6[2]);
-                return s6;
-            }
-        }
-
-        if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= s6[0]){s6[0] = temp;s6[1] = frameLoc[row];s6[2] = frameLoc[column];}
-
-
-        //start going through zig zag pattern
-        while ((frameLoc[column] + frameLoc[row] * frameRowSize) < finalLocation){
-
-            //DOWN-LEFT COLLISION DETECTION
-            int loopflag = 1;
-            while(loopflag){
-
-                //Check down
-                if(frameLoc[row] < frameColumnSize - windowColumnSize){
-                    //no down collision
-                    //check left
-                    if(frameLoc[column] > 0){
-                        //no left collision
-                        DownLeftSubroutine(frameLoc);
-                    }
-                    else{
-                        //down collision
-                        DownSubroutine(frameLoc);
-                        loopflag = 0;
-                    }
-                }
-                else{
-                    //down collision
-                    RightSubroutine(frameLoc);
-                    loopflag = 0;
-                }
-
-                if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= s6[0]){s6[0] = temp;s6[1] = frameLoc[row];s6[2] = frameLoc[column];}
-            }
-
-            if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= s6[0]){s6[0] = temp;s6[1] = frameLoc[row];s6[2] = frameLoc[column];}
-            if(finalLocation == FrameLoc(frameLoc[column], frameLoc[row], frameRowSize))
-                break;
-
-            //UP-RIGHT COLLISION DETECTION
-            loopflag = 1;
-            while(loopflag){
-
-                //Check up
-                if(frameLoc[row] > 0){
-                    //no up collision
-                    //check right
-                    if(frameLoc[column] < frameRowSize - windowRowSize){
-                        //no right collision
-                        UpRightSubroutine(frameLoc);
-                    }
-                    else{
-                        //right collision
-                        DownSubroutine(frameLoc);
-                        loopflag = 0;
-                    }
-                }
-                else{
-                    //up collision
-                    //check right
-                    if(frameLoc[column] < frameRowSize - windowRowSize){
-                        //no right collision
-                        RightSubroutine(frameLoc);
-                    }
-                    else{
-                        //right collision
-                        DownSubroutine(frameLoc);
-                    }
-
-                    loopflag = 0;
-                }
-
-                if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= s6[0]){s6[0] = temp;s6[1] = frameLoc[row];s6[2] = frameLoc[column];}
-            }
-
-            if ((temp = SAD(frame, window, asize, frameLoc[column], frameLoc[row])) <= s6[0]){s6[0] = temp;s6[1] = frameLoc[row];s6[2] = frameLoc[column];}
-            if(finalLocation == FrameLoc(frameLoc[column], frameLoc[row], frameRowSize))
-                break;
-        }
-    }
-    return s6;
-}
-------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-    # insert your code here
+# Error detect down initial
+errordetectnexta:                   # else
+   sub  $t0, $s0, $s2               # t0 = frameSizeY - windowSizeY
+   slt  $t0, $t6, $t0               # t0 = (frameLoc[row] < t0)
+   beq  $t0, $0, endzigzag          # if collision on right and down: exit vbsme
+   jal  downsubroutine              # move down
+doneerrordetectright:
    
+   jal  sad                         # call to sad #2
+
+# Main zigzag loop
+zigzagloop:                         # while ((frameLoc[column] + frameLoc[row] * frameSizeX) < Final Location){
+   mul  $t0, $t6, $s1               # t0 = frameLoc[row] * frameSizeX
+   add  $t0, $t0, $t7               # t0 = t0 + frameLoc[column]
+   slt  $t0, $t0, $s5               # t0 = (t0 < final location)
+   beq  $t0, $0,  endzigzag         # exit loop and end zigzag
+
+# Down-left Collision Detection
+   addi $s4, $0, 1                  # loopflag = 1
+dlcollisiondetect:
+   beq  $s4, $0, edlcollisiondetect # if(loopflag == 0) end
+
+# Check down
+   sub  $t0, $s0, $s2               # t0 = frameSizeY - windowSizeY
+   slt  $t0, $t6, $t0               # t0 = (frameLoc[row] < t0)
+   beq  $t0, $0, downcollisiona     # if(t0 != 0)
+
+# Check left
+   slt  $t0, $0, $t7                # t0 = (0 < frameLoc[column])
+   beq  $t0, $0, leftcollisiona     # if(t0 != 0)
+   jal  downleftsubroutine          # move down and left
+   j    downcollisionaend           # goto end of outer if
+
+leftcollisiona:                     # left collision 
+   jal  downsubroutine              # move down
+   add  $s4, $0, $0                 # loopflag = 0
+   j    downcollisionaend           # goto end of outer loop
+
+downcollisiona:                     # down collision
+   jal  rightsubroutine             # move right
+   add  $s4, $0, $0 
+downcollisionaend:
+
+   jal  sad                         # check SAD
+   j    dlcollisiondetect           # goto start of dl loop
+edlcollisiondetect:
+
+   jal  sad                         # check SAD
+
+# Check if final location reached
+   mul  $t0, $t6, $s1               # t0 = frameLoc[row] * frameSizeX
+   add  $t0, $t0, $t7               # t0 = t0 + frameLoc[column]
+   slt  $t0, $t0, $s5               # t0 = (t0 < final location)
+   beq  $t0, $0,  endzigzag         # exit loop and end zigzag
+
+# Up-Right Collision Detection
+   addi $s4, $0, 1                  # loopflag = 1 
+urcollisiondetect:
+   beq  $s4, $0, eurcollisiondetect # if(loopflag == 0) end
+
+# Check up
+   slt  $t0, $0, $t6                # t0 = (frameLoc[row] > 0)
+   beq  $t0, $0, upcollisiona       # if(t0 != 0)
+
+# Check Right
+   sub  $t0, $s1, $s3               # t0 = frameSizeX - windowSizeX
+   slt  $t0, $t7, $t0               # t0 = (frameLoc[column] < t0)
+   beq  $t0, $0,  rightcollisiona   # if(t0 != 0)
+   jal  uprightsubroutine           # move up and right
+   j    upcollisionaend             # goto end of outer if
+
+rightcollisiona:
+   jal  downsubroutine              # move down
+   add  $s4, $0, $0                 # loopflag = 0
+   j    upcollisionaend             # goto end of outer if
+
+upcollisiona:
+   sub  $t0, $s1, $s3               # t0 = frameSizeX - windowSizeX
+   slt  $t0, $t7, $t0               # t0 = (frameLoc[column] < t0)
+   beq  $t0, $0,  rightcollisionb   # if(t0 != 0)
+   jal  rightsubroutine             # move right
+   j    upcollisionaend             # goto end of outer if
+   
+rightcollisionb:
+   jal downsubroutine               # move down
+   add  $s4, $0, $0                 # loopflag = 0  
+upcollisionaend:
+
+   jal  sad                         # check SAD
+   j    urcollisiondetect           # goto beginning of up-right loop
+eurcollisiondetect:
+
+   jal  sad                         # check SAD   
+   j    zigzagloop                  # goto beginning of main loop
+endzigzag:
+   lw   $ra, 0($sp)                 # get return address from the stack
+   j    $ra                         # return to function call
+
+
+# SAD Function 
+sad:
+   add  $t0, $0, $0                 # set sum to 0
+   add  $t1, $0, $0                 # set outer loop variable to 0
+sadloop:                            # for(int j = 0; j < windowSizeY; j++){
+   slt  $t3, $t1, $s2               # t3 = (j < windowSizeY)
+   beq  $t3, $0, sadouterloopend    # if(t3 == 0) exit outer loop
+   add  $t2, $0, $0                 # set inner loop variable to 0
+sadinnerloop:                       # for(int i = 0; i < windowSizeX; i++) {
+   slt  $t3, $t2, $s3               # t3 = (i < windowSizeX)
+   beq  $t3, $0, sadinnerloopend    # if(t3 == 0) exit inner loop
+   add  $t3, $t1, $t8               # t3 = j + currentRow
+   mul  $t3, $t3, $s1               # t3 = t3 * frameSizeX          
+   add  $t3, $t3, $t2               # t3 = t3 + i
+   add  $t3, $t3, $t9               # t3 = t3 + currentColumn
+   sll  $t3, $t3, 2                 # t3 = t3 * 4
+   mul  $t4, $t1, $s3               # t4 = j * windowSizeX
+   add  $t4, $t4, $t2               # t4 = t4 + i
+   sll  $t4, $t4, 2                 # t4 = t4 * 4
+   add  $t3, $a1, $t3               # t3 = &frame[t3]
+   add  $t4, $a2, $t4               # t4 = &frame[t4]
+   lw   $t3, 0($t3)                 # t3 = *t3
+   lw   $t4, 0($t4)                 # t4 = *t4
+   add  $t3, $t3, $t4               # t3 = t3 + t4
+   slt  $t4, $t3, $0                # t4 = (t3 < 0)
+   beq  $t4, $0, absifend           # if(t4 != 0)
+   addi $t5, $0, -1                 # t5 = -1
+   mul  $t3, $t3, $t5               # t3 = t3 * -1
+absifend:
+   add  $t0, $t0, $t3               # sum = sum + t3
+   addi $t2, $t2, 1                 # i++
+   j    sadinnerloop                # goto inner loop start
+sadinnerloopend:
+   addi $t1, $t1, 1                 # j++
+   j    sadouterloop                # got outer loop start
+sadouterloopend:
+
+# Test if SAD is a minimum value and update
+   lw   $t1, 0($s6)                 # t1 = current minimum val
+   beq  $t0, $t1, lteqcurrmin       # if(new sad == min)
+   slt  $t2, $t0, $t1               # t2 = (new sad < min)
+   beq  $t2, $0, lteqcurrminend     # if(newsad <= min)
+lteqcurrmin:
+   sw   $t0, 0($s6)                 # store new minimum
+   sw   $t6, 4($s6)                 # store new min x
+   sw   $t7, 8($s6)                 # store new min y
+lteqcurrminend:
+   j    $ra                         # jump to next vbsme command
+
+# Subroutines
+rightsubroutine:
+   addi $t7, $t7, 1                 # frameLoc[column]++
+   j    $ra                         # jump to next vbsme command
+
+downleftsubroutine:
+   addi $t6, $t6,  1                # frameLoc[row]++
+   addi $t7, $t7, -1                # frameLoc[column]--
+   j    $ra                         # jump to next vbsme command
+
+downsubroutine:
+   addi $t6, $t6, 1                 # frameLoc[row]++
+   j    $ra                         # jump to next vbsme command
+
+upsubroutine:
+   addi $t6, $t6, -1                # frameLoc[row]--
+   addi $t7, $t7,  1                # frameLoc[column]++
+   j    $ra                         # jump to next vbsme command

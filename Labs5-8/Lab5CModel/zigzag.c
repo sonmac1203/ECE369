@@ -10,14 +10,6 @@
 static int s6[3];
 int temp;
 
-int abs(int a){
-    //return (a < 0) ? -1 * a : a;
-    if(a < 0)
-        return a * -1;
-    else
-        return a;
-}
-
 /*
 * Arguments:
 * frame - The pointer to the beginning of the frame matrix
@@ -199,16 +191,6 @@ int * vbsme(int * a0, int * a1, int * a2){
                                 //sw  $t2, 8($s4)
         }
 
-        t1 = (v0 < t0) ? 1 : 0;
-        if (t1){    //bne, $t1, $0, updatedatmin
-            s6[0] = v0;         //sw  $v0, 0($s6)
-            s6[1] = s4[row];    //lw  $t1, 0($s4)
-            //sw  $t1, 4($s6)
-
-            s6[2] = s4[column]; //lw  $t2, 4($s4)
-            //sw  $t2, 8($s4)
-        }
-
         /************
          *
          *  SAD CHECK ENDING
@@ -302,7 +284,7 @@ int * vbsme(int * a0, int * a1, int * a2){
         s7 = (t1 < t0) ? 1 : 0; //slt $s7, $t1, $t0
 
         //WHILE (s7)
-        while (
+        while ((s4[column] + s4[row] * s1) < s5){ //bne $s7, $0, ENDZIGZAG
 
 
 //                (s4[column] + s4[row] * s1) < s5
@@ -315,12 +297,6 @@ int * vbsme(int * a0, int * a1, int * a2){
 
         s7 = (t1 < t0) ? 1 : 0; //slt $s7, $t1, $t0
 
-
-
-
-
-
-        ){ //bne $s7, $0, ENDZIGZAG
 
 
 
@@ -548,18 +524,6 @@ int * vbsme(int * a0, int * a1, int * a2){
 
             if ((temp = SAD(a1, a2, a0, s4[column], s4[row])) <= s6[0]){s6[0] = temp;s6[1] = s4[row];s6[2] = s4[column];}
 
-
-
-            //if(s5 == FrameLoc(s4[column], s4[row], s1))
-            //  break;
-
-            t0 = s4[column];    //lw $t0, 4($s4)
-            t1 = s4[row];       //lw $t1, 0($s4)
-
-            t1 = t1 * s1;       //mul $t1, $t1, $s1
-            t0 = t0 + t1;       //add $t0, $t1, $t0
-
-            if (s5 == t0) break; //beq $s5, $t0, END
 
 
 
