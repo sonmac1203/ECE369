@@ -927,6 +927,8 @@ eurcollisiondetect:
    jal  sad                         # check SAD   
    j    zigzagloop                  # goto beginning of main loop
 endzigzag:
+   lw   $v0, 4($s6)                 # move min x to return register
+   lw   $v1, 8($s6)                 # move min y to return register
    lw   $ra, 0($sp)                 # get return address from the stack
    j    $ra                         # return to function call
 
