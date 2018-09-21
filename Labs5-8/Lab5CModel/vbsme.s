@@ -809,7 +809,7 @@ vbsme:
 
 # Initialize min array
    add  $sp, $sp, -16               # make room for 4 elements on the stack
-   addi $t0, $0,  2147483647        # t0 = max integer value
+   addi $t0, $0,   9999             # t0 = max integer value
    sw   $t0, 4($sp)                 # current min = max int value
    sw   $0,  8($sp)                 # x = 0
    sw   $0, 12($sp)                 # y = 0
@@ -935,7 +935,7 @@ endzigzag:
 sad:
    add  $t0, $0, $0                 # set sum to 0
    add  $t1, $0, $0                 # set outer loop variable to 0
-sadloop:                            # for(int j = 0; j < windowSizeY; j++){
+sadouterloop:                            # for(int j = 0; j < windowSizeY; j++){
    slt  $t3, $t1, $s2               # t3 = (j < windowSizeY)
    beq  $t3, $0, sadouterloopend    # if(t3 == 0) exit outer loop
    add  $t2, $0, $0                 # set inner loop variable to 0
@@ -988,6 +988,11 @@ rightsubroutine:
 downleftsubroutine:
    addi $t6, $t6,  1                # frameLoc[row]++
    addi $t7, $t7, -1                # frameLoc[column]--
+   j    $ra                         # jump to next vbsme command
+
+uprightsubroutine:
+   addi $t6, $t6, -1                # frameLoc[row]++
+   addi $t7, $t7,  1                # frameLoc[column]--
    j    $ra                         # jump to next vbsme command
 
 downsubroutine:
