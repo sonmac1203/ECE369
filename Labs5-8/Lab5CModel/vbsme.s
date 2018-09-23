@@ -22,9 +22,9 @@
 # The result should be 0, 2
 asize0:  .word    4,  4,  2, 2    #i, j, k, l
 frame0:  .word    0,  0,  1,  2, 
-         .word    0,  0,  3,  4
+         .word    0,  0,  3,  4,
+         .word    0,  0,  0,  0,
          .word    0,  0,  0,  0
-         .word    0,  0,  0,  0, 
 window0: .word    1,  2, 
          .word    3,  4, 
 # test 1 For the 16X16 frame size and 4X4 window size
@@ -477,6 +477,147 @@ window14:   .word    9, 9, 9, 9,
             .word    9, 9, 9, 9
 
 
+    #/* for example SAD of two 4x4 arrays "window" and "block" shown below is 3
+    # * window         block
+    # * SAD should be 3
+    # *
+    # * TEST CASE FOR WINDOWSIZE = FRAMESIZE
+    # */
+
+
+asize15: .word 4, 4, 4, 4
+frame15: .word      1, 2, 2, 3,
+         .word      0, 0, 3, 2,
+         .word      0, 0, 0, 0,
+         .word      1, 0, 0, 5
+
+window15: .word      1, 4, 2, 3,
+          .word      0, 0, 3, 2,
+          .word      0, 0, 0, 0,
+          .word      1, 0, 0, 4
+
+
+###
+
+#    /*
+#     *
+#     * Test 16
+#     * horizontal scroll
+#     *
+#     */
+
+result16: .word 0, 2
+
+asize16: .word 4, 7, 4, 4
+
+frame16: .word      1, 1, 0, 0, 0, 0, 1,
+         .word      1, 1, 0, 0, 0, 0, 1,
+         .word      1, 1, 0, 0, 0, 0, 1,
+         .word      1, 1, 0, 0, 0, 0, 1
+
+window16: .word      0, 0, 0, 0,
+          .word      0, 0, 0, 0,
+          .word      0, 0, 0, 0,
+          .word      0, 0, 0, 0
+
+
+##################
+
+#    /*
+#     *
+#     * Test 17 odd frame and window size
+#     *
+#     *
+#     */
+
+result17: .word 1, 1
+
+asize17: .word 4, 5, 2, 3
+
+frame17: .word      1, 1, 1, 1, 1,
+         .word      1, 0, 0, 0, 1,
+         .word      1, 0, 0, 0, 1,
+         .word      1, 1, 1, 1, 1
+
+window17: .word      0, 0, 0,
+          .word      0, 0, 0
+
+
+##########################
+
+
+#    /*
+#     * Test 18
+#     * 1x1 window
+#     *
+#     */
+
+result18: .word 1, 1
+
+asize18: .word 4, 5, 1, 1
+
+frame18: .word      1, 1, 1, 1, 1,
+         .word      1, 0, 1, 1, 1,
+         .word      1, 1, 1, 1, 1,
+         .word      1, 1, 1, 1, 1
+
+window18: .word 0
+
+###############################
+
+#    /*
+#      * Test 19
+#      * 1x1 window
+#      *
+#      */
+
+result19: .word 1, 1
+
+asize19: .word 4, 5, 1, 1
+
+frame19: .word      1, 1, 1, 1, 1,
+         .word      1, 0, 1, 1, 1,
+         .word      1, 1, 1, 1, 1,
+         .word      1, 1, 1, 1, 1
+
+window19: .word 0
+
+#########
+
+
+#    /*
+#     *
+#     * Test 20
+#     * vertical scroll
+#     *
+#     */
+
+result20: .word 2, 0
+
+asize20: .word 6, 3, 3, 3
+
+
+frame20: .word      1, 1, 1,
+         .word      1, 1, 1,
+         .word      0, 0, 0,
+         .word      0, 0, 0,
+         .word      0, 0, 0,
+         .word      1, 1, 1
+
+window20: .word      0, 0, 0,
+          .word      0, 0, 0,
+          .word      0, 0, 0
+
+
+
+
+
+
+
+
+
+
+
          
 newline: .asciiz     "\n" 
 
@@ -497,7 +638,7 @@ main:
     ############################################################
     la      $a0, asize0     # 1st parameter: address of asize1[0]
     la      $a1, frame0     # 2nd parameter: address of frame1[0]
-    la      $a2, window1    # 3rd parameter: address of window1[0] 
+    la      $a2, window0    # 3rd parameter: address of window1[0] 
    
     jal     vbsme           # call function
     jal     print_result    # print results to console
@@ -529,7 +670,7 @@ main:
     jal     print_result    # print results to console
     ############################################################
     # End of test 2   
-                    
+                   
                
     # Start test 3
     ############################################################
@@ -674,6 +815,81 @@ main:
     ############################################################
     # End of test 14     
    
+
+    # Start test 15
+    ############################################################
+    la      $a0, asize15     # 1st parameter: address of asize1[0]
+    la      $a1, frame15     # 2nd parameter: address of frame1[0]
+    la      $a2, window15    # 3rd parameter: address of window1[0] 
+   
+    jal     vbsme           # call function
+    jal     print_result    # print results to console
+    
+    ############################################################
+    # End of test 15  
+
+
+    # Start test 16
+    ############################################################
+    la      $a0, asize16     # 1st parameter: address of asize1[0]
+    la      $a1, frame16     # 2nd parameter: address of frame1[0]
+    la      $a2, window16    # 3rd parameter: address of window1[0] 
+   
+    jal     vbsme           # call function
+    jal     print_result    # print results to console
+    
+    ############################################################
+    # End of test 16    
+
+    # Start test 17
+    ############################################################
+    la      $a0, asize17     # 1st parameter: address of asize1[0]
+    la      $a1, frame17     # 2nd parameter: address of frame1[0]
+    la      $a2, window17    # 3rd parameter: address of window1[0] 
+   
+    jal     vbsme           # call function
+    jal     print_result    # print results to console
+    
+    ############################################################
+    # End of test 17    
+
+    # Start test 18
+    ############################################################
+    la      $a0, asize18     # 1st parameter: address of asize1[0]
+    la      $a1, frame18     # 2nd parameter: address of frame1[0]
+    la      $a2, window18    # 3rd parameter: address of window1[0] 
+   
+    jal     vbsme           # call function
+    jal     print_result    # print results to console
+    
+    ############################################################
+    # End of test 18    
+
+
+    # Start test 19
+    ############################################################
+    la      $a0, asize19     # 1st parameter: address of asize1[0]
+    la      $a1, frame19     # 2nd parameter: address of frame1[0]
+    la      $a2, window19    # 3rd parameter: address of window1[0] 
+   
+    jal     vbsme           # call function
+    jal     print_result    # print results to console
+    
+    ############################################################
+    # End of test 19    
+
+    # Start test 20
+    ############################################################
+    la      $a0, asize20     # 1st parameter: address of asize1[0]
+    la      $a1, frame20     # 2nd parameter: address of frame1[0]
+    la      $a2, window20    # 3rd parameter: address of window1[0] 
+   
+    jal     vbsme           # call function
+    jal     print_result    # print results to console
+    
+    ############################################################
+    # End of test 20    
+
     lw      $ra, 0($sp)         # Restore return address
     addi    $sp, $sp, 4         # Restore stack pointer
 #    jr      $ra                 # Return
@@ -935,6 +1151,7 @@ upcollisiona:
    slt  $t0, $t7, $t0               # t0 = (frameLoc[column] < t0)
    beq  $t0, $0,  rightcollisionb   # if(t0 != 0)
    jal  rightsubroutine             # move right
+   add  $s4, $0, $0                 # loopflag = 0
    j    upcollisionaend             # goto end of outer if
    
 rightcollisionb:
@@ -956,11 +1173,11 @@ endzigzag:
 # SAD Function 
 sad:
    add  $t0, $0, $0                 # set sum to 0
-   add  $t1, $0, $0                 # set outer loop variable to 0
+   add  $t1, $0, $0                 # set outer loop variable j to 0
 sadouterloop:                       # for(int j = 0; j < windowSizeY; j++){
    slt  $t3, $t1, $s2               # t3 = (j < windowSizeY)
    beq  $t3, $0, sadouterloopend    # if(t3 == 0) exit outer loop
-   add  $t2, $0, $0                 # set inner loop variable to 0
+   add  $t2, $0, $0                 # set inner loop variable i to 0
 sadinnerloop:                       # for(int i = 0; i < windowSizeX; i++) {
    slt  $t3, $t2, $s3               # t3 = (i < windowSizeX)
    beq  $t3, $0, sadinnerloopend    # if(t3 == 0) exit inner loop
