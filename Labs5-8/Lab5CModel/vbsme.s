@@ -663,7 +663,12 @@ main:
    
     lw      $ra, 0($sp)         # Restore return address
     addi    $sp, $sp, 4         # Restore stack pointer
-    jr      $ra                 # Return
+#    jr      $ra                 # Return
+    
+    
+    exit:
+    li      $v0, 10              # terminate program run and
+    syscall                      # Exit 
 
 ################### Print Result ####################################
 print_result:
@@ -930,7 +935,7 @@ endzigzag:
    lw   $v0, 4($s6)                 # move min x to return register
    lw   $v1, 8($s6)                 # move min y to return register
    lw   $ra, 0($sp)                 # get return address from the stack
-   j    $ra                         # return to function call
+   jr    $ra                         # return to function call
 
 
 # SAD Function 
@@ -980,28 +985,30 @@ lteqcurrmin:
    sw   $t6, 4($s6)                 # store new min x
    sw   $t7, 8($s6)                 # store new min y
 lteqcurrminend:
-   j    $ra                         # jump to next vbsme command
+   jr    $ra                         # jump to next vbsme command
 
 # Subroutines
 rightsubroutine:
    addi $t7, $t7, 1                 # frameLoc[column]++
-   j    $ra                         # jump to next vbsme command
+   jr    $ra                         # jump to next vbsme command
 
 downleftsubroutine:
    addi $t6, $t6,  1                # frameLoc[row]++
    addi $t7, $t7, -1                # frameLoc[column]--
-   j    $ra                         # jump to next vbsme command
+   jr    $ra                         # jump to next vbsme command
 
 uprightsubroutine:
    addi $t6, $t6, -1                # frameLoc[row]++
    addi $t7, $t7,  1                # frameLoc[column]--
-   j    $ra                         # jump to next vbsme command
+   jr    $ra                         # jump to next vbsme command
 
 downsubroutine:
    addi $t6, $t6, 1                 # frameLoc[row]++
-   j    $ra                         # jump to next vbsme command
+   jr    $ra                         # jump to next vbsme command
 
 upsubroutine:
    addi $t6, $t6, -1                # frameLoc[row]--
    addi $t7, $t7,  1                # frameLoc[column]++
-   j    $ra                         # jump to next vbsme command
+   jr    $ra                         # jump to next vbsme command
+
+
