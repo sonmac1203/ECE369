@@ -492,7 +492,20 @@ newline: .asciiz     "\n"
 main: 
     addi    $sp, $sp, -4    # Make space on stack
     sw      $ra, 0($sp)     # Save return address
-         
+    
+    # Start test 0
+    ############################################################
+    la      $a0, asize0     # 1st parameter: address of asize1[0]
+    la      $a1, frame0     # 2nd parameter: address of frame1[0]
+    la      $a2, window1    # 3rd parameter: address of window1[0] 
+   
+    jal     vbsme           # call function
+    jal     print_result    # print results to console
+    
+    ############################################################
+    # End of test 0    
+    
+    
     # Start test 1 
     ############################################################
     la      $a0, asize1     # 1st parameter: address of asize1[0]
