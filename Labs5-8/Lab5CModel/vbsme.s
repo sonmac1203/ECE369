@@ -797,19 +797,24 @@ print_result:
 # $s1 = frameSizeX
 # $s2 = windowSizeY
 # $s3 = windowSizeX
-# $t8 = currentRow
-# $t9 = currentColumn
-# $a1 = frame
-# $a2 = window
-# $t6 = frameLoc[row]
-# $t7 = frameLoc[column]
 # $s4 = loopflag
 # $s5 = final location
-# $s6 = address of min array: min = {current min, min row, min col}
+# $s6 = current minimum value
+
+# $t0-$t5 = temporary variables
+# $t6 = frameLoc[row]
+# $t7 = frameLoc[column]
+
+# $a0 = asize
+# $a1 = frame
+# $a2 = window
+
+# $v0 = min x
+# $v1 = min y
+
+
 
 vbsme:  
-   li   $v0,  0                     # reset $v0 and $V1
-   li   $v1,  0
 
 # Get frame sizes from memory and initialize x, y
    lw   $s0,  0($a0)                # s0 = a0[0] (frameSizeY)
@@ -826,13 +831,12 @@ vbsme:
    add  $s5, $t0, $t1               # final location = t0 + t1
 
 # Initialize min array
-   add  $sp, $sp, -16               # make room for 4 elements on the stack
-   addi $t0, $0,   9999             # t0 = max integer value
    sw   $t0, 4($sp)                 # current min = max int value
-   sw   $0,  8($sp)                 # x = 0
-   sw   $0, 12($sp)                 # y = 0
-   addi $s6, $sp, 4                 # s6 = location of min
+   li   $v0,  0                     # min x = 0
+   li   $v1,  0 		    # min y = 0
+   li   $s6,  9999 		    # current min = arbitrarily large int
 
+   addi $sp, $sp, -4                # make room for 1 element on the stack
    sw   $ra, 0($sp)                 # store the return address for vbsme on the stack
 
 # If windowSize is greater than frameSize in x or y direction
@@ -945,27 +949,25 @@ eurcollisiondetect:
    jal  sad                         # check SAD   
    j    zigzagloop                  # goto beginning of main loop
 endzigzag:
-   lw   $v0, 4($s6)                 # move min x to return register
-   lw   $v1, 8($s6)                 # move min y to return register
    lw   $ra, 0($sp)                 # get return address from the stack
-   jr    $ra                         # return to function call
+   jr   $ra                         # return to function call
 
 
 # SAD Function 
 sad:
    add  $t0, $0, $0                 # set sum to 0
    add  $t1, $0, $0                 # set outer loop variable to 0
-sadouterloop:                            # for(int j = 0; j < windowSizeY; j++){
+sadouterloop:                       # for(int j = 0; j < windowSizeY; j++){
    slt  $t3, $t1, $s2               # t3 = (j < windowSizeY)
    beq  $t3, $0, sadouterloopend    # if(t3 == 0) exit outer loop
    add  $t2, $0, $0                 # set inner loop variable to 0
 sadinnerloop:                       # for(int i = 0; i < windowSizeX; i++) {
    slt  $t3, $t2, $s3               # t3 = (i < windowSizeX)
    beq  $t3, $0, sadinnerloopend    # if(t3 == 0) exit inner loop
-   add  $t3, $t1, $t8               # t3 = j + currentRow
+   add  $t3, $t1, $t6               # t3 = j + frameLoc[row]
    mul  $t3, $t3, $s1               # t3 = t3 * frameSizeX          
    add  $t3, $t3, $t2               # t3 = t3 + i
-   add  $t3, $t3, $t9               # t3 = t3 + currentColumn
+   add  $t3, $t3, $t7               # t3 = t3 + frameLoc[column]
    sll  $t3, $t3, 2                 # t3 = t3 * 4
    mul  $t4, $t1, $s3               # t4 = j * windowSizeX
    add  $t4, $t4, $t2               # t4 = t4 + i
@@ -974,7 +976,7 @@ sadinnerloop:                       # for(int i = 0; i < windowSizeX; i++) {
    add  $t4, $a2, $t4               # t4 = &frame[t4]
    lw   $t3, 0($t3)                 # t3 = *t3
    lw   $t4, 0($t4)                 # t4 = *t4
-   add  $t3, $t3, $t4               # t3 = t3 + t4
+   sub  $t3, $t3, $t4               # t3 = t3 - t4
    slt  $t4, $t3, $0                # t4 = (t3 < 0)
    beq  $t4, $0, absifend           # if(t4 != 0)
    addi $t5, $0, -1                 # t5 = -1
@@ -989,39 +991,38 @@ sadinnerloopend:
 sadouterloopend:
 
 # Test if SAD is a minimum value and update
-   lw   $t1, 0($s6)                 # t1 = current minimum val
-   beq  $t0, $t1, lteqcurrmin       # if(new sad == min)
-   slt  $t2, $t0, $t1               # t2 = (new sad < min)
-   beq  $t2, $0, lteqcurrminend     # if(newsad <= min)
+   beq  $t0, $s6, lteqcurrmin       # if(new sad == current min)
+   slt  $t1, $t0, $s6               # t2 = (new sad < current min)
+   beq  $t1, $0, lteqcurrminend     # if(newsad <= min)
 lteqcurrmin:
-   sw   $t0, 0($s6)                 # store new minimum
-   sw   $t6, 4($s6)                 # store new min x
-   sw   $t7, 8($s6)                 # store new min y
+   add  $s6, $t0, $0                # store new minimum
+   add  $v0, $t6, $0                # store new min x
+   add  $v1, $t7, $0                # store new min y
 lteqcurrminend:
-   jr    $ra                         # jump to next vbsme command
+   jr   $ra                         # jump to next vbsme command
 
 # Subroutines
 rightsubroutine:
    addi $t7, $t7, 1                 # frameLoc[column]++
-   jr    $ra                         # jump to next vbsme command
+   jr   $ra                         # jump to next vbsme command
 
 downleftsubroutine:
    addi $t6, $t6,  1                # frameLoc[row]++
    addi $t7, $t7, -1                # frameLoc[column]--
-   jr    $ra                         # jump to next vbsme command
+   jr   $ra                         # jump to next vbsme command
 
 uprightsubroutine:
    addi $t6, $t6, -1                # frameLoc[row]++
    addi $t7, $t7,  1                # frameLoc[column]--
-   jr    $ra                         # jump to next vbsme command
+   jr   $ra                         # jump to next vbsme command
 
 downsubroutine:
    addi $t6, $t6, 1                 # frameLoc[row]++
-   jr    $ra                         # jump to next vbsme command
+   jr   $ra                         # jump to next vbsme command
 
 upsubroutine:
    addi $t6, $t6, -1                # frameLoc[row]--
    addi $t7, $t7,  1                # frameLoc[column]++
-   jr    $ra                         # jump to next vbsme command
+   jr   $ra                         # jump to next vbsme command
 
 
