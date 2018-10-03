@@ -17,6 +17,10 @@ module DataMemory_tb();
 
     wire [31:0] ReadData;
 
+
+    integer i;
+    integer temp;
+
     DataMemory u0(
         .Address(Address), 
         .WriteData(WriteData), 
@@ -33,7 +37,32 @@ module DataMemory_tb();
 
 	initial begin
 	
-    /* Please fill in the implementation here... */
+    @(posedge Clk);
+    #10;
+    MemWrite <= 1;
+    MemRead <= 0;
+    
+        for (i=0; i < 1024; i = i+1)    begin
+                #10;
+                temp = i << 2; //because byte addressing by 4.
+                WriteData <= i;
+                Address <= temp;
+                @(posedge Clk);
+        end
+    #10;
+    
+    
+    MemWrite <= 0;
+    MemRead <= 1;
+    
+    @(posedge Clk);
+    #10;  
+        for (i = 0; i < 1024; i = i+1)    begin
+                 #10;
+                 temp = i << 2;
+                 Address <= temp;
+                 @(posedge Clk);
+        end
 	
 	end
 

@@ -23,7 +23,8 @@ module RegisterFile_tb();
 	wire [31:0] ReadData1;
 	wire [31:0] ReadData2;
 
-
+    integer i;
+    
 	RegisterFile u0(
 		.ReadRegister1(ReadRegister1), 
 		.ReadRegister2(ReadRegister2), 
@@ -42,7 +43,28 @@ module RegisterFile_tb();
 
 	initial begin
 	
-    /* Please fill in the implementation here... */
+    	   @(posedge Clk);
+    #10;
+    RegWrite <= 1;
+    
+        for (i=0; i < 32; i = i+1)    begin
+                #10;
+                WriteData <= i;
+                WriteRegister <= i;
+                @(posedge Clk);
+        end
+    #10;
+    
+    RegWrite <= 0;
+    
+    @(posedge Clk);
+    #10;  
+        for (i = 0; i < 31; i = i+1)    begin
+                 #10;
+                 ReadRegister1 <= i;
+                 ReadRegister2 <= i + 1;   
+                 @(posedge Clk);
+        end
 	
 	end
 
