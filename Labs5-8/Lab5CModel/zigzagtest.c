@@ -49,7 +49,7 @@ void testzigzag() {
     int result0[] = {0, 2};
     int asize0[] = {4, 4, 2, 2};
 
-    int frame0[] = {0, 0, 1, 2,
+    int frame0[] = {0,  0,  1,  2,
                     0,  0,  3,  4,
                     0,  0,  0,  0,
                     0,  0,  0,  0,};
