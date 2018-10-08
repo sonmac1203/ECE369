@@ -143,26 +143,255 @@ module ALU32Bit_tb();
     B <= 1;
 
     // or   | 10000 |   ALUResult <= A | B;
+    #10;
     ALUControl <= 5'b10000;
     A <= 1;
+    B <= 1;
+    
+    #10;
+    A <= 1;
+    B <= 3;
+     
+    #10;
+    A <= 1;
+    B <= 4;
     
     
     // nor  | 10001 |   ALUResult <= ~(A | B);
-    // xor  | 10010 |   ALUResult <= (A & ~B) | (~A | B);
-    // seh  | 10011 |   ALUResult <= SignExt(B[15:0]);
-    // sll  | 10100 |   ALUResult <= B << A;
-    // srl  | 10101 |   ALUResult <= B >> A;
-    // movn | 10110 |   if (B != 0) ALUResult <= A;
-    // movz | 10111 |   if (B == 0) ALUResult <= A;
-    // rotr | 11000 |   ALUResult <= ((A >> B) | (A << (32-B)));
-    // sra  | 11001 |   ALUResult <= B >> A (arithmetic);
-    // seb  | 11010 |   ALUResult <= SignExtend(B[7:0]);
-    // slt  | 11011 |   ALUResult <= (A < B);
-    // mthi | 11100 |   HI_out <= A;
-    // mtlo | 11101 |   LO_out <= A;
-    // mfhi | 11110 |   ALUResult <= HI_in;
-    // mflo | 11111 |   ALUResult <= LO_in;    
+    #10;
+    ALUControl <=5'b10001;
+    // should result in something
+    A <= 32'b1;
+    B <= 32'b1;
     
+    
+    // xor  | 10010 |   ALUResult <= (A & ~B) | (~A | B);
+    #10;
+    ALUControl <= 5'b10010;
+    //should be 1
+    A <= 1;
+    B <= 0;
+    
+    #10;
+    // should be 2
+    A <= 1;
+    B <= 3;
+    
+    
+    // seh  | 10011 |   ALUResult <= SignExt(B[15:0]);
+    #10;
+    ALUControl <= 5'b10011;
+    B <= 12;
+    
+    #10;
+    B <= 0;
+    
+    #10; 
+    B <= 16'h0004;
+    
+    #10; 
+    B <= 16'h7000;
+    
+    #10;
+    B <= 16'h9000;
+    
+    #10;
+    B <= 16'hF000;
+    
+    
+    // sll  | 10100 |   ALUResult <= B << A;
+    #10
+    ALUControl <= 5'b10100;
+    A <= 2;
+    B <= 3;
+    
+    
+    #10;
+    A <= 0;
+    B <= 3;
+    
+    #10;
+    A <= 1;
+    B <= 3;
+    
+    
+    
+    
+    // srl  | 10101 |   ALUResult <= B >> A;
+    #10;
+    ALUControl <= 5'b10101;
+    A <= 1;
+    B <= 16;
+    
+    #10;
+    
+    A <= 2;
+    B <= 12;
+    
+    
+    
+    // movn | 10110 |   if (B != 0) ALUResult <= A;
+    #10;
+    ALUControl <= 5'b10110;
+    B <= 1;
+    A <= 4;
+    
+    #10;
+    B <= 0;
+    A <= 0;
+    
+    
+    // movz | 10111 |   if (B == 0) ALUResult <= A;
+    #10;
+    ALUControl <= 5'b10111;
+    B <= 0;
+    A <= 3;
+    
+    #10;
+    B <= 1;
+    A <= 0;
+    
+    
+    // rotr | 11000 |   ALUResult <= ((A >> B) | (A << (32-B)));
+    #10;
+    ALUControl <= 5'b11000;
+    A <= 32'b0000_0000_0000_0000_0000_0000_0000_1111;
+    B <= 4;
+    
+    #10;
+    
+    A <= 20;
+    B <= 1;
+    
+    // sra  | 11001 |   ALUResult <= B >> A (arithmetic);
+    #10;
+    ALUControl <= 5'b11001;
+    
+    //should result in 3 1's at the leftmost side.
+    B <= {1'b1, 31'b0};
+    A <= 3;
+    
+    //should result in 0
+    #10;
+    B <= 32'b1;
+    A <= 3;
+    
+    //should NOT extend the 1 bits.
+    #10;
+    B <= {1'b0, 1'b1, 30'b0};
+    A <= 3;
+    
+    
+    // seb  | 11010 |   ALUResult <= SignExtend(B[7:0]);
+    #10;
+    ALUControl <= 5'b11010; 
+    
+    //should result in all B's and 7 0's
+    B <= 8'b1000_0000;
+    
+    #10;
+    //should be all 0's
+    B <= 8'b0;
+    
+    
+    
+    // slt  | 11011 |   ALUResult <= (A < B);
+    #10;
+    ALUControl <= 5'b11011;
+    //should be 0
+    A <= 5;
+    B <= 3;
+    
+    #10;
+    //should be 1
+    A <= 3;
+    B <= 5;
+    
+    #10;
+    //should be 0
+    A <= 3;
+    B <= 3;
+    
+    #10;
+    //should be 1
+    A <= -4;
+    B <= -3;
+    
+    #10;
+    //should be 0
+    A <= -3;
+    B <= -4;
+    
+    
+    
+    // mthi | 11100 |   HI_out <= A;
+    #10;
+    ALUControl <= 5'b11100;
+    A <= 32'b11111111111111111111111111111111;
+    B <= 0;
+    
+    #10;
+    A <= 32'b0;
+    B <= 3;
+    
+    #10;
+    A <= 32'b1;
+    B <= 4;
+    
+    // mtlo | 11101 |   LO_out <= A;
+    #10;
+    ALUControl <= 5'b11101;
+    A <= 32'b11111111111111111111111111111111;
+    B <= 0;
+    
+    #10;
+    A <= 32'b0;
+    B <= 3;
+    
+    #10;
+    A <= 32'b1;
+    B <= 4;    
+    
+    
+    // mfhi | 11110 |   ALUResult <= HI_in;
+    #10;
+    ALUControl <= 5'b11110;
+    HI_in <= 32'b11111111111111111111111111111111;
+    LO_in <= 0;
+    A <= 0;
+    B <= 0;
+    
+    #10;
+    HI_in <= 32'b0;
+    LO_in <= 3;
+    A <= 2;
+    B <= 1;
+    
+    #10;
+    HI_in <= 32'b1;
+    LO_in <= 4;   
+    A <= 3;
+    B <= 12;
+    
+    
+    // mflo | 11111 |   ALUResult <= LO_in;    
+    ALUControl <= 5'b11111;
+    LO_in <= 32'b11111111111111111111111111111111;
+    HI_in <= 0;
+    A <= 0;
+    B <= 0;
+    
+    #10;
+    LO_in <= 32'b0;
+    HI_in <= 3;
+    A <= 2;
+    B <= 1;
+    
+    #10;
+    LO_in <= 32'b1;
+    HI_in <= 4;   
+    A <= 3;
+    B <= 12;
     
 	
 	end
