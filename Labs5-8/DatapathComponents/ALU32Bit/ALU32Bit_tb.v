@@ -12,7 +12,7 @@
 
 module ALU32Bit_tb(); 
 
-	reg [3:0] ALUControl;   // control bits for ALU operation
+	reg [4:0] ALUControl;   // control bits for ALU operation
 	reg [31:0] A, B;	        // inputs
 	reg [31:0] HI_in;
 	reg [31:0] LO_in;
@@ -20,17 +20,25 @@ module ALU32Bit_tb();
 	wire [31:0] ALUResult;	// answer
 	wire Zero;	        // Zero=1 if ALUResult == 0
 
-    wire [32:0] HI_out;
-    wire [32:0] LO_out;
+    wire [31:0] HI_out;
+    wire [31:0] LO_out;
 
     wire [63:0] temp_64;
+
+
+//module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out);
+
 
     ALU32Bit u0(
         .ALUControl(ALUControl), 
         .A(A), 
         .B(B), 
         .ALUResult(ALUResult), 
-        .Zero(Zero)
+        .Zero(Zero),
+        .LO_in(LO_in),
+        .LO_out(LO_out),
+        .HI_in(HI_in),
+        .HI_out(HI_out)
     );
     
 	initial begin
@@ -44,8 +52,8 @@ module ALU32Bit_tb();
     // add  | 00000 | ALURESULT <= A + B 
     #10;
     ALUControl <= 5'b0;
-    A = 2;
-    B = 3;
+    A <= 2;
+    B <= 3;
        
     
     // sub  | 00001 | ALURESULT <= A - B
@@ -83,6 +91,7 @@ module ALU32Bit_tb();
     
     // madd | 00100 | (hi, lo) <= (hi, lo) + (A * B)
     #10;
+    ALUControl <= 5'b00100;
     HI_in = 12;
     LO_in = 1;
     A <= 3;
@@ -97,6 +106,7 @@ module ALU32Bit_tb();
     
     // msub | 00101 | (hi, lo) <= (hi, lo) - (A * B)
     #10;
+    ALUControl <= 5'b00101;
     HI_in = 12;
     LO_in = 1;
     A <= 3;
