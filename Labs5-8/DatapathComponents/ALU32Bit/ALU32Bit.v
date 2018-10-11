@@ -126,48 +126,51 @@
 
 // Op   |'ALUControl' value  | Description | Notes
 /* Arithmetic Subset */
-// add  | 00000 | ALURESULT <= A + B 
-// sub  | 00001 | ALURESULT <= A - B
-// mul  | 00010 | ALURESULT <= A * B
-// mult | 00011 | (hi,lo) <= A * B
-// madd | 00100 | (hi, lo) <= (hi, lo) + (A * B)
-// msub | 00101 | (hi, lo) <= (hi, lo) - (A * B)
+// add  | 000000 | ALURESULT <= A + B signed
+// addu | 100000 | ALUResult <= A + B unsigned 
+// sub  | 000001 | ALURESULT <= A - B
+// mul  | 000010 | ALURESULT <= A * B
+// mult | 000011 | (hi, lo) <= A * B signed
+// multu| 100001 | (hi, lo) <= A * B unsigned
+// madd | 000100 | (hi, lo) <= (hi, lo) + (A * B)
+// msub | 000101 | (hi, lo) <= (hi, lo) - (A * B)
 
 /* Data Subset */
-// lui  | 00110 |  ALURESULT <= imm || 0^16
-// bgez | 00111 |   
-// beq  | 01000 |
-// bne  | 01001 |
-// bgtz | 01010 |
-// blez | 01011 |
-// bltz | 01100 |
-// j    | 01101 |
-// jal  | 01110 |
+// lui  | 000110 |  ALURESULT <= imm || 0^16
+// bgez | 000111 |   
+// beq  | 001000 |
+// bne  | 001001 |
+// bgtz | 001010 |
+// blez | 001011 |
+// bltz | 001100 |
+// j    | 001101 |
+// jal  | 001110 |
 
 /* Logical Subset */
-// and  | 01111 |   ALUResult <= A & B;
-// or   | 10000 |   ALUResult <= A | B;
-// nor  | 10001 |   ALUResult <= ~(A | B);
-// xor  | 10010 |   ALUResult <= (A & ~B) | (~A | B);
-// seh  | 10011 |   ALUResult <= SignExt(B[15:0]);
-// sll  | 10100 |   ALUResult <= B << A;
-// srl  | 10101 |   ALUResult <= B >> A;
-// movn | 10110 |   if (B != 0) ALUResult <= A;
-// movz | 10111 |   if (B == 0) ALUResult <= A;
-// rotr | 11000 |   ALUResult <= ((A >> B) | (A << (32-B)));
-// sra  | 11001 |   ALUResult <= B >> A (arithmetic);
-// seb  | 11010 |   ALUResult <= SignExtend(B[7:0]);
-// slt  | 11011 |   ALUResult <= (A < B);
-// mthi | 11100 |   HI_out <= A;
-// mtlo | 11101 |   LO_out <= A;
-// mfhi | 11110 |   ALUResult <= HI_in;
-// mflo | 11111 |   ALUResult <= LO_in;
+// and  | 001111 |   ALUResult <= A & B;
+// or   | 010000 |   ALUResult <= A | B;
+// nor  | 010001 |   ALUResult <= ~(A | B);
+// xor  | 010010 |   ALUResult <= (A & ~B) | (~A | B);
+// seh  | 010011 |   ALUResult <= SignExt(B[15:0]);
+// sll  | 010100 |   ALUResult <= B << A;
+// srl  | 010101 |   ALUResult <= B >> A;
+// movn | 010110 |   if (B != 0) ALUResult <= A;
+// movz | 010111 |   if (B == 0) ALUResult <= A;
+// rotr | 011000 |   ALUResult <= ((A >> B) | (A << (32-B)));
+// sra  | 011001 |   ALUResult <= B >> A (arithmetic);
+// seb  | 011010 |   ALUResult <= SignExtend(B[7:0]);
+// slt  | 011011 |   ALUResult <= (A < B) signed
+// sltu | 100010 |   ALUResult <= (A < B) unsigned
+// mthi | 011100 |   HI_out <= A;
+// mtlo | 011101 |   LO_out <= A;
+// mfhi | 011110 |   ALUResult <= HI_in;
+// mflo | 011111 |   ALUResult <= LO_in;
 
 
 
 module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out);
 
-	input [4:0] ALUControl; // control bits for ALU operation
+	input [5:0] ALUControl; // control bits for ALU operation
                                 // you need to adjust the bitwidth as needed
 	input [31:0] A, B;	    // inputs
 
@@ -181,8 +184,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
 	output reg [31:0] HI_out;
 	output reg [31:0] LO_out;
 	
-	
-	reg [63:0] temp;	
+	reg [63:0] temp;
 
     /* Please fill in the implementation here... */
     
@@ -197,42 +199,56 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
          Zero <= 0;
          //ALUResult <= 0;
          
-         if (ALUControl == 5'b00000)    begin
-             //A + B    
-             ALUResult <= A + B;
+         if (ALUControl == 6'b00000)    begin
+             //A + B signed
+             ALUResult <= $signed(A) + $signed(B);
              if (ALUResult == 0)
                  Zero <= 1;
          end
          
+         if (ALUControl == 6'b100000)   begin
+            //A + B unsigned
+            ALUResult <= A + B; //UNSIGNED
+            if (ALUResult == 0)
+                Zero <= 1;           
+         end
          
-         else if (ALUControl == 5'b00001)    begin
+         
+         else if (ALUControl == 6'b00001)    begin
             //A - B
-            ALUResult = A-B;
+            ALUResult = $signed(A) - $signed(B);
             if (ALUResult == 0)
                 Zero <= 1;
          end
          
-         
 
          // mul  | 00010 | ALURESULT <= A * B
-         else if (ALUControl == 5'b00010)    begin
-            ALUResult <= A * B;
+         else if (ALUControl == 6'b00010)    begin
+            ALUResult <= $signed(A) * $signed(B);
             if (ALUResult == 0)
                 Zero <= 1;
          end
          
          // mult | 00011 | (hi,lo) <= A * B
-         else if (ALUControl == 5'b00011)   begin
-            temp = A * B;
+         else if (ALUControl == 6'b00011)   begin
+            temp = $signed(A) * $signed(B);
             HI_out = temp[63:32];
             LO_out = temp[31:0];
             if (temp == 0)
                 Zero <= 1;
          end
          
+         // multu| 100001 | (hi, lo) <= A * B unsigned
+         else if (ALUControl == 6'b100001)  begin
+            temp = A * B;   //UNSIGNED
+             HI_out = temp[63:32];
+             LO_out = temp[31:0];
+             if (temp == 0)
+                 Zero <= 1;
+         end
          
          // madd | 00100 | (hi, lo) <= (hi, lo) + (A * B)
-         else if (ALUControl == 5'b00100)   begin
+         else if (ALUControl == 6'b00100)   begin
             temp = $signed({HI_in, LO_in}) + $signed(($signed(A) * $signed(B)));
             
             HI_out = $signed(temp[63:32]);
@@ -243,7 +259,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
          
          
          // msub | 00101 | (hi, lo) <= (hi, lo) - (A * B)
-         else if (ALUControl == 5'b00101)   begin
+         else if (ALUControl == 6'b00101)   begin
             temp = $signed({HI_in, LO_in}) - $signed(($signed(A) * $signed(B)));
             
             
@@ -263,28 +279,28 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
           */
           
           // and  | 01111 |   ALUResult <= A & B;
-          else if (ALUControl == 5'b01111)   begin
+          else if (ALUControl == 6'b01111)   begin
             ALUResult <= A & B;
             if (ALUResult == 0)
                 Zero <= 1;
           end
           
           // or   | 10000 |   ALUResult <= A | B;
-          else if (ALUControl == 5'b10000)   begin
+          else if (ALUControl == 6'b10000)   begin
             ALUResult <= A | B;
             if (ALUResult == 0)
                 Zero <= 1;
           end
           
           // nor  | 10001 |   ALUResult <= ~(A | B);
-          else if (ALUControl == 5'b10001)   begin
+          else if (ALUControl == 6'b10001)   begin
             ALUResult <= ~(A | B);
             if (ALUResult == 0)
                 Zero <= 1;
           end
           
           // xor  | 10010 |   ALUResult <= (A & ~B) | (~A | B);
-          else if (ALUControl == 5'b10010)   begin
+          else if (ALUControl == 6'b10010)   begin
             ALUResult <= (A & ~B) | (~A | B);
             if (ALUResult == 0)
                 Zero <= 1;
@@ -292,7 +308,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
           
           
           // seh  | 10011 |   ALUResult <= SignExt(B[15:0]);
-          else if (ALUControl == 5'b10011)   begin
+          else if (ALUControl == 6'b10011)   begin
               if (B[15] == 0)    begin
                   ALUResult <= {16'b0, B[15:0]};
               end
@@ -305,40 +321,40 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
           
           
           // sll  | 10100 |   ALUResult <= B << A;
-          else if (ALUControl == 5'b10100)   begin
+          else if (ALUControl == 6'b10100)   begin
             ALUResult <= B << A;
             if (ALUResult == 0)
                 Zero <= 1;
           end
           
           // srl  | 10101 |   ALUResult <= B >> A;
-          else if (ALUControl == 5'b10101)   begin
+          else if (ALUControl == 6'b10101)   begin
              ALUResult <= B >> A;
              if (ALUResult == 0)
                 Zero <= 1;
           end
           
           // movn | 10110 |   if (B != 0) ALUResult <= A;
-          else if (ALUControl == 5'b10110)  begin
+          else if (ALUControl == 6'b10110)  begin
             if (B != 0) 
                 ALUResult <= A;
           end
           
           // movz | 10111 |   if (B == 0) ALUResult <= A;
-          else if (ALUControl == 5'b10111)  begin
+          else if (ALUControl == 6'b10111)  begin
             if (B == 0) 
                 ALUResult <= A;
           end
           
           // rotr | 11000 |   ALUResult <= ((A >> B) | (A << (32-B)));
-          else if (ALUControl == 5'b11000)  begin
+          else if (ALUControl == 6'b11000)  begin
             ALUResult <= ((A >> B) | (A << (32-B)));
             if (ALUResult == 0)
                 Zero <= 1;
           end
           
           // sra  | 11001 |   ALUResult <= B >> A (arithmetic);
-          else if (ALUControl == 5'b11001)  begin
+          else if (ALUControl == 6'b11001)  begin
             if (B[31] == 0)    begin
                 ALUResult <= B >> A;
             end
@@ -353,7 +369,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
           end
           
           // seb  | 11010 |   ALUResult <= SignExtend(B[7:0]);
-          else if (ALUControl == 5'b11010)   begin  
+          else if (ALUControl == 6'b11010)   begin  
               if (B[7] == 0)    begin
                   ALUResult <= {24'b0, B[7:0]};
               end
@@ -365,29 +381,37 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
           end
           
           // slt  | 11011 |   ALUResult <= (A < B);
-          else if (ALUControl == 5'b11011)   begin
-            ALUResult <= (A < B);
+          else if (ALUControl == 6'b11011)   begin
+            ALUResult <= ($signed(A) < $signed(B));
             if (ALUResult == 0)
                 Zero <= 1;
           end
           
+          // sltu | 100010 |   ALUResult <= (A < B) unsigned
+          else if (ALUControl == 6'b100010) begin
+            ALUResult <= (A < B);
+            if (ALUResult == 0)
+              Zero <= 1;
+
+          end
+          
           // mthi | 11100 |   HI_out <= A;
-          else if (ALUControl == 5'b11100)   begin
+          else if (ALUControl == 6'b11100)   begin
             HI_out <= A;
           end
           
           // mtlo | 11101 |   LO_out <= A;
-          else if (ALUControl == 5'b11101)   begin
+          else if (ALUControl == 6'b11101)   begin
             LO_out <= A;
           end
           
           // mfhi | 11110 |   ALUResult <= HI_in;
-          else if (ALUControl == 5'b11110)   begin
+          else if (ALUControl == 6'b11110)   begin
             ALUResult <= HI_in;
           end
           
           // mflo | 11111 |   ALUResult <= LO_in;
-          else if (ALUControl == 5'b11111)   begin
+          else if (ALUControl == 6'b11111)   begin
             ALUResult <= LO_in;
           end
           
