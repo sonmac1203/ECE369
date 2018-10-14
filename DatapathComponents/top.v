@@ -65,7 +65,10 @@ wire[31:0]  IFU_Instruction_out,
             MEM_WB_ALU1_output,
             MEM_WB_DataMemOut,
             Mux3_out,
-            DataMem_out;
+            IM_out,
+            DataMem_out,
+            address,
+            PCResult;
             
 wire [4:0]  ID_EX_out_rd_i,
             ID_EX_out_rd_r,
@@ -79,9 +82,20 @@ wire [5:0]  ALUOp,
 
 
     ClkDiv CD1(Clk, Clk_Reset, Clk_out);
+   
+    
+    //module ProgramCounter(Address, PCResult, Reset, Clk);
+    ProgramCounter IFU_PC(address, PCResult, PC_Reset, Clk_out);
+    
+    //module PCAdder(PCResult, PCAddResult)
+    PCAdder IFU_PCAdd(PCResult, address);
+            
+    //module InstructionMemory(Address, Instruction); 
+    InstructionMemory IFU_IM(PCResult, IM_out);
 
-    //module InstructionFetchUnit(Reset, Clk, Instruction);
-    InstructionFetchUnit IF_1(PC_Reset, Clk_out, IFU_Instruction_out);
+    
+//    //module InstructionFetchUnit(Reset, Clk, Instruction);
+//    InstructionFetchUnit IF_1(PC_Reset, Clk, IM_out);
     
         
     //module IF_ID_Register(Clk, in_Instruction, out_Instruction);

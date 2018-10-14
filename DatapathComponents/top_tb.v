@@ -25,8 +25,21 @@ module top_tb();
     reg Clk_tb, Reset_tb, Clk_Reset_tb;
     
     //module top(Clk, PC_Reset, Clk_Reset);
-    top t0(Clk_tb, Reset_tb, Clk_Reset_tb);
+    top t0(.Clk(Clk_tb), 
+           .PC_Reset(Reset_tb), 
+           .Clk_Reset(Clk_Reset_tb));
     
+//        ALU32Bit u0(
+//        .ALUControl(ALUControl), 
+//        .A(A), 
+//        .B(B), 
+//        .ALUResult(ALUResult), 
+//        .Zero(Zero),
+//        .LO_in(LO_in),
+//        .LO_out(LO_out),
+//        .HI_in(HI_in),
+//        .HI_out(HI_out)
+//    );
     
     always begin
         Clk_tb <= 0;
@@ -37,8 +50,13 @@ module top_tb();
     end
     
     initial begin
+        Clk_Reset_tb <= 1;
+        
         Reset_tb <= 1;
+        
+        
         #800;
+        Clk_Reset_tb <= 0;
         Reset_tb <= 0;
     end
 
