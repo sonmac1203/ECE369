@@ -20,7 +20,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module EXStageRegister(
+module EXStageRegister(Clk, in_ALUSrc, in_ALUOP, in_RegDst, out_ALUSrc, out_ALUOP, out_RegDst);
 
-    );
+    input  in_ALUSrc, in_ALUOP, in_RegDst, Clk;
+    output reg out_ALUSrc, out_ALUOP, out_RegDst;
+
+    always @ (posedge Clk)  begin
+        out_ALUSrc <= in_ALUSrc;
+        out_ALUOP <= in_ALUOP;
+        out_RegDst <= in_RegDst;
+    end
+
+
 endmodule

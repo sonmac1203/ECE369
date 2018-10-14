@@ -20,7 +20,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module WBStageRegister(
+module WBStageRegister(Clk, in_MemToReg, out_MemToReg);
+    input Clk, in_MemToReg;
+    output reg out_MemToReg;
+    
+    always @ (posedge Clk)  begin
+        out_MemToReg <= in_MemToReg;
+    end
 
-    );
 endmodule

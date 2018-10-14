@@ -20,7 +20,14 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module MStageRegister(
+module MStageRegister(Clk, in_MemWrite, in_MemRead, out_MemWrite, out_MemRead);
+    
+    input Clk, in_MemWrite, in_MemRead;
+    output reg out_MemWrite, out_MemRead;
+    
+    always @ (posedge Clk)  begin
+        out_MemWrite <= in_MemWrite;
+        out_MemRead <= in_MemRead;
+    end
 
-    );
 endmodule
