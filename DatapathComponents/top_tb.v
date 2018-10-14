@@ -24,4 +24,9 @@ module top_tb();
     
     top t0();
     
+    
+    //reset for 4-5 whole cycles
+    
+    
+    
 endmodule
