@@ -29,7 +29,7 @@ input [4:0] in_dest_reg;
              
 output reg out_MemWrite, out_MemRead, out_MemToReg, out_RegWrite;    
 output reg [31:0] out_ALU_out, out_ReadData_2;
-output [4:0] out_dest_reg;
+output reg [4:0] out_dest_reg;
 
     always @ (posedge Clk)  begin
         out_ALU_out    <= in_ALU_out;
