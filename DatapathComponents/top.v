@@ -90,7 +90,8 @@ wire [4:0]  ID_EX_out_rd_i,
     
     
     //module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2);
-    RegisterFile R_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], MEM_WB_destination_register, Mux3_out, Clk_out, ReadData1_out, ReadData2_out);
+    RegisterFile R_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], MEM_WB_destination_register, Mux3_out, MEM_WB_RegWrite,
+                     Clk_out, ReadData1_out, ReadData2_out);
     
     
     //module SignExtension(in, out);
