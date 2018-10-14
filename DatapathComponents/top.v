@@ -20,7 +20,22 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module top();
+module top(Clk, PC_Reset, Clk_Reset);
+
+
+input Clk, PC_Reset, Clk_Reset;
+
+wire Clk_out;
+
+
+
+    ClkDiv CD1(Clk, Clk_Reset, Clk_out);
+
+
+     ProgramCounter PC_1(ThirtyTwoBit_mux_to_PC ,PC_out, Reset, Clk_out);
+
+
+
 
 
 
