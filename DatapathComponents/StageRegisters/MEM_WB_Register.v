@@ -25,10 +25,12 @@ module MEM_WB_Register(Clk, in_DataMemOut, in_destination_register, in_ALU1_outp
                        
                        
 input Clk, in_MemToReg, in_RegWrite;
-input [31:0] in_DataMemOut, in_destination_register, in_ALU1_output;
+input [31:0] in_DataMemOut, in_ALU1_output;
+input [4:0] in_destination_register;
 
 output reg out_MemToReg, out_RegWrite;
 output reg [31:0]  out_DataMemOut, out_destination_register, out_ALU1_output;
+output reg [4:0] out_destination_register;
 
     always @ (posedge Clk)  begin
         out_DataMemOut           <= in_DataMemOut; 

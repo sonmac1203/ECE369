@@ -24,10 +24,12 @@ module EX_MEM_Register(Clk, in_ALU_out, in_ReadData_2, in_dest_reg, in_MemWrite,
                         out_ALU_out, out_ReadData_2, out_dest_reg, out_MemWrite, out_MemRead, out_MemToReg, out_RegWrite);
                         
 input Clk, in_MemWrite, in_MemRead, in_MemToReg, in_RegWrite;
-input [31:0] in_ALU_out, in_ReadData_2, in_dest_reg;       
+input [31:0] in_ALU_out, in_ReadData_2;
+input [4:0] in_dest_reg;
              
 output reg out_MemWrite, out_MemRead, out_MemToReg, out_RegWrite;    
-output reg [31:0] out_ALU_out, out_ReadData_2, out_dest_reg;
+output reg [31:0] out_ALU_out, out_ReadData_2;
+output [4:0] out_dest_reg;
 
     always @ (posedge Clk)  begin
         out_ALU_out    <= in_ALU_out;
