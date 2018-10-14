@@ -20,7 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module IF_ID_Register(
+module IF_ID_Register(Clk, in_Instruction, out_Instruction);
+    input Clk;
+    input [31:0] in_Instruction;
+    output reg [31:0] out_Instruction;
 
-    );
+    always @ (posedge Clk)  begin
+        out_Instruction <= in_Instruction;
+    end
+
 endmodule
