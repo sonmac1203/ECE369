@@ -49,9 +49,38 @@ module InstructionMemory(Address, Instruction);
     
     
     initial begin
+        //Given Simple Test
+        Memory[0] = 32'h20090006;
+        Memory[1] = 32'h00000000;
+        Memory[2] = 32'h00000000;
+        Memory[3] = 32'h00000000;
+        Memory[4] = 32'h00000000;
+        Memory[5] = 32'h00000000;
+        Memory[6] = 32'h200a0008;
+        Memory[7] = 32'h00000000;
+        Memory[8] = 32'h00000000;
+        Memory[9] = 32'h00000000;
+        Memory[10] = 32'h00000000;
+        Memory[11] = 32'h00000000;
+        Memory[12] = 32'h00000000;
+        Memory[13] = 32'h00000000;
+        Memory[14] = 32'h00000000;
+        Memory[15] = 32'h00000000;
+        Memory[16] = 32'h00000000;
+        Memory[17] = 32'h00000000;
+        Memory[18] = 32'h000b60c0;
+        Memory[19] = 32'h00000000;
+        Memory[20] = 32'h00000000;
+        Memory[21] = 32'h00000000;
+        Memory[22] = 32'h00000000;
+        Memory[23] = 32'h00000000;
+        Memory[24] = 32'h000c6882;
+
+        /* Count up by 3's
         for (index = 0; index < 128; index = index + 1) begin
             Memory[index] = index * 3;
         end
+        */
     end
     
     
