@@ -29,10 +29,8 @@ wire    Clk_out,
         ALUSrc, 
         RegDst, 
         RegWrite, 
-        ALUOp, 
         MemRead,
         ID_EX_ALUSrc, 
-        ID_EX_ALUOp, 
         ID_EX_RegDst, 
         ID_EX_MemWrite, 
         ID_EX_MemRead, 
@@ -54,7 +52,6 @@ wire[31:0]  IFU_Instruction_out,
             ReadData1_out, 
             ReadData2_out,
             Mux1_out,
-            Mux2_out,
             LO_in, 
             LO_out, 
             HI_in, 
@@ -73,9 +70,11 @@ wire[31:0]  IFU_Instruction_out,
 wire [4:0]  ID_EX_out_rd_i,
             ID_EX_out_rd_r,
             EX_MEM_dest_reg,
-            MEM_WB_destination_register;
+            MEM_WB_destination_register,
+            Mux2_out;
 
-
+wire [5:0]  ALUOp,
+            ID_EX_ALUOp;
 
 
 
@@ -111,20 +110,21 @@ wire [4:0]  ID_EX_out_rd_i,
     //                      );
     ID_EX_Register ID_EX_1(Clk_out, ReadData1_out, ReadData2_out, SE_out, IF_ID_Instruction_out[20:16], IF_ID_Instruction_out[15:11],
                             ALUSrc, ALUOp, RegDst, MemWrite, MemRead, MemToReg, RegWrite,
-                            
                             ID_EX_ReadData1_out, ID_EX_ReadData2_out, ID_EX_SE_out, ID_EX_out_rd_i, ID_EX_out_rd_r,
-                            ID_EX_ALUSrc, ID_EX_ALUOp, ID_EX_RegDst, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite,
+                            ID_EX_ALUSrc, ID_EX_ALUOp, ID_EX_RegDst, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite
     );
     
     
     //module Mux32Bit2To1(out, inA, inB, sel);
     Mux32Bit2To1 Mux1(Mux1_out, ID_EX_ReadData2_out, ID_EX_SE_out, ID_EX_ALUSrc);
     
-    Mux32Bit2To1 Mux2(Mux2_out, ID_EX_out_rd_i, ID_EX_out_rd_r, ID_EX_RegDst);
+    
+    //module Mux5Bit2To1(out, inA, inB, sel);
+    Mux5Bit2To1 Mux2(Mux2_out, ID_EX_out_rd_i, ID_EX_out_rd_r, ID_EX_RegDst);
     
     
     //module HI_LO_Registers(HI_in, LO_in, HI_out, LO_out);
-    HI_LO_Registers(HI_in, LO_in, HI_out, LO_out);
+    HI_LO_Registers HI_LO_REG1(HI_in, LO_in, HI_out, LO_out);
 
     
     //module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out);
@@ -140,7 +140,7 @@ wire [4:0]  ID_EX_out_rd_i,
         
         
     //module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData); 
-    DataMemory DM_1(EX_MEM_ALU_out, EX_MEM__MemWrite, EX_MEM__MemRead, DataMem_out);
+    DataMemory DM_1(EX_MEM_ALU_out, EX_MEM_ReadData_2, Clk_out, EX_MEM__MemWrite, EX_MEM__MemRead, DataMem_out);
     
     
     
