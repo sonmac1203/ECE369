@@ -22,7 +22,26 @@
 
 module top_tb();
     
-    top t0();
+    reg Clk_tb, Reset_tb, Clk_Reset_tb;
+    
+    //module top(Clk, PC_Reset, Clk_Reset);
+    top t0(Clk_tb, Reset_tb, Clk_Reset_tb);
+    
+    
+    always begin
+        Clk_tb <= 0;
+        #100;
+        
+        Clk_tb <= 1;
+        #100;
+    end
+    
+    initial begin
+        Reset_tb <= 1;
+        #800;
+        Reset_tb <= 0;
+    end
+
     
     
     //reset for 4-5 whole cycles
