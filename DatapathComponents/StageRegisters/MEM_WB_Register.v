@@ -29,7 +29,7 @@ input [31:0] in_DataMemOut, in_ALU1_output;
 input [4:0] in_destination_register;
 
 output reg out_MemToReg, out_RegWrite;
-output reg [31:0]  out_DataMemOut, out_destination_register, out_ALU1_output;
+output reg [31:0]  out_DataMemOut, out_ALU1_output;
 output reg [4:0] out_destination_register;
 
     always @ (posedge Clk)  begin
