@@ -3,6 +3,8 @@ ECE369
 ___Index___
 
 ---
+* DatapathComponents
+	- Collection of all datapath components.
 * Lab 1-3
 	- InstructionFetchUnit
 * Lab 4
@@ -11,4 +13,4 @@ ___Index___
 	- vbsme.s
 	- DatapathComponents
 * Labs9-18
-	- Datapath
+	- construct pipelined datapath
