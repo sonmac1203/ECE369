@@ -39,7 +39,11 @@ wire    Clk_out,
         ID_EX_MemToReg, 
         ID_EX_RegWrite,
         ALU1_zero,
-        MemWrite, 
+        MemWrite,
+        EX_MEM__MemWrite,
+        EX_MEM__MemRead,
+        EX_MEM__MemToReg,
+        EX_MEM__RegWrite,
         MemToReg;
 
 wire[31:0]  IFU_Instruction_out, 
@@ -49,12 +53,26 @@ wire[31:0]  IFU_Instruction_out,
             ReadData2_out,
             Mux1_out,
             Mux2_out,
+            LO_in, 
+            LO_out, 
+            HI_in, 
+            HI_out,
+            ALU1_out,
+            EX_MEM_ALU_out,
+            EX_MEM_ReadData_2,
             ID_EX_SE_out,
             ID_EX_ReadData2_out,
             ID_EX_ReadData1_out;
             
 wire [4:0]  ID_EX_out_rd_i,
-            ID_EX_out_rd_r;
+            ID_EX_out_rd_r,
+            EX_MEM_dest_reg;
+
+
+
+
+
+
 
 
     ClkDiv CD1(Clk, Clk_Reset, Clk_out);
@@ -101,24 +119,27 @@ wire [4:0]  ID_EX_out_rd_i,
     
     /*
      *
-     *
+     *  PUT HI_LO REGISTERS HERE
      *
      *
      *
      */
-    
-    
-    
+
     
     //module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out);
-    ALU32Bit ALU1(ID_EX_ALUOp, ID_EX_ReadData1_out, Mux1_out, ALU1_zero,);
+    ALU32Bit ALU1(ID_EX_ALUOp, ID_EX_ReadData1_out, Mux1_out, ALU1_out,ALU1_zero, LO_in, LO_out, HI_in, HI_out);
     
     
     
     
+    //module EX_MEM_Register(Clk, in_ALU_out, in_ReadData_2, in_dest_reg, in_MemWrite, in_MemRead, in_MemToReg, in_RegWrite,
+    //                        out_ALU_out, out_ReadData_2, out_dest_reg, out_MemWrite, out_MemRead, out_MemToReg, out_RegWrite);
+    EX_MEM_Register EX_MEM_1(Clk_out, ALU1_out, ID_EX_ReadData2_out, Mux2_out, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite,
+                             EX_MEM_ALU_out, EX_MEM_ReadData_2, EX_MEM_dest_reg, EX_MEM__MemWrite, EX_MEM__MemRead, EX_MEM__MemToReg, EX_MEM__RegWrite);
         
-    
         
+    //module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData); 
+    DataMemory DM_1(EX_MEM_ALU_out, );
 
         
         
