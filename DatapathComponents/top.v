@@ -44,6 +44,8 @@ wire    Clk_out,
         EX_MEM__MemRead,
         EX_MEM__MemToReg,
         EX_MEM__RegWrite,
+        MEM_WB_MemToReg,
+        MEM_WB_RegWrite,
         MemToReg;
 
 wire[31:0]  IFU_Instruction_out, 
@@ -62,14 +64,16 @@ wire[31:0]  IFU_Instruction_out,
             EX_MEM_ReadData_2,
             ID_EX_SE_out,
             ID_EX_ReadData2_out,
-            ID_EX_ReadData1_out;
+            ID_EX_ReadData1_out,
+            MEM_WB_ALU1_output,
+            MEM_WB_DataMemOut,
+            Mux3_out,
+            DataMem_out;
             
 wire [4:0]  ID_EX_out_rd_i,
             ID_EX_out_rd_r,
-            EX_MEM_dest_reg;
-
-
-
+            EX_MEM_dest_reg,
+            MEM_WB_destination_register;
 
 
 
@@ -86,7 +90,7 @@ wire [4:0]  ID_EX_out_rd_i,
     
     
     //module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2);
-    RegisterFile R_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], reg_dst_wb, MUX2_out, Clk_out, ReadData1_out, ReadData2_out);
+    RegisterFile R_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], MEM_WB_destination_register, Mux3_out, Clk_out, ReadData1_out, ReadData2_out);
     
     
     //module SignExtension(in, out);
@@ -117,13 +121,9 @@ wire [4:0]  ID_EX_out_rd_i,
     
     Mux32Bit2To1 Mux2(Mux2_out, ID_EX_out_rd_i, ID_EX_out_rd_r, ID_EX_RegDst);
     
-    /*
-     *
-     *  PUT HI_LO REGISTERS HERE
-     *
-     *
-     *
-     */
+    
+    //module HI_LO_Registers(HI_in, LO_in, HI_out, LO_out);
+    HI_LO_Registers(HI_in, LO_in, HI_out, LO_out);
 
     
     //module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out);
@@ -139,9 +139,24 @@ wire [4:0]  ID_EX_out_rd_i,
         
         
     //module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData); 
-    DataMemory DM_1(EX_MEM_ALU_out, );
-
-        
+    DataMemory DM_1(EX_MEM_ALU_out, EX_MEM__MemWrite, EX_MEM__MemRead, DataMem_out);
+    
+    
+    
+    //module MEM_WB_Register(Clk, in_DataMemOut, in_destination_register, in_ALU1_output, in_MemToReg, in_RegWrite,
+    //                       out_DataMemOut, out_destination_register, out_ALU1_output, out_MemToReg, out_RegWrite);
+    MEM_WB_Register MEM_WB_1(Clk_out, DataMem_out, EX_MEM_dest_reg, EX_MEM_ALU_out, EX_MEM__MemToReg, EX_MEM__RegWrite,
+                             MEM_WB_DataMemOut, MEM_WB_destination_register, MEM_WB_ALU1_output, MEM_WB_MemToReg, MEM_WB_RegWrite
+                             );
+    
+    
+    //module Mux32Bit2To1(out, inA, inB, sel);
+    Mux32Bit2To1 Mux3(Mux3_out, MEM_WB_DataMemOut, MEM_WB_ALU1_output, MEM_WB_MemToReg);
+    
+    
+    
+    
+    
         
         
 endmodule
