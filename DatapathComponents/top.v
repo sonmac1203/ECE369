@@ -38,6 +38,7 @@ wire    Clk_out,
         ID_EX_MemRead, 
         ID_EX_MemToReg, 
         ID_EX_RegWrite,
+        ALU1_zero,
         MemWrite, 
         MemToReg;
 
@@ -46,6 +47,8 @@ wire[31:0]  IFU_Instruction_out,
             SE_out,
             ReadData1_out, 
             ReadData2_out,
+            Mux1_out,
+            Mux2_out,
             ID_EX_SE_out,
             ID_EX_ReadData2_out,
             ID_EX_ReadData1_out;
@@ -88,10 +91,27 @@ wire [4:0]  ID_EX_out_rd_i,
                             
                             ID_EX_ReadData1_out, ID_EX_ReadData2_out, ID_EX_SE_out, ID_EX_out_rd_i, ID_EX_out_rd_r,
                             ID_EX_ALUSrc, ID_EX_ALUOp, ID_EX_RegDst, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite,
-
     );
     
     
+    //module Mux32Bit2To1(out, inA, inB, sel);
+    Mux32Bit2To1 Mux1(Mux1_out, ID_EX_ReadData2_out, ID_EX_SE_out, ID_EX_ALUSrc);
+    
+    Mux32Bit2To1 Mux2(Mux2_out, ID_EX_out_rd_i, ID_EX_out_rd_r, ID_EX_RegDst);
+    
+    /*
+     *
+     *
+     *
+     *
+     *
+     */
+    
+    
+    
+    
+    //module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out);
+    ALU32Bit ALU1(ID_EX_ALUOp, ID_EX_ReadData1_out, Mux1_out, ALU1_zero,);
     
     
     
