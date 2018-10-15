@@ -185,14 +185,6 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
 	output reg [31:0] LO_out;
 	
 	reg [63:0] temp;
-
-    /* Please fill in the implementation here... */
-    
-    /*
-     *
-     *  Arithmetic Type
-     *
-     */
     
     always @ (*)    begin
          
@@ -301,7 +293,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
           
           // xor  | 10010 |   ALUResult <= (A & ~B) | (~A | B);
           else if (ALUControl == 6'b10010)   begin
-            ALUResult <= (A & ~B) | (~A | B);
+            ALUResult <= (A & ~B) | (~A & B);
             if (ALUResult == 0)
                 Zero <= 1;
           end
@@ -405,13 +397,13 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
             LO_out <= A;
           end
           
-          // mfhi | 11110 |   ALUResult <= HI_in;
-          else if (ALUControl == 6'b11110)   begin
+          // mfhi | 011110 |   ALUResult <= HI_in;
+          else if (ALUControl == 6'b011110)   begin
             ALUResult <= HI_in;
           end
           
-          // mflo | 11111 |   ALUResult <= LO_in;
-          else if (ALUControl == 6'b11111)   begin
+          // mflo | 011111 |   ALUResult <= LO_in;
+          else if (ALUControl == 6'b011111)   begin
             ALUResult <= LO_in;
           end
           

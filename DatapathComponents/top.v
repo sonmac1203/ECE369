@@ -142,12 +142,10 @@ wire [5:0]  ALUOp,
     Mux5Bit2To1 Mux2(Mux2_out, ID_EX_out_rd_i, ID_EX_out_rd_r, ID_EX_RegDst);
     
     
+    
+    
     //module HI_LO_Registers(HI_in, LO_in, HI_out, LO_out);
-    HI_LO_Registers HI_LO_REG1(HI_in, LO_in, HI_out, LO_out);
-    
-    
-    
-    
+    HI_LO_Registers HI_LO_REG1(Clk_out, HI_in, LO_in, HI_out, LO_out);
     
     
     //module SignExtend5To32(in, out);
@@ -160,7 +158,7 @@ wire [5:0]  ALUOp,
     
     
     //module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out);
-    ALU32Bit ALU1(ID_EX_ALUOp, Mux4_out, Mux1_out, ALU1_out,ALU1_zero, LO_in, LO_out, HI_in, HI_out);
+    ALU32Bit ALU1(ID_EX_ALUOp, Mux4_out, Mux1_out, ALU1_out,ALU1_zero, LO_out, LO_in, HI_out, HI_in);
     
     
     

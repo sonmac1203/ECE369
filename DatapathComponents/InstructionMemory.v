@@ -42,7 +42,7 @@ module InstructionMemory(Address, Instruction);
 
     output reg [31:0] Instruction;    // Instruction at memory location Address
     
-    reg [31:0] Memory [127:0];
+    reg [31:0] Memory [511:0];
 
     //initializing memory with 0-127    
     integer index;
@@ -494,7 +494,7 @@ module InstructionMemory(Address, Instruction);
     
     
     always @ Address begin
-        Instruction = Memory[Address[8:2]];
+        Instruction = Memory[Address[11:2]];
     end
     
     

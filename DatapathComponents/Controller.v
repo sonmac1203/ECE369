@@ -279,9 +279,13 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 
                 //movn
                 else if(Instruction[5:0] == 6'b001011) begin
+                    if (Instruction[20:16] != 0)
+                        RegWrite <= 1;
+                    else
+                        RegWrite <= 0;
+                    
                     ALUSrc <= 0;
                     RegDst <= 1;
-                    RegWrite <= 1;
                     ALUOp <= 6'b010110;
                     MemWrite <= 0;
                     MemToReg <= 1;
@@ -291,9 +295,12 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 
                 //movz
                 else if(Instruction[5:0] == 6'b001010) begin
+                    if (Instruction[20:16] == 0)
+                        RegWrite <= 1;
+                    else
+                        RegWrite <= 0;
                     ALUSrc <= 0;
                     RegDst <= 1;
-                    RegWrite <= 1;
                     ALUOp <= 6'b010111;
                     MemWrite <= 0;
                     MemToReg <= 1;
@@ -377,23 +384,21 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 
                 //mfhi
                 else if(Instruction[5:0] == 6'b010000) begin
-                    ALUSrc <= 0;
-                    RegWrite <= 0;
+                    RegWrite <= 1;
                     ALUOp <= 6'b011110;
                     MemWrite <= 0;
                     MemToReg <= 1;
-                    ALUSft <= 0;
+                    RegDst <= 1;
                     //PCSrc <=  ;                                                       
                 end
                 
                 //mflo
                 else if(Instruction[5:0] == 6'b010010) begin
-                    ALUSrc <= 0;
-                    RegWrite <= 0;
+                    RegWrite <= 1;
                     ALUOp <= 6'b011111;
                     MemWrite <= 0;
                     MemToReg <= 1;
-                    ALUSft <= 0;
+                    RegDst <= 1;
                     //PCSrc <=  ;                                                                                      
                 end
             end    
