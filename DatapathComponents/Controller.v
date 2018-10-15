@@ -87,321 +87,298 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
 
         //R-Type Operations with OP Code 000000
         else if(Instruction[31:26] == 6'b000000) begin
+            
+            //sll
+            if(Instruction[5:0] == 6'b000000) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b010100;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 1;
+                //PCSrc <=  ;   
+            end
         
-            //Shift Operations
-            if(Instruction[25:22] == 4'b0000) begin
+            //srl & rotr
+            else if(Instruction[5:0] == 6'b000010) begin
                 
-                //sll
-                if(Instruction[5:0] == 6'b000000) begin
+                //srl
+                if(Instruction[21] == 1'b0) begin
                     ALUSrc <= 0;
                     RegDst <= 1;
                     RegWrite <= 1;
-                    ALUOp <= 6'b010100;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 1;
-                    //PCSrc <=  ;   
-                end
-                
-                //srl & rotr
-                else if(Instruction[5:0] == 6'b000010) begin
-                    
-                    //srl
-                    if(Instruction[21] == 1'b0) begin
-                        ALUSrc <= 0;
-                        RegDst <= 1;
-                        RegWrite <= 1;
-                        ALUOp <= 6'b010101;
-                        MemWrite <= 0;
-                        MemToReg <= 1;
-                        ALUSft <= 1;
-                        //PCSrc <=  ;
-                    end
-                    
-                    //rotr
-                    else begin
-                       ALUSrc <= 0;
-                        RegDst <= 1;
-                        RegWrite <= 1;
-                        ALUOp <= 6'b011000;
-                        MemWrite <= 0;
-                        MemToReg <= 1;
-                        ALUSft <= 1;
-                        //PCSrc <=  ;
-                    end
-                end
-                
-                //sra
-                else if(Instruction[5:0] == 6'b000011) begin
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    RegWrite <= 1;
-                    ALUOp <= 6'b011001;
+                    ALUOp <= 6'b010101;
                     MemWrite <= 0;
                     MemToReg <= 1;
                     ALUSft <= 1;
                     //PCSrc <=  ;
                 end
-            end 
+                
+                //rotr
+                else begin
+                   ALUSrc <= 0;
+                    RegDst <= 1;
+                    RegWrite <= 1;
+                    ALUOp <= 6'b011000;
+                    MemWrite <= 0;
+                    MemToReg <= 1;
+                    ALUSft <= 1;
+                    //PCSrc <=  ;
+                end 
+            end       
+        
+        //Arithmetic and bitwise logical R-Type Operations
             
-            //Arithmetic and bitwise logical R-Type Operations
-            else begin
-                
-                //add
-                if(Instruction[5:0] == 6'b100000) begin
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    RegWrite <= 1;
-                    ALUOp <= 6'b000000;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;
-                end
-                
-                //addu
-                else if(Instruction[5:0] == 6'b100001) begin
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    RegWrite <= 1;
-                    ALUOp <= 6'b100000;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;
-                end
-                
-                //sub
-                else if(Instruction[5:0] == 6'b100010) begin
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    RegWrite <= 1;
-                    ALUOp <= 6'b000001;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;
-                end
-                
-                //mult
-                else if(Instruction[5:0] == 6'b011000) begin
-                    ALUSrc <= 0;
-                    RegWrite <= 0;
-                    ALUOp <= 6'b000011;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                 
-                end
-                
-                //multu
-                else if(Instruction[5:0] == 6'b011001) begin
-                    ALUSrc <= 0;
-                    RegWrite <= 0;
-                    ALUOp <= 6'b100001;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                       
-                end
-                
-                //and
-                else if(Instruction[5:0] == 6'b100100) begin
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    RegWrite <= 1;
-                    ALUOp <= 6'b001111;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                        
-                end
-                
-                //or
-                else if(Instruction[5:0] == 6'b100101) begin
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    RegWrite <= 1;
-                    ALUOp <= 6'b010000;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                    
-                end
-                
-                //nor
-                else if(Instruction[5:0] == 6'b100111) begin
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    RegWrite <= 1;
-                    ALUOp <= 6'b010001;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                            
-                end
+            //add
+            else if(Instruction[5:0] == 6'b100000) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b000000;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;
+            end
             
-                //xor
-                else if(Instruction[5:0] == 6'b100110) begin
+            //addu
+            else if(Instruction[5:0] == 6'b100001) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b100000;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;
+            end
+            
+            //sub
+            else if(Instruction[5:0] == 6'b100010) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b000001;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;
+            end
+            
+            //mult
+            else if(Instruction[5:0] == 6'b011000) begin
+                ALUSrc <= 0;
+                RegWrite <= 0;
+                ALUOp <= 6'b000011;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                 
+            end
+            
+            //multu
+            else if(Instruction[5:0] == 6'b011001) begin
+                ALUSrc <= 0;
+                RegWrite <= 0;
+                ALUOp <= 6'b100001;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                       
+            end
+            
+            //and
+            else if(Instruction[5:0] == 6'b100100) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b001111;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                        
+            end
+            
+            //or
+            else if(Instruction[5:0] == 6'b100101) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b010000;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                    
+            end
+            
+            //nor
+            else if(Instruction[5:0] == 6'b100111) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b010001;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                            
+            end
+            
+            //xor
+            else if(Instruction[5:0] == 6'b100110) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b010010;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                           
+            end
+            
+            //sllv
+            else if(Instruction[5:0] == 6'b000100) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b010100;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                          
+            end
+            
+            //slt
+            else if(Instruction[5:0] == 6'b101010) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b011011;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                            
+            end
+            
+            //movn
+            else if(Instruction[5:0] == 6'b001011) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b010110;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                       
+            end
+            
+            //movz
+            else if(Instruction[5:0] == 6'b001010) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b010111;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                            
+            end
+            
+            //srlv & rotrv
+            else if(Instruction[5:0] == 6'b000110) begin
+            
+                //srlv
+                if(Instruction[6] == 1'b0) begin
                     ALUSrc <= 0;
                     RegDst <= 1;
                     RegWrite <= 1;
-                    ALUOp <= 6'b010010;
+                    ALUOp <= 6'b010101;
                     MemWrite <= 0;
                     MemToReg <= 1;
                     ALUSft <= 0;
-                    //PCSrc <=  ;                                                           
+                    //PCSrc <=  ;
                 end
                 
-                //sllv
-                else if(Instruction[5:0] == 6'b000100) begin
+                //rotrv
+                else begin
                     ALUSrc <= 0;
                     RegDst <= 1;
                     RegWrite <= 1;
-                    ALUOp <= 6'b010100;
+                    ALUOp <= 6'b011000;
                     MemWrite <= 0;
                     MemToReg <= 1;
                     ALUSft <= 0;
-                    //PCSrc <=  ;                                                          
-                end
-                
-                //slt
-                else if(Instruction[5:0] == 6'b101010) begin
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    RegWrite <= 1;
-                    ALUOp <= 6'b011011;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                            
-                end
-                
-                //movn
-                else if(Instruction[5:0] == 6'b001011) begin
-                    if (Instruction[20:16] != 0)
-                        RegWrite <= 1;
-                    else
-                        RegWrite <= 0;
-                    
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    ALUOp <= 6'b010110;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                       
-                end
-                
-                //movz
-                else if(Instruction[5:0] == 6'b001010) begin
-                    if (Instruction[20:16] == 0)
-                        RegWrite <= 1;
-                    else
-                        RegWrite <= 0;
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    ALUOp <= 6'b010111;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                            
-                end
-                
-                //srlv & rotrv
-                else if(Instruction[5:0] == 6'b000110) begin
-                
-                    //srlv
-                    if(Instruction[6] == 1'b0) begin
-                        ALUSrc <= 0;
-                        RegDst <= 1;
-                        RegWrite <= 1;
-                        ALUOp <= 6'b010101;
-                        MemWrite <= 0;
-                        MemToReg <= 1;
-                        ALUSft <= 0;
-                        //PCSrc <=  ;
-                    end
-                    
-                    //rotrv
-                    else begin
-                        ALUSrc <= 0;
-                        RegDst <= 1;
-                        RegWrite <= 1;
-                        ALUOp <= 6'b011000;
-                        MemWrite <= 0;
-                        MemToReg <= 1;
-                        ALUSft <= 0;
-                        //PCSrc <=  ;
-                    end                             
-                end
-                
-                //srav
-                else if(Instruction[5:0] == 6'b000111) begin
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    RegWrite <= 1;
-                    ALUOp <= 6'b011001;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                          
-                end
-                
-                //sltu
-                else if(Instruction[5:0] == 6'b101011) begin
-                    ALUSrc <= 0;
-                    RegDst <= 1;
-                    RegWrite <= 1;
-                    ALUOp <= 6'b100010;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                           
-                end
-                
-                //mthi
-                else if(Instruction[5:0] == 6'b010001) begin
-                    ALUSrc <= 0;
-                    RegWrite <= 0;
-                    ALUOp <= 6'b011100;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                     
-                end
-                
-                //mtlo
-                else if(Instruction[5:0] == 6'b010011) begin
-                    ALUSrc <= 0;
-                    RegWrite <= 0;
-                    ALUOp <= 6'b011101;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    ALUSft <= 0;
-                    //PCSrc <=  ;                                                            
-                end
-                
-                //mfhi
-                else if(Instruction[5:0] == 6'b010000) begin
-                    RegWrite <= 1;
-                    ALUOp <= 6'b011110;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    RegDst <= 1;
-                    //PCSrc <=  ;                                                       
-                end
-                
-                //mflo
-                else if(Instruction[5:0] == 6'b010010) begin
-                    RegWrite <= 1;
-                    ALUOp <= 6'b011111;
-                    MemWrite <= 0;
-                    MemToReg <= 1;
-                    RegDst <= 1;
-                    //PCSrc <=  ;                                                                                      
-                end
-            end    
+                    //PCSrc <=  ;
+                end                             
+            end
+            
+            //srav
+            else if(Instruction[5:0] == 6'b000111) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b011001;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                          
+            end
+            
+            //sltu
+            else if(Instruction[5:0] == 6'b101011) begin
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b100010;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                           
+            end
+            
+            //mthi
+            else if(Instruction[5:0] == 6'b010001) begin
+                ALUSrc <= 0;
+                RegWrite <= 0;
+                ALUOp <= 6'b011100;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                     
+            end
+            
+            //mtlo
+            else if(Instruction[5:0] == 6'b010011) begin
+                ALUSrc <= 0;
+                RegWrite <= 0;
+                ALUOp <= 6'b011101;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                            
+            end
+            
+            //mfhi
+            else if(Instruction[5:0] == 6'b010000) begin
+                ALUSrc <= 0;
+                RegWrite <= 0;
+                ALUOp <= 6'b011110;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                       
+            end
+            
+            //mflo
+            else if(Instruction[5:0] == 6'b010010) begin
+                ALUSrc <= 0;
+                RegWrite <= 0;
+                ALUOp <= 6'b011111;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                //PCSrc <=  ;                                                                                      
+            end   
         end
         
         //Multiplication R-Type
