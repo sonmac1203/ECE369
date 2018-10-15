@@ -51,12 +51,11 @@ module top_tb();
     
     initial begin
         Clk_Reset_tb <= 1;
-        
         Reset_tb <= 1;
         
-        
-        #800;
+        #200;
         Clk_Reset_tb <= 0;
+        #800;
         Reset_tb <= 0;
     end
 

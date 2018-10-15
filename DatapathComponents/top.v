@@ -99,7 +99,7 @@ wire [5:0]  ALUOp,
     
         
     //module IF_ID_Register(Clk, in_Instruction, out_Instruction);
-    IF_ID_Register IFIDReg_1(Clk_out, IFU_Instruction_out, IF_ID_Instruction_out);
+    IF_ID_Register IFIDReg_1(Clk_out, IM_out, IF_ID_Instruction_out);
     
     
     //module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2);
