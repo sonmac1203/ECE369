@@ -251,7 +251,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
          
          
          // msub | 00101 | (hi, lo) <= (hi, lo) - (A * B)
-         else if (ALUControl == 6'b00101)   begin
+         else if (ALUControl == 6'b000101)   begin
             temp = $signed({HI_in, LO_in}) - $signed(($signed(A) * $signed(B)));
             
             
@@ -340,7 +340,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
           
           // rotr | 11000 |   ALUResult <= ((A >> B) | (A << (32-B)));
           else if (ALUControl == 6'b11000)  begin
-            ALUResult <= ((A >> B) | (A << (32-B)));
+            ALUResult <= ((B >> A[4:0]) | (B << (32-A[4:0])));
             if (ALUResult == 0)
                 Zero <= 1;
           end

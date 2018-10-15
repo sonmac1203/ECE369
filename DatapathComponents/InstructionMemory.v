@@ -459,7 +459,7 @@ module InstructionMemory(Address, Instruction);
     Memory[375] = 32'h00000000;
     Memory[376] = 32'h00000000;
     Memory[377] = 32'h00000000;
-    Memory[378] = 32'h00000000;
+    Memory[378] = 32'h34110FF0;
     Memory[379] = 32'h00000000;
     Memory[380] = 32'h00000000;
     Memory[381] = 32'h00000000;
