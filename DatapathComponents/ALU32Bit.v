@@ -393,7 +393,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
           end
           
           // mtlo | 11101 |   LO_out <= A;
-          else if (ALUControl == 6'b11101)   begin
+          else if (ALUControl == 6'b011101)   begin
             LO_out <= A;
           end
           
