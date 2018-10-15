@@ -31,14 +31,14 @@ module HI_LO_Registers(Clk, HI_in, LO_in, HI_out, LO_out);
                         LO_out;
     
     initial begin
-        HI_out = 0;
-        LO_out = 0;    
+        HI_out <= 0;
+        LO_out <= 0;    
     end
     
     
     always @(posedge Clk) begin
-        HI_out = HI_in;
-        LO_out = LO_in;
+        HI_out <= HI_in;
+        LO_out <= LO_in;
     end
     
 endmodule
