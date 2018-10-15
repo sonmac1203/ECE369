@@ -23,20 +23,22 @@
 module ID_EX_Register(Clk, in_ReadData1, in_ReadData2, in_immediate_extended, in_rd_i, in_rd_r, 
                       in_ALUSrc, in_ALUOP, in_RegDst, in_Mem_Write, in_MemRead, in_MemToReg, in_RegWrite,
                       out_ReadData1, out_ReadData2, out_immediate_extended, out_rd_i, out_rd_r, 
-                      out_ALUSrc, out_ALUOP, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite
+                      out_ALUSrc, out_ALUOP, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite,
+                      ALUSft, out_ALUSft
                       );
 
-input Clk, in_ALUSrc, in_RegDst, in_Mem_Write, in_MemRead, in_MemToReg, in_RegWrite;
+input Clk, in_ALUSrc, in_RegDst, in_Mem_Write, in_MemRead, in_MemToReg, in_RegWrite, ALUSft;
 input [31:0] in_ReadData1, in_ReadData2, in_immediate_extended;
 input [4:0] in_rd_i, in_rd_r;
 input [5:0] in_ALUOP;
 
-output reg out_ALUSrc, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite;
+output reg out_ALUSrc, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite, out_ALUSft;
 output reg [31:0] out_ReadData1, out_ReadData2, out_immediate_extended;
 output reg [4:0] out_rd_i, out_rd_r;
 output reg [5:0] out_ALUOP;
     
     always @ (posedge Clk)  begin
+        out_ALUSft    <= ALUSft;
         out_RegWrite  <= in_RegWrite;
         out_ALUSrc    <= in_ALUSrc;
         out_ALUOP     <= in_ALUOP;

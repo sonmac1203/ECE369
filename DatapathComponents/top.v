@@ -38,6 +38,8 @@ wire    Clk_out,
         ID_EX_RegWrite,
         ALU1_zero,
         MemWrite,
+        ALUSft, 
+        ID_EX_ALUSft,
         EX_MEM__MemWrite,
         EX_MEM__MemRead,
         EX_MEM__MemToReg,
@@ -56,6 +58,7 @@ wire[31:0]  IFU_Instruction_out,
             LO_out, 
             HI_in, 
             HI_out,
+            Mux4_out,
             ALU1_out,
             EX_MEM_ALU_out,
             EX_MEM_ReadData_2,
@@ -68,6 +71,7 @@ wire[31:0]  IFU_Instruction_out,
             IM_out,
             DataMem_out,
             address,
+            SE1_out,
             PCResult;
             
 wire [4:0]  ID_EX_out_rd_i,
@@ -85,13 +89,13 @@ wire [5:0]  ALUOp,
    
     
     //module ProgramCounter(Address, PCResult, Reset, Clk);
-    ProgramCounter IFU_PC(address, PCResult, PC_Reset, Clk_out);
+    ProgramCounter PC(address, PCResult, PC_Reset, Clk_out);
     
     //module PCAdder(PCResult, PCAddResult)
-    PCAdder IFU_PCAdd(PCResult, address);
+    PCAdder PCAdd(PCResult, address);
             
     //module InstructionMemory(Address, Instruction); 
-    InstructionMemory IFU_IM(PCResult, IM_out);
+    InstructionMemory IM(PCResult, IM_out);
 
     
 //    //module InstructionFetchUnit(Reset, Clk, Instruction);
@@ -99,34 +103,35 @@ wire [5:0]  ALUOp,
     
         
     //module IF_ID_Register(Clk, in_Instruction, out_Instruction);
-    IF_ID_Register IFIDReg_1(Clk_out, IM_out, IF_ID_Instruction_out);
+    IF_ID_Register IFID_Reg_1(Clk_out, IM_out, IF_ID_Instruction_out);
     
     
     //module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2);
-    RegisterFile R_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], MEM_WB_destination_register, Mux3_out, MEM_WB_RegWrite,
+    RegisterFile Register_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], MEM_WB_destination_register, Mux3_out, MEM_WB_RegWrite,
                      Clk_out, ReadData1_out, ReadData2_out);
     
     
     //module SignExtension(in, out);
-    SignExtension SE_1(IF_ID_Instruction_out[15:0], SE_out);
+    SignExtension SignExtend32_1(IF_ID_Instruction_out[15:0], SE_out);
     
     
     
     //module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg);
-    Controller Co_1(IF_ID_Instruction_out, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg);
+    Controller Co_1(IF_ID_Instruction_out, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg, ALUSft);
     
     
-    //module ID_EX_Register(Clk, in_ReadData1, in_ReadData2, in_immediate_extended, in_rd_i, in_rd_r, 
-    //                      in_ALUSrc, in_ALUOP, in_RegDst, in_Mem_Write, in_MemRead, in_MemToReg, in_RegWrite,
-    
-    //                      out_ReadData1, out_ReadData2, out_immediate_extended, out_rd_i, out_rd_r, 
-    //                      out_ALUSrc, out_ALUOP, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite
-    //                      );
+//    module ID_EX_Register(Clk, in_ReadData1, in_ReadData2, in_immediate_extended, in_rd_i, in_rd_r, 
+//                          in_ALUSrc, in_ALUOP, in_RegDst, in_Mem_Write, in_MemRead, in_MemToReg, in_RegWrite,
+//                          out_ReadData1, out_ReadData2, out_immediate_extended, out_rd_i, out_rd_r, 
+//                          out_ALUSrc, out_ALUOP, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite,
+//                          ALUSft, out_ALUSft
+//                          );
     ID_EX_Register ID_EX_1(Clk_out, ReadData1_out, ReadData2_out, SE_out, IF_ID_Instruction_out[20:16], IF_ID_Instruction_out[15:11],
                             ALUSrc, ALUOp, RegDst, MemWrite, MemRead, MemToReg, RegWrite,
                             ID_EX_ReadData1_out, ID_EX_ReadData2_out, ID_EX_SE_out, ID_EX_out_rd_i, ID_EX_out_rd_r,
-                            ID_EX_ALUSrc, ID_EX_ALUOp, ID_EX_RegDst, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite
-    );
+                            ID_EX_ALUSrc, ID_EX_ALUOp, ID_EX_RegDst, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite,
+                            ALUSft, ID_EX_ALUSft
+                            );
     
     
     //module Mux32Bit2To1(out, inA, inB, sel);
@@ -139,10 +144,23 @@ wire [5:0]  ALUOp,
     
     //module HI_LO_Registers(HI_in, LO_in, HI_out, LO_out);
     HI_LO_Registers HI_LO_REG1(HI_in, LO_in, HI_out, LO_out);
-
+    
+    
+    
+    
+    
+    
+    //module SignExtend5To32(in, out);
+    SignExtend5To32 SignExtend5_1(ID_EX_SE_out[10:6], SE1_out);
+    
+    
+    //module Mux32Bit2To1(out, inA, inB, sel);
+    Mux32Bit2To1 Mux4(Mux4_out, ID_EX_ReadData1_out, SE1_out, ALUSft);
+    
+    
     
     //module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out);
-    ALU32Bit ALU1(ID_EX_ALUOp, ID_EX_ReadData1_out, Mux1_out, ALU1_out,ALU1_zero, LO_in, LO_out, HI_in, HI_out);
+    ALU32Bit ALU1(ID_EX_ALUOp, Mux4_out, Mux1_out, ALU1_out,ALU1_zero, LO_in, LO_out, HI_in, HI_out);
     
     
     
