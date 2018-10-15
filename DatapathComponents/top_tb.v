@@ -25,22 +25,23 @@ module top_tb();
     
     reg Clk_tb, Reset_tb, Clk_Reset_tb;
     
+    wire  [31:0]  debug_program_counter,
+                        debug_write_data,
+                        debug_HI,
+                        debug_LO;
+    
+    
     //module top(Clk, PC_Reset, Clk_Reset);
     top t0(.Clk(Clk_tb), 
            .PC_Reset(Reset_tb), 
-           .Clk_Reset(Clk_Reset_tb));
+           .Clk_Reset(Clk_Reset_tb),
+           .debug_program_counter(debug_program_counter),
+           .debug_write_data(debug_write_data),
+           .debug_HI(debug_HI),
+           .debug_LO(debug_LO)
+           );
     
-//        ALU32Bit u0(
-//        .ALUControl(ALUControl), 
-//        .A(A), 
-//        .B(B), 
-//        .ALUResult(ALUResult), 
-//        .Zero(Zero),
-//        .LO_in(LO_in),
-//        .LO_out(LO_out),
-//        .HI_in(HI_in),
-//        .HI_out(HI_out)
-//    );
+
     
     always begin
         Clk_tb <= 0;
