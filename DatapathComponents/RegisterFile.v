@@ -52,7 +52,9 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
 
 	/* Please fill in the implementation here... */
 	
-	(* mark_debug = "true" *) input [31:0] WriteData;
+//	(* mark_debug = "true" *) input [31:0] WriteData;
+	input [31:0] WriteData;
+	
 	output [31:0] debug_write_data;
 	
 	

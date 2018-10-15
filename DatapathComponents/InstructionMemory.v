@@ -78,10 +78,37 @@ module InstructionMemory(Address, Instruction);
 
 
 
+//        The intermet
+    Memory[0] = 32'h20090006;	//		addi	$t1, $zero, 6
+	Memory[1] = 32'h00000000;	//		nop
+	Memory[2] = 32'h00000000;	//		nop
+	Memory[3] = 32'h00000000;	//		nop
+	Memory[4] = 32'h00000000;	//		nop
+	Memory[5] = 32'h00000000;	//		nop
+	Memory[6] = 32'h200a0008;	//		addi	$t2, $zero, 8
+	Memory[7] = 32'h00000000;	//		nop
+	Memory[8] = 32'h00000000;	//		nop
+	Memory[9] = 32'h00000000;	//		nop
+	Memory[10] = 32'h00000000;	//		nop
+	Memory[11] = 32'h00000000;	//		nop
+	Memory[12] = 32'h01495822;	//		sub	$t3, $t2, $t1
+	Memory[13] = 32'h00000000;	//		nop
+	Memory[14] = 32'h00000000;	//		nop
+	Memory[15] = 32'h00000000;	//		nop
+	Memory[16] = 32'h00000000;	//		nop
+	Memory[17] = 32'h00000000;	//		nop
+	Memory[18] = 32'h000b60c0;	//		sll	$t4, $t3, 3
+	Memory[19] = 32'h00000000;	//		nop
+	Memory[20] = 32'h00000000;	//		nop
+	Memory[21] = 32'h00000000;	//		nop
+	Memory[22] = 32'h00000000;	//		nop
+	Memory[23] = 32'h00000000;	//		nop
+	Memory[24] = 32'h000c6882;	//		srl	$t5, $t4, 2
+
 
 //          Public Test Case
     
-    Memory[0] = 32'h20100001;
+/*    Memory[0] = 32'h20100001;
     Memory[1] = 32'h00000000;
     Memory[2] = 32'h00000000;
     Memory[3] = 32'h00000000;
@@ -476,7 +503,7 @@ module InstructionMemory(Address, Instruction);
     Memory[392] = 32'h00000000;
     Memory[393] = 32'h00000000;
     Memory[394] = 32'h00000000;
-    Memory[395] = 32'h00000000;
+    Memory[395] = 32'h00000000;*/
 
 
 

@@ -22,10 +22,19 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module top(Clk, PC_Reset, Clk_Reset);
+module top(Clk, PC_Reset, Clk_Reset, debug_program_counter, debug_write_data,debug_HI, debug_LO);
 
 
 input Clk, PC_Reset, Clk_Reset;
+
+//output reg [31:0] debug_program_counter, debug_write_data,debug_HI, debug_LO;
+
+output  [31:0]  debug_program_counter,
+                    debug_write_data,
+                    debug_HI,
+                    debug_LO;
+
+
 
 wire    Clk_out,
         ALUSrc, 
@@ -90,10 +99,11 @@ wire [5:0]  ALUOp,
             ID_EX_ALUOp;
             
             
-(* mark_debug = "true" *)  wire [31:0]  debug_program_counter,
-                                        debug_write_data,
-                                        debug_HI,
-                                        debug_LO;
+//(* mark_debug = "true" *)  wire [31:0]  debug_program_counter,
+//                                        debug_write_data,
+//                                        debug_HI,
+//                                        debug_LO;
+
 
 
 
@@ -102,7 +112,7 @@ wire [5:0]  ALUOp,
     
     //module ProgramCounter(Address, PCResult, Reset, Clk, debug_program_counter);
     ProgramCounter PC(address, PCResult, PC_Reset, Clk_out, debug_program_counter);
-    
+        
     //module PCAdder(PCResult, PCAddResult)
     PCAdder PCAdd(PCResult, address);
             

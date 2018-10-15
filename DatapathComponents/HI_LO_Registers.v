@@ -27,8 +27,13 @@ module HI_LO_Registers(Clk, HI_in, LO_in, HI_out, LO_out, debug_HI, debug_LO);
     input [31:0]    HI_in, 
                     LO_in;
     
-    (* mark_debug = "true" *)   output reg [31:0]   HI_out,
-                                LO_out;
+//    (* mark_debug = "true" *)   output reg [31:0]   HI_out,
+//                                LO_out;
+
+    output reg [31:0]   HI_out,
+                            LO_out;
+
+
 
     output [31:0] debug_HI,
                   debug_LO;
