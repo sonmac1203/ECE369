@@ -361,7 +361,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             //mfhi
             else if(Instruction[5:0] == 6'b010000) begin
                 ALUSrc <= 0;
-                RegWrite <= 0;
+                RegWrite <= 1;
                 ALUOp <= 6'b011110;
                 MemWrite <= 0;
                 MemToReg <= 1;
@@ -372,7 +372,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             //mflo
             else if(Instruction[5:0] == 6'b010010) begin
                 ALUSrc <= 0;
-                RegWrite <= 0;
+                RegWrite <= 1;
                 ALUOp <= 6'b011111;
                 MemWrite <= 0;
                 MemToReg <= 1;
