@@ -120,7 +120,7 @@ wire [5:0]  ALUOp,
     
     
     //module ZeroExtension(in, out);
-    SignExtend32_1(IF_ID_Instruction_out[15:0], ZE_out);
+    ZeroExtension ZeroExtension_1(IF_ID_Instruction_out[15:0], ZE_out);
     
     
     
