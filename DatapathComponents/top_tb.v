@@ -1,8 +1,9 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Mitchell Dzurick & Lena Voytek
 // 
+// Percent Effort: 50% - 50%
 // Create Date: 10/11/2018 12:05:53 PM
 // Design Name: 
 // Module Name: top_tb
