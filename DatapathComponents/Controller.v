@@ -147,7 +147,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegDst <= 1;
                 RegWrite <= 1;
-                ALUOp <= 6'b100000;
+                ALUOp <= 6'b000000;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
