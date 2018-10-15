@@ -461,7 +461,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                ZEROSrc <= 0;
+                ZEROSrc <= 1;
                 //PCSrc <=  ;
             end
             
@@ -474,7 +474,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                ZEROSrc <= 1;
+                ZEROSrc <= 0;
                 //PCSrc <=  ;               
             end
             
