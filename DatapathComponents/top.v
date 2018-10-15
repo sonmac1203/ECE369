@@ -88,14 +88,20 @@ wire [4:0]  ID_EX_out_rd_i,
 
 wire [5:0]  ALUOp,
             ID_EX_ALUOp;
+            
+            
+(* mark_debug = "true" *)  wire [31:0]  debug_program_counter,
+                                        debug_write_data,
+                                        debug_HI,
+                                        debug_LO;
 
 
 
     ClkDiv CD1(Clk, Clk_Reset, Clk_out);
    
     
-    //module ProgramCounter(Address, PCResult, Reset, Clk);
-    ProgramCounter PC(address, PCResult, PC_Reset, Clk_out);
+    //module ProgramCounter(Address, PCResult, Reset, Clk, debug_program_counter);
+    ProgramCounter PC(address, PCResult, PC_Reset, Clk_out, debug_program_counter);
     
     //module PCAdder(PCResult, PCAddResult)
     PCAdder PCAdd(PCResult, address);
@@ -112,10 +118,9 @@ wire [5:0]  ALUOp,
     IF_ID_Register IFID_Reg_1(Clk_out, IM_out, IF_ID_Instruction_out);
     
     
-    //module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2);
+    //module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2, debug_write_data);
     RegisterFile Register_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], MEM_WB_destination_register, Mux3_out, MEM_WB_RegWrite,
-                     Clk_out, ReadData1_out, ReadData2_out);
-    
+                     Clk_out, ReadData1_out, ReadData2_out, debug_write_data);    
     
     //module SignExtension(in, out);
     SignExtension SignExtend32_1(IF_ID_Instruction_out[15:0], SE_out);
@@ -158,8 +163,8 @@ wire [5:0]  ALUOp,
     
     
     
-    //module HI_LO_Registers(HI_in, LO_in, HI_out, LO_out);
-    HI_LO_Registers HI_LO_REG1(Clk_out, HI_in, LO_in, HI_out, LO_out);
+    //module HI_LO_Registers(HI_in, LO_in, HI_out, LO_out, debug_HI, debug_LO);
+    HI_LO_Registers HI_LO_REG1(Clk_out, HI_in, LO_in, HI_out, LO_out, debug_HI, debug_LO);
     
     
     //module SignExtend5To32(in, out);

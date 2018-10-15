@@ -20,15 +20,18 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module HI_LO_Registers(Clk, HI_in, LO_in, HI_out, LO_out);
+module HI_LO_Registers(Clk, HI_in, LO_in, HI_out, LO_out, debug_HI, debug_LO);
 
     input Clk;
 
     input [31:0]    HI_in, 
                     LO_in;
     
-    output reg [31:0]   HI_out,
-                        LO_out;
+    (* mark_debug = "true" *)   output reg [31:0]   HI_out,
+                                LO_out;
+
+    output [31:0] debug_HI,
+                  debug_LO;
     
     initial begin
         HI_out <= 0;
@@ -40,5 +43,8 @@ module HI_LO_Registers(Clk, HI_in, LO_in, HI_out, LO_out);
         HI_out <= HI_in;
         LO_out <= LO_in;
     end
+    
+    assign debug_HI = HI_out;
+    assign debug_LO = LO_out;
     
 endmodule
