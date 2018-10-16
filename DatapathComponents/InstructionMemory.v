@@ -78,7 +78,7 @@ module InstructionMemory(Address, Instruction);
 
 
 
-////        The shorty boi
+////        The intermet
 //    Memory[0] = 32'h20090006;	//		addi	$t1, $zero, 6
 //	Memory[1] = 32'h00000000;	//		nop
 //	Memory[2] = 32'h00000000;	//		nop
@@ -104,9 +104,6 @@ module InstructionMemory(Address, Instruction);
 //	Memory[22] = 32'h00000000;	//		nop
 //	Memory[23] = 32'h00000000;	//		nop
 //	Memory[24] = 32'h000c6882;	//		srl	$t5, $t4, 2
-
-
-
 
 
 //          Public Test Case

@@ -126,7 +126,20 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                     ALUSft <= 1;
                     //PCSrc <=  ;
                 end 
-            end       
+            end
+            
+            //sra
+            else if(Instruction[5:0] == 6'b000011) begin  
+                ALUSrc <= 0;
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b011001;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 1;
+                //PCSrc <=  ;  
+            end
+                
         
         //Arithmetic and bitwise logical R-Type Operations
             
@@ -147,7 +160,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegDst <= 1;
                 RegWrite <= 1;
-                ALUOp <= 6'b000000;
+                ALUOp <= 6'b100000;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -461,7 +474,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                ZEROSrc <= 1;
+                ZEROSrc <= 0;
                 //PCSrc <=  ;
             end
             
