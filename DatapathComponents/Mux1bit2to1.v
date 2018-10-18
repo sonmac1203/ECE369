@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10/14/2018 01:02:13 PM
+// Create Date: 10/17/2018 06:58:30 PM
 // Design Name: 
-// Module Name: IF_ID_Register
+// Module Name: Mux1bit2to1
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,16 +20,22 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module IF_ID_Register(Clk, 
-                      in_Instruction, out_Instruction,
-                      in_PCplus4, out_PCplus4);
-    input Clk;
-    input [31:0] in_Instruction, in_PCplus4;
-    output reg [31:0] out_Instruction, out_PCplus4;
+module Mux1bit2to1(out, inA, inB, sel);
+    output reg [31:0] out;
 
-    always @ (posedge Clk)  begin
-        out_Instruction <= in_Instruction;
-        out_PCplus4 <= in_PCplus4;
+    input [31:0] inA;
+    input [31:0] inB;
+    input sel;
+
+/* Fill in the implementation here ... */ 
+
+always @ (sel, inA, inB) begin
+    if (sel == 0)   begin
+        out <= inA;
+    end
+    else begin
+        out <= inB;
+    
     end
 
 endmodule

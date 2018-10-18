@@ -25,20 +25,24 @@ module ID_EX_Register(Clk, in_ReadData1, in_ReadData2, in_immediate_extended, in
                       out_ReadData1, out_ReadData2, out_immediate_extended, out_rd_i, out_rd_r, 
                       out_ALUSrc, out_ALUOP, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite,
                       ALUSft, out_ALUSft,
-                      ZE_in, ZE_out
+                      ZE_in, ZE_out,
+                      in_PCplus4, out_PCplus4,
+                      in_branch, out_branch
                       );
 
-input Clk, in_ALUSrc, in_RegDst, in_Mem_Write, in_MemRead, in_MemToReg, in_RegWrite, ALUSft;
-input [31:0] in_ReadData1, in_ReadData2, in_immediate_extended, ZE_in;
+input Clk, in_ALUSrc, in_RegDst, in_Mem_Write, in_MemRead, in_MemToReg, in_RegWrite, ALUSft, in_branch;
+input [31:0] in_ReadData1, in_ReadData2, in_immediate_extended, ZE_in, in_PCplus4;
 input [4:0] in_rd_i, in_rd_r;
 input [5:0] in_ALUOP;
 
-output reg out_ALUSrc, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite, out_ALUSft;
-output reg [31:0] out_ReadData1, out_ReadData2, out_immediate_extended, ZE_out;
+output reg out_ALUSrc, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite, out_ALUSft, out_branch;
+output reg [31:0] out_ReadData1, out_ReadData2, out_immediate_extended, ZE_out, out_PCplus4;
 output reg [4:0] out_rd_i, out_rd_r;
 output reg [5:0] out_ALUOP;
     
     always @ (posedge Clk)  begin
+        out_branch    <= in_branch;
+        out_PCplus4   <= in_PCplus4;
         ZE_out        <= ZE_in;
         out_ALUSft    <= ALUSft;
         out_RegWrite  <= in_RegWrite;

@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10/14/2018 01:02:13 PM
+// Create Date: 10/17/2018 03:52:18 PM
 // Design Name: 
-// Module Name: IF_ID_Register
+// Module Name: AND
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,16 +20,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module IF_ID_Register(Clk, 
-                      in_Instruction, out_Instruction,
-                      in_PCplus4, out_PCplus4);
-    input Clk;
-    input [31:0] in_Instruction, in_PCplus4;
-    output reg [31:0] out_Instruction, out_PCplus4;
-
-    always @ (posedge Clk)  begin
-        out_Instruction <= in_Instruction;
-        out_PCplus4 <= in_PCplus4;
+module AND(Input_A, Input_B, Output);
+    
+    input Input_A, Input_B;
+    output reg Output;
+    
+    initial begin
+        Output = 0;
     end
-
+    always @(Input_A, Input_B) begin
+        Output = Input_A & (~Input_B);
+    end
+    
 endmodule

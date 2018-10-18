@@ -26,103 +26,8 @@
 //   operations needed to support. 
 ////////////////////////////////////////////////////////////////////////////////
 
-// Op|'ALUControl' value  | Description | Notes
-// ==========================
-// ADDITION       |  | ALUResult = A + B
-// SUBRACTION     |  | ALUResult = A - B
-// MULTIPLICATION |  | ALUResult = A * B        (see notes below)
-// AND            |  | ALUResult = A and B
-// OR             |  | ALUResult = A or B
-// SET LESS THAN  |  | ALUResult =(A < B)? 1:0  (see notes below)
-// SET EQUAL      |  | ALUResult =(A=B)  ? 1:0
-// SET NOT EQUAL  |  | ALUResult =(A!=B) ? 1:0
-// LEFT SHIFT     |  | ALUResult = A << B       (see notes below)
-// RIGHT SHIFT    |  | ALUResult = A >> B	    (see notes below)
-// ROTATE RIGHT   |  | ALUResult = A ROTR B     (see notes below)
 
 /* Arithmetic */
-
-
-
-// add      - add
-// addiu    - add
-// addu     - add
-// addi     - add
-// sub      - sub
-// mul      - mul
-// mult     - mult
-// multu    - mult
-// madd     - MADD
-// msub     - msub
-
-
-/* DATA */
-
-// lw       - add
-// sw       - add
-// sb       - add
-// lh       - add
-// lb       - add
-// sh       - add
-// lui      - lui
-
-/* Branches */
-
-// bgez     - bgez
-// beq      - beq
-// bne      - bne
-// bgtz     - bgtz
-// blez     - blez
-// bltz     - bltz
-// j        - j
-// jr       - j
-// jal      - jal
-
-/* Logical */
-
-// and      - and
-// andi     - and
-// or       - or
-// nor      - nor
-// xor      - xor
-// ori      - or
-// xori     - xor
-// seh      - seh
-// sll      - sll
-// srl      - srl
-// sllv     - sll
-// srlv     - srl
-// slt      - slt
-// slti     - slt
-// movn     - movn
-// movz     - movz
-// rotrv    - rotr
-// rotr     - rotr
-// sra      - sra
-// srav     - sra
-// seb      - seb
-// sltiu    - slt
-// sltu     - slt
-
-
-/* Hi Lo */
-
-// mthi     -mthi
-// mtlo     -mtlo
-// mfhi     -mfhi
-// mflo     -mflo
-
-
-
-
-/*
- *  Unique Operations
- */
-
-// add, sub, mul, mult, MADD, msub, lui, bgez, beq, bne, bgtz, blez, bltz, j, jal
-// and, or, nor, xor, seh, sll, srl, movn, movz, rotr, sra, seb slt, mthi, mtlo, mfhi, mflo
-
-
 
 // Op   |'ALUControl' value  | Description | Notes
 /* Arithmetic Subset */
@@ -137,14 +42,18 @@
 
 /* Data Subset */
 // lui  | 000110 |  ALURESULT <= imm || 0^16
-// bgez | 000111 |   
-// beq  | 001000 |
-// bne  | 001001 |
-// bgtz | 001010 |
-// blez | 001011 |
-// bltz | 001100 |
-// j    | 001101 |
-// jal  | 001110 |
+
+/*  Branch SubSet */
+
+// bgez | 000111 |   if rs >= 0, then branch
+// beq  | 001000 |   if rs == rt, then branch
+// bne  | 001001 |   if rs !=  rt, then branch
+// bgtz | 001010 |   if rs  >  0, then branch
+// blez | 001011 |   if rs <= 0, then branch
+// bltz | 001100 |   if rs  <  0, then branch
+// j    | 001101 |   PC = PC + I[25:0]
+// jal  | 001110 |   PC = PC + I[25:0] & link
+// jr   | 100011 |   PC <- rs (I[25:21])
 
 /* Logical Subset */
 // and  | 001111 |   ALUResult <= A & B;
@@ -407,28 +316,78 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
             ALUResult <= LO_in;
           end
           
-    
-    /*
-     *
-     *  Data Type
-     *
-     */
-    
-    
-    
-    
-    
-    
-    
-    /*
-     *
-     *  Branch Type
-     *
-     */
-    
-    
+          
+          /* Data Subset */
+          
+          // lui  | 000110 |  ALURESULT <= imm || 0^16
+          else if (ALUControl == 6'b000110) begin
+            ALUResult <= {B, 16'b0};
+            if (ALUResult == 0)
+                Zero <= 1;
+          end
 
-    
+          /*  Branch SubSet */
+          //
+          //    Branch statements use ALU only for the zero flag.
+          //    If zero is high, branch is taken.
+          //
+          //
+          
+          // bgez | 000111 |   if rs >= 0, then branch
+          else if (ALUControl == 6'b000111) begin
+            if (A >= 0)
+                Zero <= 1;
+          end
+          
+          // beq  | 001000 |   if rs == rt, then branch
+          else if (ALUControl == 6'b001000) begin
+            if (A == B)
+                Zero <= 1;
+          end
+          
+          // bne  | 001001 |   if rs !=  rt, then branch
+          else if (ALUControl == 6'b001001) begin
+            if (A != B)
+                Zero <= 1;
+          end
+          
+          // bgtz | 001010 |   if rs  >  0, then branch
+          else if (ALUControl == 6'b001010) begin
+            if (A > 0)
+                Zero <= 1;
+          end
+          
+          // blez | 001011 |   if rs <= 0, then branch
+          else if (ALUControl == 6'b001011) begin
+            if (A <= 0)
+                Zero <= 1;
+          end
+          
+          // bltz | 001100 |   if rs  <  0, then branch
+          else if (ALUControl == 6'b001100) begin
+            if (A < 0)
+                Zero <= 1;
+          end
+          
+          // j    | 001101 |   PC = PC + I[25:0]
+          else if (ALUControl == 6'b001101) begin
+            Zero <= 1;
+          end
+          // jal  | 001110 |   PC = PC + I[25:0] & link
+          else if (ALUControl == 6'b001110) begin
+            Zero <= 1;
+          end
+          
+          // jr   | 100011 |   PC <- rs (I[25:21])
+          else if (ALUControl == 6'b100011) begin
+            Zero <= 1;
+          end
+        
+
+
+
+
+
     
     end
 endmodule
