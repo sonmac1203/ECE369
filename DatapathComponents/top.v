@@ -61,6 +61,8 @@ wire    Clk_out,
         ID_EX_branch,
         EX_MEM_branch,
         branch,
+        EX_MEM_ALUZero,
+        AND1_out,
         MemToReg;
 
 wire[31:0]  IFU_Instruction_out, 
@@ -95,6 +97,7 @@ wire[31:0]  IFU_Instruction_out,
             ID_EX_address,
             Adder_1_out,
             EX_MEM_Adder_1,
+            mux6_out,
             ID_EX_ZE;
             
 wire [4:0]  ID_EX_out_rd_i,
@@ -122,8 +125,8 @@ wire [5:0]  ALUOp,
     
     */  
     
-    //module Mux1bit2to1(out, inA, inB, sel);
-    Mux1bit2to1 Mux6(mux6_out, address, EX_MEM_Adder_1, AND1_out);
+    //module Mux32Bit2To1(out, inA, inB, sel);
+    Mux32Bit2To1 Mux6(mux6_out, address, EX_MEM_Adder_1, AND1_out);
     
     
     ClkDiv CD1(Clk, Clk_Reset, Clk_out);
@@ -258,14 +261,16 @@ wire [5:0]  ALUOp,
 //module EX_MEM_Register(Clk, in_ALU_out, in_ReadData_2, in_dest_reg, in_MemWrite, in_MemRead, in_MemToReg, in_RegWrite,
 //                            out_ALU_out, out_ReadData_2, out_dest_reg, out_MemWrite, out_MemRead, out_MemToReg, out_RegWrite,
 //                            in_adder_1, out_adder_1,
-//                            in_branch, out_branch);
+//                            in_branch, out_branch,
+//                            in_zero,   out_zero);
     EX_MEM_Register EX_MEM_1(Clk_out, ALU1_out, ID_EX_ReadData2_out, Mux2_out, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite,
                              EX_MEM_ALU_out, EX_MEM_ReadData_2, EX_MEM_dest_reg, EX_MEM__MemWrite, EX_MEM__MemRead, EX_MEM__MemToReg, EX_MEM__RegWrite,
                              Adder_1_out, EX_MEM_Adder_1,
-                             ID_EX_branch, EX_MEM_branch);
+                             ID_EX_branch, EX_MEM_branch,
+                             ALU1_zero, EX_MEM_ALUZero);
         
     //module AND(Input_A, Input_B, Output);
-    AND AND1(EX_MEM_branch, EX_MEM_Adder_1, AND1_out);
+    AND AND1(EX_MEM_branch, EX_MEM_ALUZero, AND1_out);
         
         
         
