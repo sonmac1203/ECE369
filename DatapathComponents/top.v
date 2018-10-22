@@ -87,7 +87,7 @@ wire[31:0]  IFU_Instruction_out,
             Mux3_out,
             IM_out,
             DataMem_out,
-            address,
+            PCAdder_out,
             SE1_out,
             PCResult,
             ZE_out,
@@ -126,16 +126,16 @@ wire [5:0]  ALUOp,
     */  
     
     //module Mux32Bit2To1(out, inA, inB, sel);
-    Mux32Bit2To1 Mux6(mux6_out, address, EX_MEM_Adder_1, AND1_out);
+    Mux32Bit2To1 Mux6(mux6_out, PCAdder_out, EX_MEM_Adder_1, AND1_out);
     
     
     ClkDiv CD1(Clk, Clk_Reset, Clk_out);
     
     //module ProgramCounter(Address, PCResult, Reset, Clk, debug_program_counter);
-    ProgramCounter PC(address, mux6_out, PC_Reset, Clk_out, debug_program_counter);
+    ProgramCounter PC(mux6_out, PCResult, PC_Reset, Clk_out, debug_program_counter);
         
     //module PCAdder(PCResult, PCAddResult)
-    PCAdder PCAdd(PCResult, address);
+    PCAdder PCAdd(PCResult, PCAdder_out);
             
     //module InstructionMemory(Address, Instruction); 
     InstructionMemory IM(PCResult, IM_out);
@@ -224,7 +224,7 @@ wire [5:0]  ALUOp,
     
     
     //module SignExtend5To32(in, out);
-    SignExtend5To32 SignExtend5_1(ID_EX_SE_out[10:6], SE1_out);
+    SignExtend5To32 SignExtend5_1(Mux5_out[10:6], SE1_out);
     
     
     //module Mux32Bit2To1(out, inA, inB, sel);

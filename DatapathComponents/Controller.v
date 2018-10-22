@@ -72,10 +72,19 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
     // xori   | 001110 | ----- | ------ | xor
     // slti   | 001010 | ----- | ------ | slt
     // sltiu  | 001011 | ----- | ------ | sltu
+    
+    initial begin
+    
+        branch <= 0;
+    
+    
+    end
 
 
     always@(Instruction) begin
 
+        branch <= 0;
+    
         //NOP
         if(Instruction == 32'b0) begin
             RegWrite <= 0;

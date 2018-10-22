@@ -15,6 +15,10 @@ module SignExtension(in, out);
     
     /* Fill in the implementation here ... */
     
+    initial begin
+        out <= 32'b0;
+    end
+    
     
     always @ (*)    begin
         if (in[15] == 0)    begin

@@ -24,6 +24,10 @@ module ShiftLeft2(in, out);
     input  [31:0] in;
     output reg [31:0] out;
     
+    initial begin
+        out <= 32'b0;
+    end
+    
     always @(*)    begin
         out <= in << 2;
     end

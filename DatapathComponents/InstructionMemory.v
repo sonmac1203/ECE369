@@ -108,7 +108,7 @@ module InstructionMemory(Address, Instruction);
 
 //Public Test Case Labs 15-18
 
-Memory[0] = 32'h34040000;
+/*Memory[0] = 32'h34040000;
 Memory[1] = 32'h00000000;
 Memory[2] = 32'h00000000;
 Memory[3] = 32'h00000000;
@@ -444,11 +444,10 @@ Memory[332] = 32'h00000000;
 Memory[333] = 32'h00000000;
 Memory[334] = 32'h00000000;
 Memory[335] = 32'h00000000;
+*/
 
 
-
-//          Public Test Case Labs 9-14
-/*    
+//          Public Test Case Labs 9-14  
     Memory[0] = 32'h20100001;
     Memory[1] = 32'h00000000;
     Memory[2] = 32'h00000000;
@@ -845,7 +844,6 @@ Memory[335] = 32'h00000000;
     Memory[393] = 32'h00000000;
     Memory[394] = 32'h00000000;
     Memory[395] = 32'h00000000;
-*/
 
 
 

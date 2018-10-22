@@ -29,6 +29,10 @@ module ZeroExtension(in, out);
     output reg [31:0] out;
     
     
+    initial begin
+        out <= 32'b0;
+    end
+    
     always @ (*)    begin
 
         out <= {16'b0, in};

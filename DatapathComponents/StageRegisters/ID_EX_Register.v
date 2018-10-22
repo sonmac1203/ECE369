@@ -39,6 +39,25 @@ output reg out_ALUSrc, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out
 output reg [31:0] out_ReadData1, out_ReadData2, out_immediate_extended, ZE_out, out_PCplus4;
 output reg [4:0] out_rd_i, out_rd_r;
 output reg [5:0] out_ALUOP;
+
+    initial begin
+        out_branch    <= 0;
+        out_PCplus4   <= 0;
+        ZE_out        <= 0;
+        out_ALUSft    <= 0;
+        out_RegWrite  <= 0;
+        out_ALUSrc    <= 0;
+        out_ALUOP     <= 0;
+        out_RegDst    <= 0;
+        out_Mem_Write <= 0;
+        out_MemRead   <= 0;
+        out_MemToReg  <= 0;
+        out_ReadData1 <= 0;
+        out_ReadData2 <= 0;
+        out_immediate_extended <= 0;
+        out_rd_i      <= 0;
+        out_rd_r      <= 0;
+    end
     
     always @ (posedge Clk)  begin
         out_branch    <= in_branch;
