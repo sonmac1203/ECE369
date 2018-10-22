@@ -98,6 +98,9 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
     always @ (*)    begin
          
          Zero <= 0;
+         LO_out <= LO_in;
+         HI_out <= HI_in;
+         
          //ALUResult <= 0;
          
          if (ALUControl == 6'b00000)    begin
