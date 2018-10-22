@@ -37,5 +37,6 @@ always @ (sel, inA, inB) begin
         out <= inB;
     
     end
+end
 
 endmodule
