@@ -48,6 +48,20 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
     /* Please fill in the implementation here */
     
     reg[31:0] memory [0:1023];
+
+    integer index;
+
+    initial begin
+        memory[0] <= 32'h0;
+        memory[1] <= 32'h00000001;
+        memory[2] <= 32'hffffffff;
+
+        for (index = 0; index < 1024; index = index + 1) begin
+            memory[index] = 32'h0;
+        end
+
+
+    end
     
     
     always @ (posedge Clk)  begin
