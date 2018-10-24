@@ -324,7 +324,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
           
           // lui  | 000110 |  ALURESULT <= imm || 0^16
           else if (ALUControl == 6'b000110) begin
-            ALUResult <= {B, 16'b0};
+            ALUResult <= {B[15:0], 16'b0};
             if (ALUResult == 0)
                 Zero <= 1;
           end
