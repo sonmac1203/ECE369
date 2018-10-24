@@ -737,16 +737,67 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             end
             
             //beq
+            else if(Instruction[31:26] == 6'b000100) begin
+                ALUSrc <= 0;
+                RegWrite <= 0;
+                ALUOp <= 6'b001000;
+                MemWrite <= 0;
+                ALUSft <= 0;
+                branch <= 1;
+                JalSrc <= 1;              
+            end
             
             //bne
+            else if(Instruction[31:26] == 6'b000101) begin
+                ALUSrc <= 0;
+                RegWrite <= 0;
+                ALUOp <= 6'b001001;
+                MemWrite <= 0;
+                ALUSft <= 0;
+                branch <= 1;
+                JalSrc <= 1;  
+            end
+            
+            //bgtz
+            else if(Instruction[31:26] == 6'b000111) begin
+                RegWrite <= 0;
+                ALUOp <= 6'b001010;
+                MemWrite <= 0;
+                ALUSft <= 0;
+                branch <= 1;
+                JalSrc <= 1;              
+            end
             
             //blez
-            
-            //bltz
+            else if(Instruction[31:26] == 6'b000110) begin
+                RegWrite <= 0;
+                ALUOp <= 6'b001011;
+                MemWrite <= 0;
+                ALUSft <= 0;
+                branch <= 1;
+                JalSrc <= 1;  
+            end
             
             //j
+            else if(Instruction[31:26] == 6'b000010) begin
+                RegWrite <= 0;
+                ALUOp <= 6'b001101;
+                MemWrite <= 0;
+                ALUSft <= 0;
+                branch <= 1;
+                JalSrc <= 1;  
+            end
             
             //jal
+            else if(Instruction[31:26] == 6'b000011) begin
+                RegWrite <= 1;
+                ALUOp <= 6'b001110;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                ALUSft <= 0;
+                branch <= 1;
+                JalSrc <= 0;  
+            end
         end
     end
 endmodule
