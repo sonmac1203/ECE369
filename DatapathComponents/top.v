@@ -34,7 +34,7 @@ output  [31:0]  debug_program_counter,
                     debug_HI,
                     debug_LO;
 
-
+reg hard31 = 31;
 
 wire    Clk_out,
         ALUSrc, 
@@ -63,6 +63,7 @@ wire    Clk_out,
         branch,
         EX_MEM_ALUZero,
         AND1_out,
+        JalSrc,
         MemToReg;
 
 wire[31:0]  IFU_Instruction_out, 
@@ -98,6 +99,7 @@ wire[31:0]  IFU_Instruction_out,
             Adder_1_out,
             EX_MEM_Adder_1,
             mux6_out,
+            mux7_out,
             ID_EX_ZE;
             
 wire [4:0]  ID_EX_out_rd_i,
@@ -155,11 +157,16 @@ wire [5:0]  ALUOp,
 //                          in_PCplus4, out_PCplus4);
     IF_ID_Register IFID_Reg_1(Clk_out, 
                               IM_out, IF_ID_Instruction_out, 
-                              address, IF_ID_address);
+                              PCAdder_out, IF_ID_address);
+
+    
+    //module Mux32Bit2To1(out, inA, inB, sel);
+    Mux32Bit2To1 Mux7(mux7_out, hard31, MEM_WB_destination_register, JalSrc);
+    
     
     
     //module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2, debug_write_data);
-    RegisterFile Register_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], MEM_WB_destination_register, Mux3_out, MEM_WB_RegWrite,
+    RegisterFile Register_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], mux7_out, Mux3_out, MEM_WB_RegWrite,
                      Clk_out, ReadData1_out, ReadData2_out, debug_write_data);    
     
     //module SignExtension(in, out);
@@ -172,7 +179,7 @@ wire [5:0]  ALUOp,
     
     
     //module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg);
-    Controller Co_1(IF_ID_Instruction_out, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch);
+    Controller Co_1(IF_ID_Instruction_out, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch, JalSrc);
     
     
     
