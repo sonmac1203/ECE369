@@ -20,58 +20,76 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch);
+module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch, JalSrc);
 
     input [31:0] Instruction;
 
-    output reg ALUSrc, RegDst, RegWrite, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch;
+    output reg ALUSrc, RegDst, RegWrite, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch, JalSrc;
     output reg [5:0] ALUOp;
     
     
-    //        | I31:26 | I10:6 | I05:00 |
-    // INSTR  | OPCODE | SPECI |  FUNC  | ALUOP
+    //        | I31:26 | I20:16| I10:6 | I05:00 |
+    // INSTR  | OPCODE | jumpv | SPECI |  FUNC  | ALUOP
     
-    // sll    | 000000 | ----- | 000000 | sll
-    // srl    | 000000 | ----- | 000010 | srl
-    // rotr   | 000000 | ----- | 000010 | rotr
-    // sra    | 000000 | ----- | 000011 | sra
+    // sll    | 000000 | ----- | ----- | 000000 | sll
+    // srl    | 000000 | ----- | ----- | 000010 | srl
+    // rotr   | 000000 | ----- | ----- | 000010 | rotr
+    // sra    | 000000 | ----- | ----- | 000011 | sra
 
-    // add    | 000000 | 00000 | 100000 | add
-    // addu   | 000000 | 00000 | 100001 | addu
-    // sub    | 000000 | 00000 | 100010 | sub
-    // mult   | 000000 | 00000 | 011000 | mult
-    // multu  | 000000 | 00000 | 011001 | multu
-    // and    | 000000 | 00000 | 100100 | and
-    // or     | 000000 | 00000 | 100101 | or
-    // nor    | 000000 | 00000 | 100111 | nor
-    // xor    | 000000 | 00000 | 100110 | xor
-    // sllv   | 000000 | 00000 | 000100 | sll
-    // slt    | 000000 | 00000 | 101010 | slt
-    // movn   | 000000 | 00000 | 001011 | movn
-    // movz   | 000000 | 00000 | 001010 | movz
-    // srlv   | 000000 | 00000 | 000110 | srl
-    // rotrv  | 000000 | 00001 | 000110 | rotr
-    // srav   | 000000 | 00000 | 000111 | sra
-    // sltu   | 000000 | 00000 | 101011 | sltu
-    // mthi   | 000000 | 00000 | 010001 | mthi
-    // mtlo   | 000000 | 00000 | 010011 | mtlo
-    // mfhi   | 000000 | 00000 | 010000 | mfhi
-    // mflo   | 000000 | 00000 | 010010 | mflo
+    // add    | 000000 | ----- | 00000 | 100000 | add
+    // addu   | 000000 | ----- | 00000 | 100001 | addu
+    // sub    | 000000 | ----- | 00000 | 100010 | sub
+    // mult   | 000000 | ----- | 00000 | 011000 | mult
+    // multu  | 000000 | ----- | 00000 | 011001 | multu
+    // and    | 000000 | ----- | 00000 | 100100 | and
+    // or     | 000000 | ----- | 00000 | 100101 | or
+    // nor    | 000000 | ----- | 00000 | 100111 | nor
+    // xor    | 000000 | ----- | 00000 | 100110 | xor
+    // sllv   | 000000 | ----- | 00000 | 000100 | sll
+    // slt    | 000000 | ----- | 00000 | 101010 | slt
+    // movn   | 000000 | ----- | 00000 | 001011 | movn
+    // movz   | 000000 | ----- | 00000 | 001010 | movz
+    // srlv   | 000000 | ----- | 00000 | 000110 | srl
+    // rotrv  | 000000 | ----- | 00001 | 000110 | rotr
+    // srav   | 000000 | ----- | 00000 | 000111 | sra
+    // sltu   | 000000 | ----- | 00000 | 101011 | sltu
+    // mthi   | 000000 | ----- | 00000 | 010001 | mthi
+    // mtlo   | 000000 | ----- | 00000 | 010011 | mtlo
+    // mfhi   | 000000 | ----- | 00000 | 010000 | mfhi
+    // mflo   | 000000 | ----- | 00000 | 010010 | mflo
 
-    // mul    | 011100 | 00000 | 000010 | mul
-    // madd   | 011100 | 00000 | 000000 | madd
-    // msub   | 011100 | 00000 | 000100 | msub
+    // mul    | 011100 | ----- | 00000 | 000010 | mul
+    // madd   | 011100 | ----- | 00000 | 000000 | madd
+    // msub   | 011100 | ----- | 00000 | 000100 | msub
 
-    // seh    | 011111 | 11000 | 100000 | seh
-    // seb    | 011111 | 10000 | 100000 | seb
+    // seh    | 011111 | ----- | 11000 | 100000 | seh
+    // seb    | 011111 | ----- | 10000 | 100000 | seb
     
-    // addiu  | 001001 | ----- | ------ | addu
-    // addi   | 001000 | ----- | ------ | add
-    // andi   | 001100 | ----- | ------ | and
-    // ori    | 001101 | ----- | ------ | or
-    // xori   | 001110 | ----- | ------ | xor
-    // slti   | 001010 | ----- | ------ | slt
-    // sltiu  | 001011 | ----- | ------ | sltu
+    // addiu  | 001001 | ----- | ----- | ------ | addu
+    // addi   | 001000 | ----- | ----- | ------ | add
+    // andi   | 001100 | ----- | ----- | ------ | and
+    // ori    | 001101 | ----- | ----- | ------ | or
+    // xori   | 001110 | ----- | ----- | ------ | xor
+    // slti   | 001010 | ----- | ----- | ------ | slt
+    // sltiu  | 001011 | ----- | ----- | ------ | sltu
+    
+    // lw     | 100011 | ----- | ----- | ------ | add
+    // sw     | 101011 | ----- | ----- | ------ | add
+    // sb     | 101000 | ----- | ----- | ------ | add
+    // lh     | 100001 | ----- | ----- | ------ | add
+    // lb     | 100000 | ----- | ----- | ------ | add
+    // sh     | 101001 | ----- | ----- | ------ | add
+    // lui    | 001111 | ----- | ----- | ------ | lui
+   
+    // bgez   | 000001 | 00001 | ----- | ------ | bgez
+    // bltz   | 000001 | 00000 | ----- | ------ | bltz
+    // beq    | 000100 | ----- | ----- | ------ | beq
+    // bne    | 000101 | ----- | ----- | ------ | bne
+    // bgtz   | 000111 | 00000 | ----- | ------ | bgtz
+    // blez   | 000110 | 00000 | ----- | ------ | blez
+    // j      | 000010 | ----- | ----- | ------ | j
+    // jr     | 000000 | ----- | ----- | 001000 | jr
+    // jal    | 000011 | ----- | ----- | ------ | jal
     
     initial begin
     
@@ -90,11 +108,12 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             RegWrite <= 0;
             ALUOp <= 6'b000000;
             MemWrite <= 0;
-            //PCSrc <=  ;
+            branch <= 0;
+            JalSrc <= 1;
         
         end
 
-        //R-Type Operations with OP Code 000000
+        //Special R-Type Operations with OP Code 000000
         else if(Instruction[31:26] == 6'b000000) begin
             
             //sll
@@ -106,7 +125,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 1;
-                //PCSrc <=  ;   
+                branch <= 0;
+                JalSrc <= 1;   
             end
         
             //srl & rotr
@@ -121,7 +141,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                     MemWrite <= 0;
                     MemToReg <= 1;
                     ALUSft <= 1;
-                    //PCSrc <=  ;
+                    branch <= 0;
+                    JalSrc <= 1;
                 end
                 
                 //rotr
@@ -133,7 +154,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                     MemWrite <= 0;
                     MemToReg <= 1;
                     ALUSft <= 1;
-                    //PCSrc <=  ;
+                    branch <= 0;
+                    JalSrc <= 1;
                 end 
             end
             
@@ -146,7 +168,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 1;
-                //PCSrc <=  ;  
+                branch <= 0;
+                JalSrc <= 1;  
             end
                 
         
@@ -161,7 +184,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;
+                branch <= 0;
+                JalSrc <= 1;
             end
             
             //addu
@@ -173,7 +197,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;
+                branch <= 0;
+                JalSrc <= 1;
             end
             
             //sub
@@ -185,7 +210,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;
+                branch <= 0;
+                JalSrc <= 1;
             end
             
             //mult
@@ -196,7 +222,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                 
+                branch <= 0;
+                JalSrc <= 1;                                                 
             end
             
             //multu
@@ -207,7 +234,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                       
+                branch <= 0;
+                JalSrc <= 1;                                                       
             end
             
             //and
@@ -219,7 +247,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                        
+                branch <= 0;
+                JalSrc <= 1;                                                        
             end
             
             //or
@@ -231,7 +260,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                    
+                branch <= 0;
+                JalSrc <= 1;                                                    
             end
             
             //nor
@@ -243,7 +273,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                            
+                branch <= 0;
+                JalSrc <= 1;                                                            
             end
             
             //xor
@@ -255,7 +286,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                           
+                branch <= 0;
+                JalSrc <= 1;                                                           
             end
             
             //sllv
@@ -267,7 +299,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                          
+                branch <= 0;
+                JalSrc <= 1;                                                          
             end
             
             //slt
@@ -279,7 +312,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                            
+                branch <= 0;
+                JalSrc <= 1;                                                            
             end
             
             //movn
@@ -291,7 +325,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                       
+                branch <= 0;
+                JalSrc <= 1;                                                       
             end
             
             //movz
@@ -303,7 +338,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                            
+                branch <= 0;
+                JalSrc <= 1;                                                            
             end
             
             //srlv & rotrv
@@ -318,7 +354,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                     MemWrite <= 0;
                     MemToReg <= 1;
                     ALUSft <= 0;
-                    //PCSrc <=  ;
+                    branch <= 0;
+                    JalSrc <= 1;
                 end
                 
                 //rotrv
@@ -330,7 +367,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                     MemWrite <= 0;
                     MemToReg <= 1;
                     ALUSft <= 0;
-                    //PCSrc <=  ;
+                    branch <= 0;
+                    JalSrc <= 1;
                 end                             
             end
             
@@ -343,7 +381,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                          
+                branch <= 0;
+                JalSrc <= 1;                                                          
             end
             
             //sltu
@@ -355,7 +394,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                           
+                branch <= 0;
+                JalSrc <= 1;                                                           
             end
             
             //mthi
@@ -366,7 +406,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                     
+                branch <= 0;
+                JalSrc <= 1;                                                     
             end
             
             //mtlo
@@ -377,7 +418,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                            
+                branch <= 0;
+                JalSrc <= 1;                                                            
             end
             
             //mfhi
@@ -389,7 +431,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemToReg <= 1;
                 ALUSft <= 0;
                 RegDst <= 1;
-                //PCSrc <=  ;                                                       
+                branch <= 0;
+                JalSrc <= 1;                                                       
             end
             
             //mflo
@@ -401,8 +444,19 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemToReg <= 1;
                 ALUSft <= 0;
                 RegDst <= 1;
-                //PCSrc <=  ;                                                                                      
-            end   
+                branch <= 0;
+                JalSrc <= 1;                                                                                      
+            end
+            
+            //jr
+            else if(Instruction[5:0] == 6'b001000) begin
+                RegWrite <= 0;
+                ALUOp <= 6'b100011;
+                MemWrite <= 0;
+                ALUSft <= 0;
+                branch <= 1;
+                JalSrc <= 1;                                                                                 
+            end               
         end
         
         //Multiplication R-Type
@@ -417,7 +471,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;
+                branch <= 0;
+                JalSrc <= 1;
             end
             
             //madd
@@ -428,7 +483,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                                                      
+                branch <= 0;
+                JalSrc <= 1;                                                                                      
             end
             
             //msub
@@ -439,7 +495,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;                                                                                       
+                branch <= 0;
+                JalSrc <= 1;                                                                                       
             end
         end
         
@@ -455,7 +512,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;
+                branch <= 0;
+                JalSrc <= 1;
             end
             
             //seb
@@ -467,7 +525,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
-                //PCSrc <=  ;
+                branch <= 0;
+                JalSrc <= 1;
             end
         end
         
@@ -484,7 +543,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemToReg <= 1;
                 ALUSft <= 0;
                 ZEROSrc <= 0;
-                //PCSrc <=  ;
+                branch <= 0;
+                JalSrc <= 1;
             end
             
             //addi
@@ -497,7 +557,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemToReg <= 1;
                 ALUSft <= 0;
                 ZEROSrc <= 0;
-                //PCSrc <=  ;               
+                branch <= 0;
+                JalSrc <= 1;               
             end
             
             //andi
@@ -510,7 +571,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemToReg <= 1;
                 ALUSft <= 0;
                 ZEROSrc <= 1;
-                //PCSrc <=  ;                     
+                branch <= 0;
+                JalSrc <= 1;                     
             end
             
             //ori
@@ -523,7 +585,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemToReg <= 1;
                 ALUSft <= 0;
                 ZEROSrc <= 1;
-                //PCSrc <=  ;               
+                branch <= 0;
+                JalSrc <= 1;               
             end
             
             //xori
@@ -536,7 +599,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemToReg <= 1;
                 ALUSft <= 0;
                 ZEROSrc <= 1;
-                //PCSrc <=  ;                   
+                branch <= 0;
+                JalSrc <= 1;                   
             end
         
             //slti
@@ -549,7 +613,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemToReg <= 1;
                 ALUSft <= 0;
                 ZEROSrc <= 0;
-                //PCSrc <=  ;               
+                branch <= 0;
+                JalSrc <= 1;               
             end
             
             //sltiu
@@ -562,8 +627,126 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 MemToReg <= 1;
                 ALUSft <= 0;
                 ZEROSrc <= 1;
-                //PCSrc <=  ;                
+                branch <= 0;
+                JalSrc <= 1;                
             end
+            
+            //lw
+             else if(Instruction[31:26] == 6'b100011) begin
+                 ALUSrc <= 1;
+                 RegDst <= 0;
+                 RegWrite <= 1;
+                 ALUOp <= 6'b000000;
+                 MemRead <= 1;
+                 MemWrite <= 0;
+                 MemToReg <= 0;
+                 ALUSft <= 0;
+                 ZEROSrc <= 0;
+                 branch <= 0;
+                 JalSrc <= 1;                   
+             end
+             
+             //sw
+             else if(Instruction[31:26] == 6'b101011) begin
+                 ALUSrc <= 1;
+                 RegWrite <= 0;
+                 ALUOp <= 6'b000000;
+                 MemWrite <= 1;
+                 ALUSft <= 0;
+                 ZEROSrc <= 0;
+                 branch <= 0;
+                 JalSrc <= 1;    
+             end
+             
+             //sb
+             else if(Instruction[31:26] == 6'b101000) begin
+                 ALUSrc <= 1;
+                 RegWrite <= 0;
+                 ALUOp <= 6'b000000;
+                 MemWrite <= 1;
+                 ALUSft <= 0;
+                 ZEROSrc <= 0;
+                 branch <= 0;
+                 JalSrc <= 1;                  
+             end
+             
+             //lh
+             else if(Instruction[31:26] == 6'b100001) begin
+                 ALUSrc <= 1;
+                 RegDst <= 0;
+                 RegWrite <= 1;
+                 ALUOp <= 6'b000000;
+                 MemRead <= 1;
+                 MemWrite <= 0;
+                 MemToReg <= 0;
+                 ALUSft <= 0;
+                 ZEROSrc <= 0;
+                 branch <= 0;
+                 JalSrc <= 1;                  
+             end
+             
+             //lb
+             else if(Instruction[31:26] == 6'b100000) begin
+                 ALUSrc <= 1;
+                 RegDst <= 0;
+                 RegWrite <= 1;
+                 ALUOp <= 6'b000000;
+                 MemRead <= 1;
+                 MemWrite <= 0;
+                 MemToReg <= 0;
+                 ALUSft <= 0;
+                 ZEROSrc <= 0;
+                 branch <= 0;
+                 JalSrc <= 1;                  
+             end
+             
+             //sh
+             else if(Instruction[31:26] == 6'b101001) begin
+                 ALUSrc <= 1;
+                 RegWrite <= 0;
+                 ALUOp <= 6'b000000;
+                 MemWrite <= 1;
+                 ALUSft <= 0;
+                 ZEROSrc <= 0;
+                 branch <= 0;
+                 JalSrc <= 1;                  
+             end
+            
+            //bgez and bltz
+            else if(Instruction[31:26] == 6'b000001) begin
+            
+                //bgez
+                if(Instruction[20:16] == 6'b00001) begin
+                    RegWrite <= 0;
+                    ALUOp <= 6'b000111;
+                    MemWrite <= 0;
+                    ALUSft <= 0;
+                    branch <= 1;
+                    JalSrc <= 1;  
+                end
+                
+                //bltz
+                else if(Instruction[20:16] == 6'b00000) begin
+                    RegWrite <= 0;
+                    ALUOp <= 6'b001100;
+                    MemWrite <= 0;
+                    ALUSft <= 0;
+                    branch <= 1;
+                    JalSrc <= 1;  
+                end
+            end
+            
+            //beq
+            
+            //bne
+            
+            //blez
+            
+            //bltz
+            
+            //j
+            
+            //jal
         end
     end
 endmodule
