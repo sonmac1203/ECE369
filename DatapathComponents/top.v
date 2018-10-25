@@ -34,7 +34,7 @@ output  [31:0]  debug_program_counter,
                     debug_HI,
                     debug_LO;
 
-reg hard31 = 31;
+integer hard31 = 31;
 
 wire    Clk_out,
         ALUSrc, 
