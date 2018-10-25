@@ -29,7 +29,7 @@ module AND(Input_A, Input_B, Output);
         Output = 0;
     end
     always @(Input_A, Input_B) begin
-        Output = Input_A & (~Input_B);
+        Output = Input_A & (Input_B);
     end
     
 endmodule

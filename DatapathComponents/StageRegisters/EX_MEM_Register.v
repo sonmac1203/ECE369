@@ -33,7 +33,22 @@ input [4:0] in_dest_reg;
 output reg out_MemWrite, out_MemRead, out_MemToReg, out_RegWrite, out_branch, out_zero;    
 output reg [31:0] out_ALU_out, out_ReadData_2, out_adder_1;
 output reg [4:0] out_dest_reg;
-
+    
+    initial begin
+        out_zero       <= 0;
+        out_adder_1    <= 0;
+        out_branch     <= 0;
+        out_ALU_out    <= 0;
+        out_ReadData_2 <= 0;
+        out_dest_reg   <= 0;
+        out_MemWrite   <= 0;
+        out_MemRead    <= 0;
+        out_MemToReg   <= 0;
+        out_RegWrite   <= 0;
+    end
+    
+    
+    
     always @ (posedge Clk)  begin
         out_zero       <= in_zero;
         out_adder_1    <= in_adder_1;

@@ -32,6 +32,16 @@ output reg out_MemToReg, out_RegWrite;
 output reg [31:0]  out_DataMemOut, out_ALU1_output;
 output reg [4:0] out_destination_register;
 
+    initial begin
+        out_DataMemOut           <= 0; 
+        out_destination_register <= 0; 
+        out_ALU1_output          <= 0;
+        out_MemToReg             <= 0;
+        out_RegWrite             <= 0;
+    
+    end
+
+
     always @ (posedge Clk)  begin
         out_DataMemOut           <= in_DataMemOut; 
         out_destination_register <= in_destination_register; 
