@@ -28,7 +28,10 @@ module top_tb();
     wire  [31:0]  debug_program_counter,
                         debug_write_data,
                         debug_HI,
-                        debug_LO;
+                        debug_LO,
+                        s0,
+                        s1,
+                        s2;
     
     
     //module top(Clk, PC_Reset, Clk_Reset);
@@ -38,7 +41,10 @@ module top_tb();
            .debug_program_counter(debug_program_counter),
            .debug_write_data(debug_write_data),
            .debug_HI(debug_HI),
-           .debug_LO(debug_LO)
+           .debug_LO(debug_LO),
+           .s0(s0),
+           .s1(s1),
+           .s2(s2)
            );
     
 
