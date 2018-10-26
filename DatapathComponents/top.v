@@ -22,7 +22,9 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module top(Clk, PC_Reset, Clk_Reset, debug_program_counter, debug_write_data,debug_HI, debug_LO, s0, s1, s2);
+module top(Clk, PC_Reset, Clk_Reset, debug_program_counter, debug_write_data,debug_HI, debug_LO, 
+           s0, s1, s2,
+           mem0, mem1, mem2, mem3);
 
 
 input Clk, PC_Reset, Clk_Reset;
@@ -36,7 +38,11 @@ output  [31:0]  debug_program_counter,
                     debug_LO,
                     s0,
                     s1,
-                    s2;
+                    s2,
+                    mem0,
+                    mem1,
+                    mem2,
+                    mem3;
 
 
 integer hard31 = 31;
@@ -307,7 +313,7 @@ wire [5:0]  ALUOp,
         
         
     //module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData); 
-    DataMemory DM_1(EX_MEM_ALU_out, EX_MEM_ReadData_2, Clk_out, EX_MEM__MemWrite, EX_MEM__MemRead, DataMem_out);
+    DataMemory DM_1(EX_MEM_ALU_out, EX_MEM_ReadData_2, Clk_out, EX_MEM__MemWrite, EX_MEM__MemRead, DataMem_out, mem0, mem1, mem2, mem3);
     
     
     //module SignExtendModular(in, out, SEMCtrl);

@@ -31,7 +31,11 @@ module top_tb();
                         debug_LO,
                         s0,
                         s1,
-                        s2;
+                        s2,
+                        mem0,
+                        mem1,
+                        mem2,
+                        mem3;
     
     
     //module top(Clk, PC_Reset, Clk_Reset);
@@ -44,7 +48,11 @@ module top_tb();
            .debug_LO(debug_LO),
            .s0(s0),
            .s1(s1),
-           .s2(s2)
+           .s2(s2),
+           .mem0(mem0),
+           .mem1(mem1),
+           .mem2(mem2),
+           .mem3(mem3)
            );
     
 

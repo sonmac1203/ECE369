@@ -35,7 +35,7 @@
 // of the "Address" input to index any of the 256 words. 
 ////////////////////////////////////////////////////////////////////////////////
 
-module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData); 
+module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, mem1, mem2, mem3); 
 
     input [31:0] Address; 	// Input Address 
     input [31:0] WriteData; // Data that needs to be written into the address 
@@ -43,7 +43,9 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
     input MemWrite; 		// Control signal for memory write 
     input MemRead; 			// Control signal for memory read 
 
-    output reg[31:0] ReadData; // Contents of memory location at Address
+    output reg[31:0] ReadData;
+    
+    output [31:0] mem0, mem1, mem2, mem3;
 
     /* Please fill in the implementation here */
     
@@ -87,6 +89,12 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
         else
             ReadData = 0;
       end
+   
+   assign mem0 = memory[0];
+   assign mem1 = memory[1];
+   assign mem2 = memory[2];
+   assign mem3 = memory[3];
+   
    
 
 endmodule
