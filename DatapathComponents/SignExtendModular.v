@@ -48,7 +48,7 @@ module SignExtendModular(in, out, SEMCtrl);
                     out <= {16'b0, in};
                 end
                 else begin    
-                    out <= {16'b1111111111111111, in};
+                    out <= {16'b1111111111111111, in[15:0]};
         
                 end
                     
@@ -59,7 +59,7 @@ module SignExtendModular(in, out, SEMCtrl);
                     out <= {24'b0, in};
                 end
                 else begin    
-                    out <= {24'b111111111111111111111111, in};
+                    out <= {24'b111111111111111111111111, in[7:0]};
         
                 end        
 
