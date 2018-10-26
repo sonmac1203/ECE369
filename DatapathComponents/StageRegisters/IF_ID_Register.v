@@ -36,5 +36,6 @@ module IF_ID_Register(Clk,
         out_Instruction <= in_Instruction;
         out_PCplus4 <= in_PCplus4;
     end
+    
 
 endmodule
