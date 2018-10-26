@@ -338,37 +338,37 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
           
           // bgez | 000111 |   if rs >= 0, then branch
           else if (ALUControl == 6'b000111) begin
-            if (A >= 0)
+            if ($signed(A) >= 0)
                 Zero <= 1;
           end
           
           // beq  | 001000 |   if rs == rt, then branch
           else if (ALUControl == 6'b001000) begin
-            if (A == B)
+            if ($signed(A) == $signed(B))
                 Zero <= 1;
           end
           
           // bne  | 001001 |   if rs !=  rt, then branch
           else if (ALUControl == 6'b001001) begin
-            if (A != B)
+            if ($signed(A) != $signed(B))
                 Zero <= 1;
           end
           
           // bgtz | 001010 |   if rs  >  0, then branch
           else if (ALUControl == 6'b001010) begin
-            if (A > 0)
+            if ($signed(A) > 0)
                 Zero <= 1;
           end
           
           // blez | 001011 |   if rs <= 0, then branch
           else if (ALUControl == 6'b001011) begin
-            if (A <= 0)
+            if ($signed(A) <= 0)
                 Zero <= 1;
           end
           
           // bltz | 001100 |   if rs  <  0, then branch
           else if (ALUControl == 6'b001100) begin
-            if (A < 0)
+            if ($signed(A) < 0)
                 Zero <= 1;
           end
           
