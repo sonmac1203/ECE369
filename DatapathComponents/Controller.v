@@ -20,12 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc);
+module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc, SEMCtrl);
 
     input [31:0] Instruction;
 
     output reg ALUSrc, RegDst, RegWrite, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc;
     output reg [5:0] ALUOp;
+    output reg [1:0] SEMCtrl;
     
     
     //        | I31:26 | I20:16| I10:6 | I05:00 |
@@ -644,7 +645,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                  ALUSft <= 0;
                  ZEROSrc <= 0;
                  branch <= 0;
-                 JalSrc <= 1;                   
+                 JalSrc <= 1;
+                 SEMCtrl <= 2'b0;                   
              end
              
              //sw
@@ -683,7 +685,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                  ALUSft <= 0;
                  ZEROSrc <= 0;
                  branch <= 0;
-                 JalSrc <= 1;                  
+                 JalSrc <= 1;   
+                 SEMCtrl <= 2'b01;               
              end
              
              //lb
@@ -698,7 +701,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                  ALUSft <= 0;
                  ZEROSrc <= 0;
                  branch <= 0;
-                 JalSrc <= 1;                  
+                 JalSrc <= 1; 
+                 SEMCtrl <= 2'b10;                 
              end
              
              //sh
