@@ -73,6 +73,12 @@ wire    Clk_out,
         ID_EX_JZEROSrc,
         MemToReg;
 
+
+wire [1:0]  SEMCtrl,
+            ID_EX_SEMCtrl,
+            EX_MEM_SEMCtrl;
+
+
 wire[31:0]  IFU_Instruction_out, 
             IF_ID_Instruction_out,
             SE_out,
@@ -108,7 +114,11 @@ wire[31:0]  IFU_Instruction_out,
             mux6_out,
             mux7_out,
             mux8_out,
+            SEM1_out,
             ID_EX_ZE;
+            
+            
+            
             
 wire [4:0]  ID_EX_out_rd_i,
             ID_EX_out_rd_r,
@@ -188,7 +198,7 @@ wire [5:0]  ALUOp,
     
     //module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg);
     Controller Co_1(IF_ID_Instruction_out, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, 
-                    MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc);
+                    MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc, SEMCtrl);
     
     
     
@@ -220,7 +230,8 @@ wire [5:0]  ALUOp,
                             ZE_out, ID_EX_ZE,
                             IF_ID_address, ID_EX_address,
                             branch, ID_EX_branch,
-                            JZEROSrc, ID_EX_JZEROSrc
+                            JZEROSrc, ID_EX_JZEROSrc,
+                            SEMCtrl, ID_EX_SEMCtrl
                             );
     
     
@@ -286,7 +297,8 @@ wire [5:0]  ALUOp,
                              EX_MEM_ALU_out, EX_MEM_ReadData_2, EX_MEM_dest_reg, EX_MEM__MemWrite, EX_MEM__MemRead, EX_MEM__MemToReg, EX_MEM__RegWrite,
                              Adder_1_out, EX_MEM_Adder_1,
                              ID_EX_branch, EX_MEM_branch,
-                             ALU1_zero, EX_MEM_ALUZero);
+                             ALU1_zero, EX_MEM_ALUZero,
+                             ID_EX_SEMCtrl, EX_MEM_SEMCtrl);
         
     //module AND(Input_A, Input_B, Output);
     AND AND1(EX_MEM_branch, EX_MEM_ALUZero, AND1_out);
@@ -295,6 +307,12 @@ wire [5:0]  ALUOp,
         
     //module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData); 
     DataMemory DM_1(EX_MEM_ALU_out, EX_MEM_ReadData_2, Clk_out, EX_MEM__MemWrite, EX_MEM__MemRead, DataMem_out);
+    
+    
+    //module SignExtendModular(in, out, SEMCtrl);
+    SignExtendModular SignExtendModular1(DataMem_out, SEM1_out, EX_MEM_SEMCtrl);
+    
+    
     
     
    /* 
@@ -309,7 +327,7 @@ wire [5:0]  ALUOp,
     
     //module MEM_WB_Register(Clk, in_DataMemOut, in_destination_register, in_ALU1_output, in_MemToReg, in_RegWrite,
     //                       out_DataMemOut, out_destination_register, out_ALU1_output, out_MemToReg, out_RegWrite);
-    MEM_WB_Register MEM_WB_1(Clk_out, DataMem_out, EX_MEM_dest_reg, EX_MEM_ALU_out, EX_MEM__MemToReg, EX_MEM__RegWrite,
+    MEM_WB_Register MEM_WB_1(Clk_out, SEM1_out, EX_MEM_dest_reg, EX_MEM_ALU_out, EX_MEM__MemToReg, EX_MEM__RegWrite,
                              MEM_WB_DataMemOut, MEM_WB_destination_register, MEM_WB_ALU1_output, MEM_WB_MemToReg, MEM_WB_RegWrite
                              );
     

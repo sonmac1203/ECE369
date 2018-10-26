@@ -37,38 +37,35 @@ module SignExtendModular(in, out, SEMCtrl);
         
         always @ (*)    begin
         
+                //pass value through
+            if (SEMCtrl == 0)   begin
+                out <= in;
+            end
+    
+                //sign extend 16 bits 
+            else if (SEMCtrl == 1)   begin
+                if (in[15] == 0)    begin
+                    out <= {16'b0, in};
+                end
+                else begin    
+                    out <= {16'b1111111111111111, in};
         
-            //pass value through
-        if (SEMCtrl == 0)   begin
-            out <= in;
-        end
-
-            //sign extend 16 bits 
-        else if (SEMCtrl == 1)   begin
-            if (in[15] == 0)    begin
-                out <= {16'b0, in};
+                end
+                    
+            end
+            
+            else if (SEMCtrl == 2)  begin
+                if (in[7] == 0)    begin
+                out <= {24'b0, in};
             end
             else begin    
-                out <= {16'b1111111111111111, in};
+                out <= {24'b111111111111111111111111, in};
     
-            end
-                
-        end
-        
-        
-        else if (SEMCtrl == 2)  begin
-            if (in[7] == 0)    begin
-            out <= {24'b0, in};
-        end
-        else begin    
-            out <= {24'b111111111111111111111111, in};
-
-        end        
-        
-        
-        end
+            end        
             
-        
+            
+            end
+
         
         end
 endmodule
