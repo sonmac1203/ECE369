@@ -313,7 +313,7 @@ wire [5:0]  ALUOp,
         
         
     //module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData); 
-    DataMemory DM_1(EX_MEM_ALU_out, EX_MEM_ReadData_2, Clk_out, EX_MEM__MemWrite, EX_MEM__MemRead, DataMem_out, mem0, mem1, mem2, mem3);
+    DataMemory DM_1(EX_MEM_ALU_out, EX_MEM_ReadData_2, Clk_out, EX_MEM__MemWrite, EX_MEM__MemRead, DataMem_out, mem0, mem1, mem2, mem3, EX_MEM_SEMCtrl);
     
     
     //module SignExtendModular(in, out, SEMCtrl);

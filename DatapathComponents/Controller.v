@@ -659,6 +659,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                  ZEROSrc <= 0;
                  branch <= 0;
                  JalSrc <= 1;    
+                 SEMCtrl <= 2'b0;
              end
              
              //sb
@@ -670,7 +671,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                  ALUSft <= 0;
                  ZEROSrc <= 0;
                  branch <= 0;
-                 JalSrc <= 1;                  
+                 JalSrc <= 1;  
+                 SEMCtrl <= 2'b10;                
              end
              
              //lh
@@ -714,7 +716,8 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                  ALUSft <= 0;
                  ZEROSrc <= 0;
                  branch <= 0;
-                 JalSrc <= 1;                  
+                 JalSrc <= 1; 
+                 SEMCtrl <= 2'b01;                 
              end
             
             //bgez and bltz
@@ -810,6 +813,18 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 branch <= 1;
                 JalSrc <= 0;  
                 JZEROSrc <= 0; 
+            end
+            
+            //lui
+            else if(Instruction[31:26] == 6'b001111) begin
+                ALUSrc <= 1;
+                RegDst <= 0;
+                RegWrite <= 1;
+                ALUOp <= 6'b000110;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                branch <= 0;
+                JalSrc <= 1;  
             end
         end
     end
