@@ -52,9 +52,18 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
     integer index;
 
     initial begin
-        memory[0] <= 32'h0;
-        memory[1] <= 32'h00000001;
-        memory[2] <= 32'hffffffff;
+//        memory[0] <= 32'h0;
+//        memory[1] <= 32'h00000001;
+//        memory[2] <= 32'hffffffff;
+        memory[0] <= 0;
+        memory[1] <= 1;
+        memory[2] <= 2;
+        memory[3] <= 3;
+        memory[4] <= 4;
+        memory[5] <= -1;
+    
+
+
 
         for (index = 0; index < 1024; index = index + 1) begin
             memory[index] = 32'h0;

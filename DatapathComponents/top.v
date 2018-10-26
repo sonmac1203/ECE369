@@ -29,12 +29,17 @@ input Clk, PC_Reset, Clk_Reset;
 
 //output reg [31:0] debug_program_counter, debug_write_data,debug_HI, debug_LO;
 
+
 output  [31:0]  debug_program_counter,
                     debug_write_data,
                     debug_HI,
                     debug_LO;
+//                    debug_reg_16,
+//                    debug_reg_17,
+//                    debug_reg_18;
 
 integer hard31 = 31;
+integer hard0  = 0;
 
 wire    Clk_out,
         ALUSrc, 
@@ -64,6 +69,8 @@ wire    Clk_out,
         EX_MEM_ALUZero,
         AND1_out,
         JalSrc,
+        JZEROSrc,
+        ID_EX_JZEROSrc,
         MemToReg;
 
 wire[31:0]  IFU_Instruction_out, 
@@ -100,6 +107,7 @@ wire[31:0]  IFU_Instruction_out,
             EX_MEM_Adder_1,
             mux6_out,
             mux7_out,
+            mux8_out,
             ID_EX_ZE;
             
 wire [4:0]  ID_EX_out_rd_i,
@@ -179,7 +187,8 @@ wire [5:0]  ALUOp,
     
     
     //module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg);
-    Controller Co_1(IF_ID_Instruction_out, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch, JalSrc);
+    Controller Co_1(IF_ID_Instruction_out, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, 
+                    MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc);
     
     
     
@@ -210,7 +219,8 @@ wire [5:0]  ALUOp,
                             ALUSft, ID_EX_ALUSft,
                             ZE_out, ID_EX_ZE,
                             IF_ID_address, ID_EX_address,
-                            branch, ID_EX_branch
+                            branch, ID_EX_branch,
+                            JZEROSrc, ID_EX_JZEROSrc
                             );
     
     
@@ -243,13 +253,15 @@ wire [5:0]  ALUOp,
     ALU32Bit ALU1(ID_EX_ALUOp, Mux4_out, Mux1_out, ALU1_out,ALU1_zero, LO_out, LO_in, HI_out, HI_in);
     
     
-    
     //module ShiftLeft2(in, out);
     ShiftLeft2 shiftleftby2_1(ID_EX_SE_out, SE2_out);
     
+    //module Mux32Bit2To1(out, inA, inB, sel);
+    Mux32Bit2To1 mux8(mux8_out, hard0, ID_EX_address, ID_EX_JZEROSrc);
+    
     
     //module Adder(A, B, out);
-    Adder Adder_1(ID_EX_address, SE2_out, Adder_1_out);
+    Adder Adder_1(mux8_out, SE2_out, Adder_1_out);
     
     
     
