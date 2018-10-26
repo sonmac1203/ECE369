@@ -22,7 +22,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module top(Clk, PC_Reset, Clk_Reset, debug_program_counter, debug_write_data,debug_HI, debug_LO);
+module top(Clk, PC_Reset, Clk_Reset, debug_program_counter, debug_write_data,debug_HI, debug_LO, s0, s1, s2);
 
 
 input Clk, PC_Reset, Clk_Reset;
@@ -33,10 +33,11 @@ input Clk, PC_Reset, Clk_Reset;
 output  [31:0]  debug_program_counter,
                     debug_write_data,
                     debug_HI,
-                    debug_LO;
-//                    debug_reg_16,
-//                    debug_reg_17,
-//                    debug_reg_18;
+                    debug_LO,
+                    s0,
+                    s1,
+                    s2;
+
 
 integer hard31 = 31;
 integer hard0  = 0;
@@ -185,7 +186,7 @@ wire [5:0]  ALUOp,
     
     //module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2, debug_write_data);
     RegisterFile Register_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], mux7_out, Mux3_out, MEM_WB_RegWrite,
-                     Clk_out, ReadData1_out, ReadData2_out, debug_write_data);    
+                     Clk_out, ReadData1_out, ReadData2_out, debug_write_data, s0, s1, s2);    
     
     //module SignExtension(in, out);
     SignExtension SignExtend32_1(IF_ID_Instruction_out[15:0], SE_out);

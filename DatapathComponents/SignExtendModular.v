@@ -55,15 +55,14 @@ module SignExtendModular(in, out, SEMCtrl);
             end
             
             else if (SEMCtrl == 2)  begin
-                if (in[7] == 0)    begin
-                out <= {24'b0, in};
-            end
-            else begin    
-                out <= {24'b111111111111111111111111, in};
-    
-            end        
-            
-            
+                    if (in[7] == 0)    begin
+                    out <= {24'b0, in};
+                end
+                else begin    
+                    out <= {24'b111111111111111111111111, in};
+        
+                end        
+
             end
 
         
