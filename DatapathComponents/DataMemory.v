@@ -82,7 +82,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
         
      end
      
-     always @ (MemRead, Address) begin
+     always @ (negedge Clk) begin
         if (MemRead)    begin
             ReadData <= memory[Address[11:2]];
         end
