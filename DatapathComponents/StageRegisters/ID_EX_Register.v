@@ -30,22 +30,24 @@ module ID_EX_Register(Clk, in_ReadData1, in_ReadData2, in_immediate_extended, in
                       in_branch, out_branch,
                       JZEROSrc, ID_EX_JZEROSrc,
                       SEMCtrl_in, out_SEMCtrl,
-                      in_JALSrc, out_JALSrc
+                      in_JALSrc, out_JALSrc,
+                      in_JRSrc, out_JRSrc
                       );
 
-input Clk, in_ALUSrc, in_RegDst, in_Mem_Write, in_MemRead, in_MemToReg, in_RegWrite, ALUSft, in_branch, JZEROSrc, in_JALSrc;
+input Clk, in_ALUSrc, in_RegDst, in_Mem_Write, in_MemRead, in_MemToReg, in_RegWrite, ALUSft, in_branch, JZEROSrc, in_JALSrc, in_JRSrc;
 input [1:0] SEMCtrl_in;
 input [31:0] in_ReadData1, in_ReadData2, in_immediate_extended, ZE_in, in_PCplus4;
 input [4:0] in_rd_i, in_rd_r;
 input [5:0] in_ALUOP;
 
-output reg out_ALUSrc, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite, out_ALUSft, out_branch, ID_EX_JZEROSrc, out_JALSrc;
+output reg out_ALUSrc, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite, out_ALUSft, out_branch, ID_EX_JZEROSrc, out_JALSrc, out_JRSrc;
 output reg [1:0] out_SEMCtrl;
 output reg [31:0] out_ReadData1, out_ReadData2, out_immediate_extended, ZE_out, out_PCplus4;
 output reg [4:0] out_rd_i, out_rd_r;
 output reg [5:0] out_ALUOP;
 
     initial begin
+        out_JRSrc      <= 0;
         out_JALSrc     <= 0;
         out_SEMCtrl     <= 0;
         ID_EX_JZEROSrc <= 0;
@@ -68,6 +70,7 @@ output reg [5:0] out_ALUOP;
     end
     
     always @ (posedge Clk)  begin
+        out_JRSrc       <= in_JRSrc;
         out_JALSrc      <= in_JALSrc;
         out_SEMCtrl     <= SEMCtrl_in;
         ID_EX_JZEROSrc <= JZEROSrc;

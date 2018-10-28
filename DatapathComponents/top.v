@@ -45,7 +45,7 @@ output  [31:0]  debug_program_counter,
                     mem3;
 
 
-integer hard31 = 31;
+wire [4:0] hard31 = 31;
 integer hard0  = 0;
 
 wire    Clk_out,
@@ -194,8 +194,8 @@ wire [5:0]  ALUOp,
                               PCAdder_out, IF_ID_address);
 
     
-    //module Mux32Bit2To1(out, inA, inB, sel);
-    Mux32Bit2To1 Mux7(mux7_out, hard31, MEM_WB_destination_register, MEM_WB_JALSrc);
+    //module Mux5Bit2To1(out, inA, inB, sel);
+    Mux5Bit2To1 Mux7(mux7_out, hard31, MEM_WB_destination_register, MEM_WB_JALSrc);
     
     
     
@@ -242,6 +242,7 @@ wire [5:0]  ALUOp,
                             ALUSrc, ALUOp, RegDst, MemWrite, MemRead, MemToReg, RegWrite,
                             ID_EX_ReadData1_out, ID_EX_ReadData2_out, ID_EX_SE_out, ID_EX_out_rd_i, ID_EX_out_rd_r,
                             ID_EX_ALUSrc, ID_EX_ALUOp, ID_EX_RegDst, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite,
+                            
                             ALUSft, ID_EX_ALUSft,
                             ZE_out, ID_EX_ZE,
                             IF_ID_address, ID_EX_address,
@@ -322,6 +323,12 @@ wire [5:0]  ALUOp,
 //                            in_adder_1, out_adder_1,
 //                            in_branch, out_branch,
 //                            in_zero,   out_zero);
+
+
+
+
+
+
     EX_MEM_Register EX_MEM_1(Clk_out, ALU1_out, ID_EX_ReadData2_out, Mux2_out, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite,
                              EX_MEM_ALU_out, EX_MEM_ReadData_2, EX_MEM_dest_reg, EX_MEM__MemWrite, EX_MEM__MemRead, EX_MEM__MemToReg, EX_MEM__RegWrite,
                              Adder_1_out, EX_MEM_Adder_1,
@@ -372,12 +379,12 @@ wire [5:0]  ALUOp,
     //                         EX_MEM_JAlSrc, MEM_WB_JALSrc
     //                         );
     MEM_WB_Register MEM_WB_1(Clk_out,
-                             SEM1_out,       , MEM_WB_DataMemOut,
+                             SEM1_out,        MEM_WB_DataMemOut,
                              EX_MEM_dest_reg , MEM_WB_destination_register,
                              mux9_out        , MEM_WB_ALU1_output,
                              EX_MEM__MemToReg, MEM_WB_MemToReg,
                              EX_MEM__RegWrite, MEM_WB_RegWrite,
-                             EX_MEM_JAlSrc, MEM_WB_JALSrc
+                             EX_MEM_JAlSrc   , MEM_WB_JALSrc
                              );
     
     
