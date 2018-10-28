@@ -78,6 +78,11 @@ wire    Clk_out,
         JalSrc,
         JZEROSrc,
         ID_EX_JZEROSrc,
+        MEM_WB_JALSrc,
+        ID_EX_JAlSrc,
+        EX_MEM_JAlSrc,
+        JRSrc,
+        ID_EX_JRSrc,
         MemToReg;
 
 
@@ -113,7 +118,6 @@ wire[31:0]  IFU_Instruction_out,
             PCResult,
             ZE_out,
             Mux5_out,
-            SE2_out,
             IF_ID_address,
             ID_EX_address,
             Adder_1_out,
@@ -122,6 +126,11 @@ wire[31:0]  IFU_Instruction_out,
             mux7_out,
             mux8_out,
             SEM1_out,
+            JLAdder_out,
+            EX_MEM_JLAdder_out,
+            mux9_out,
+            SL2_out,
+            mux10_out,
             ID_EX_ZE;
             
             
@@ -186,7 +195,7 @@ wire [5:0]  ALUOp,
 
     
     //module Mux32Bit2To1(out, inA, inB, sel);
-    Mux32Bit2To1 Mux7(mux7_out, hard31, MEM_WB_destination_register, JalSrc);
+    Mux32Bit2To1 Mux7(mux7_out, hard31, MEM_WB_destination_register, MEM_WB_JALSrc);
     
     
     
@@ -205,7 +214,7 @@ wire [5:0]  ALUOp,
     
     //module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg);
     Controller Co_1(IF_ID_Instruction_out, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, 
-                    MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc, SEMCtrl);
+                    MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc, SEMCtrl, JRSrc);
     
     
     
@@ -238,7 +247,9 @@ wire [5:0]  ALUOp,
                             IF_ID_address, ID_EX_address,
                             branch, ID_EX_branch,
                             JZEROSrc, ID_EX_JZEROSrc,
-                            SEMCtrl, ID_EX_SEMCtrl
+                            SEMCtrl, ID_EX_SEMCtrl,
+                            JalSrc, ID_EX_JAlSrc,
+                            JRSrc, ID_EX_JRSrc
                             );
     
     
@@ -272,14 +283,25 @@ wire [5:0]  ALUOp,
     
     
     //module ShiftLeft2(in, out);
-    ShiftLeft2 shiftleftby2_1(ID_EX_SE_out, SE2_out);
+    ShiftLeft2 shiftleftby2_1(ID_EX_SE_out, SL2_out);
     
     //module Mux32Bit2To1(out, inA, inB, sel);
     Mux32Bit2To1 mux8(mux8_out, hard0, ID_EX_address, ID_EX_JZEROSrc);
     
     
+    //module Mux32Bit2To1(out, inA, inB, sel);
+    Mux32Bit2To1 mux10(mux10_out, SL2_out, ID_EX_ReadData1_out, ID_EX_JRSrc);
+    
     //module Adder(A, B, out);
-    Adder Adder_1(mux8_out, SE2_out, Adder_1_out);
+    Adder Adder_1(mux8_out, mux10_out, Adder_1_out);
+    
+    
+    
+    //module PCAdder(PCResult, PCAddResult);
+    PCAdder JLAdder(ID_EX_address, JLAdder_out);
+    
+    
+    
     
     
     
@@ -305,7 +327,9 @@ wire [5:0]  ALUOp,
                              Adder_1_out, EX_MEM_Adder_1,
                              ID_EX_branch, EX_MEM_branch,
                              ALU1_zero, EX_MEM_ALUZero,
-                             ID_EX_SEMCtrl, EX_MEM_SEMCtrl);
+                             ID_EX_SEMCtrl, EX_MEM_SEMCtrl,
+                             JLAdder_out, EX_MEM_JLAdder_out,
+                             ID_EX_JAlSrc, EX_MEM_JAlSrc);
         
     //module AND(Input_A, Input_B, Output);
     AND AND1(EX_MEM_branch, EX_MEM_ALUZero, AND1_out);
@@ -320,6 +344,9 @@ wire [5:0]  ALUOp,
     SignExtendModular SignExtendModular1(DataMem_out, SEM1_out, EX_MEM_SEMCtrl);
     
     
+    //module Mux32Bit2To1(out, inA, inB, sel);
+    Mux32Bit2To1 mux9(mux9_out, EX_MEM_JLAdder_out, EX_MEM_ALU_out,EX_MEM_JAlSrc);
+    
     
     
    /* 
@@ -332,11 +359,27 @@ wire [5:0]  ALUOp,
     */
 
     
-    //module MEM_WB_Register(Clk, in_DataMemOut, in_destination_register, in_ALU1_output, in_MemToReg, in_RegWrite,
-    //                       out_DataMemOut, out_destination_register, out_ALU1_output, out_MemToReg, out_RegWrite);
-    MEM_WB_Register MEM_WB_1(Clk_out, SEM1_out, EX_MEM_dest_reg, EX_MEM_ALU_out, EX_MEM__MemToReg, EX_MEM__RegWrite,
-                             MEM_WB_DataMemOut, MEM_WB_destination_register, MEM_WB_ALU1_output, MEM_WB_MemToReg, MEM_WB_RegWrite
+//    module MEM_WB_Register(Clk, 
+//                           in_DataMemOut, out_DataMemOut,
+//                           in_destination_register, out_destination_register,
+//                           in_ALU1_output, out_ALU1_output,
+//                           in_MemToReg, out_MemToReg,
+//                           in_RegWrite, out_RegWrite,
+//                           in_JALSrc, out_JALSrc);
+    
+    //MEM_WB_Register MEM_WB_1(Clk_out, SEM1_out, EX_MEM_dest_reg, mux9_out, EX_MEM__MemToReg, EX_MEM__RegWrite,
+    //                         MEM_WB_DataMemOut, MEM_WB_destination_register, MEM_WB_ALU1_output, MEM_WB_MemToReg, MEM_WB_RegWrite,
+    //                         EX_MEM_JAlSrc, MEM_WB_JALSrc
+    //                         );
+    MEM_WB_Register MEM_WB_1(Clk_out,
+                             SEM1_out,       , MEM_WB_DataMemOut,
+                             EX_MEM_dest_reg , MEM_WB_destination_register,
+                             mux9_out        , MEM_WB_ALU1_output,
+                             EX_MEM__MemToReg, MEM_WB_MemToReg,
+                             EX_MEM__RegWrite, MEM_WB_RegWrite,
+                             EX_MEM_JAlSrc, MEM_WB_JALSrc
                              );
+    
     
     
     //module Mux32Bit2To1(out, inA, inB, sel);
