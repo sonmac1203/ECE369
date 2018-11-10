@@ -42,11 +42,8 @@ module EXForwarding(ID_EX_rs, ID_EX_rt,
        if   ((MEM_WB_RegWrite == 1 && MEM_WB_RegisterRd != 0)
              && !(EX_MEM_RegWrite == 1 && EX_MEM_RegRd != 0)
              && (EX_MEM_RegRd == ID_EX_rs)
-             && (MEM_WB_RegisterRd == ID_EX_rs))   
-             begin
-             ForwardA = 01;
-            
-       
+             && (MEM_WB_RegisterRd == ID_EX_rs)) begin
+                ForwardA = 01;
        end
        
        

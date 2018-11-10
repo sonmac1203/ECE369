@@ -20,10 +20,10 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module IF_ID_Register(Clk, 
+module IF_ID_Register(Clk, IF_ID_Write,
                       in_Instruction, out_Instruction,
                       in_PCplus4, out_PCplus4);
-    input Clk;
+    input Clk, IF_ID_Write;
     input [31:0] in_Instruction, in_PCplus4;
     output reg [31:0] out_Instruction, out_PCplus4;
     
@@ -33,8 +33,13 @@ module IF_ID_Register(Clk,
     end
 
     always @ (posedge Clk)  begin
+        if (~IF_ID_Write)    begin
+            //do nothing
+        end
+        else    begin
         out_Instruction <= in_Instruction;
         out_PCplus4 <= in_PCplus4;
+        end
     end
     
 

@@ -24,9 +24,9 @@
 // location, 0x00000000H).
 ////////////////////////////////////////////////////////////////////////////////
 
-module ProgramCounter(Address, PCResult, Reset, Clk, debug_program_counter);
+module ProgramCounter(Address, PCResult, Reset, Clk, debug_program_counter, PCWrite);
 
-	input [31:0] Address;
+	input [31:0] Address, PCWrite;
 	input Reset, Clk;
 
 //	(* mark_debug = "true" *)  output reg [31:0] PCResult;
@@ -44,8 +44,9 @@ module ProgramCounter(Address, PCResult, Reset, Clk, debug_program_counter);
     always @ (posedge Clk)  begin
         if (Reset == 1'b1)
             PCResult <= 0;
-        else
+        else if (PCWrite)  begin
             PCResult <= Address;
+        end
     end
     
     assign debug_program_counter = PCResult;
