@@ -98,7 +98,6 @@ wire    Clk_out,
         CR_branch,    
         CR_JalSrc,   
         CR_JZEROSrc,  
-        CR_SEMCtrl,
         Flush,
         IF_ID_Write,
         PCWrite,
@@ -111,6 +110,7 @@ wire [1:0]  SEMCtrl,
             ForwardB,
             DForwardA, 
             DForwardB,
+            CR_SEMCtrl,
             EX_MEM_SEMCtrl;
 
 
@@ -305,7 +305,7 @@ wire [5:0]  ALUOp,
     Mux32Bit3To1 mux14(Mux14_out, ReadData1_out, EX_MEM_ALU_out, mux9_out, DForwardA);
     
     //module Mux32Bit3To1(out, inA, inB, inC, sel);
-    Mux32Bit3To1 mux15(Mux15_out, ReadData1_out, EX_MEM_ALU_out, mux9_out, DForwardB);
+    Mux32Bit3To1 mux15(Mux15_out, ReadData2_out, EX_MEM_ALU_out, mux9_out, DForwardB);
     
     
     
@@ -476,7 +476,7 @@ wire [5:0]  ALUOp,
 
 
     //module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
-    DataMemory DM_1(EX_MEM_ALU_out, EX_MEM_ReadData_2, Clk_out, EX_MEM__MemWrite, EX_MEM__MemRead, DataMem_out, mem0, mem1, mem2, mem3, EX_MEM_SEMCtrl);
+    DataMemory DM_1(EX_MEM_ALU_out, mux13_out, Clk_out, EX_MEM__MemWrite, EX_MEM__MemRead, DataMem_out, mem0, mem1, mem2, mem3, EX_MEM_SEMCtrl);
 
 
     //module SignExtendModular(in, out, SEMCtrl);

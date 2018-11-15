@@ -38,9 +38,12 @@ module ControllerRegister(Hazard,
                         );
 
     input Hazard,in_ALUSrc, in_RegDst, in_RegWrite, in_ALUOp, in_MemRead, in_MemWrite,
-            in_MemToReg, in_ALUSft, in_ZEROSrc, in_branch, in_JalSrc, in_JZEROSrc, in_SEMCtrl, in_JRSrc; 
+            in_MemToReg, in_ALUSft, in_ZEROSrc, in_branch, in_JalSrc, in_JZEROSrc, in_JRSrc; 
     output reg out_ALUSrc, out_RegDst, out_RegWrite, out_ALUOp, out_MemRead, out_MemWrite, out_MemToReg, 
-                out_ALUSft, out_ZEROSrc, out_branch, out_JalSrc, out_JZEROSrc, out_SEMCtrl, out_JRSrc;
+                out_ALUSft, out_ZEROSrc, out_branch, out_JalSrc, out_JZEROSrc, out_JRSrc;
+    input [1:0] in_SEMCtrl;
+    output reg [1:0] out_SEMCtrl;
+    
     
     
     initial begin
@@ -56,7 +59,7 @@ module ControllerRegister(Hazard,
         out_branch      <= 0;
         out_JalSrc      <= 0;
         out_JZEROSrc    <= 0;
-        out_SEMCtrl     <= 0;
+        out_SEMCtrl     <= 2'b00;
         out_JRSrc       <= 0;
     end
 

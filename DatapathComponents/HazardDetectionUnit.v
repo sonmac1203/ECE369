@@ -29,8 +29,8 @@ module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt
     
     
     initial begin 
-        PCWrite <= 0;
-        IF_ID_Write <= 0;
+        PCWrite <= 1;
+        IF_ID_Write <= 1;
         Flush <= 0;
     end
     
