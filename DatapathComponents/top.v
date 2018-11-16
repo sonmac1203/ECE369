@@ -199,7 +199,7 @@ wire [5:0]  ALUOp,
     ClkDiv CD1(Clk, Clk_Reset, Clk_out);
 
     //module ProgramCounter(Address, PCResult, Reset, Clk, debug_program_counter, PCWrite);
-    ProgramCounter PC(mux6_out, PCResult, PC_Reset, Clk_out, debug_program_counter, PCWrite);
+    ProgramCounter PC(mux6_out, PCResult, PC_Reset, Clk_out, debug_program_counter, Flush);
 
     //module PCAdder(PCResult, PCAddResult)
     PCAdder PCAdd(PCResult, PCAdder_out);
@@ -220,7 +220,7 @@ wire [5:0]  ALUOp,
 //    module IF_ID_Register(Clk, IF_ID_Write
 //                          in_Instruction, out_Instruction,
 //                          in_PCplus4, out_PCplus4);
-    IF_ID_Register IFID_Reg_1(Clk_out, IF_ID_Write,
+    IF_ID_Register IFID_Reg_1(Clk_out, Flush,
                               IM_out, IF_ID_Instruction_out,
                               PCAdder_out, IF_ID_address);
 
@@ -288,7 +288,7 @@ wire [5:0]  ALUOp,
 
     //module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rt, IF_ID_Write, PCWrite, Flush);
     HazardDetectionUnit HazardDetection1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], ID_EX_MemRead,
-                                         ID_EX_rs, ID_EX_rt, IF_ID_Write, PCWrite, Flush);
+                                         ID_EX_rs, ID_EX_rt, Flush);
 
 
     

@@ -20,22 +20,28 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, IF_ID_Write, PCWrite, Flush);
+module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush);
 
     input [4:0] IF_ID_rs, IF_ID_rt, ID_EX_rt, ID_EX_rs;
     input ID_EX_MemRead;
     
-    output reg PCWrite, IF_ID_Write, Flush;
+    output reg Flush;
     
     
     initial begin 
-        PCWrite <= 1;
-        IF_ID_Write <= 1;
         Flush <= 0;
     end
     
     always @ (*)    begin
-        //do nothing for now
+       Flush <= 0;
+       
+       if ((IF_ID_rs == ID_EX_rs) && ID_EX_MemRead) begin
+           Flush <= 1;
+       end
+       
+       
+       
+       
     end
     
 

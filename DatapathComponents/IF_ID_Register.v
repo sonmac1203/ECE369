@@ -20,10 +20,10 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module IF_ID_Register(Clk, IF_ID_Write,
+module IF_ID_Register(Clk, HazardFlush,
                       in_Instruction, out_Instruction,
                       in_PCplus4, out_PCplus4);
-    input Clk, IF_ID_Write;
+    input Clk, HazardFlush;
     input [31:0] in_Instruction, in_PCplus4;
     output reg [31:0] out_Instruction, out_PCplus4;
     
@@ -33,7 +33,7 @@ module IF_ID_Register(Clk, IF_ID_Write,
     end
 
     always @ (posedge Clk)  begin
-        if (~IF_ID_Write)    begin
+        if (HazardFlush)    begin 
             //do nothing
         end
         else    begin
