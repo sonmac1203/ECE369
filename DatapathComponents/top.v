@@ -309,6 +309,29 @@ wire [5:0]  ALUOp,
     
     
     
+    /*
+     *Start BLU (Branch Logic Unit)
+     */
+    
+    
+    //TODO: change BLU's values to decode stage stuff.
+    
+     //module BLU(BLUControl, A, B, Zero);
+     BLU BLU1(ID_EX_ALUOp, ID_EX_ReadData1_out, ID_EX_ReadData2_out, BLU_out);
+     
+     //module AND(Input_A, Input_B, Output);
+     AND AND1(ID_EX_branch, BLU_out, AND1_out);
+     //END BLU ZONE
+    
+    
+    
+    
+    
+    /*
+     * END BLU
+     */
+    
+    
     
     
        /*
@@ -412,14 +435,6 @@ wire [5:0]  ALUOp,
     PCAdder JLAdder(ID_EX_address, JLAdder_out);
 
 
-
-    //BLU ZONE
-    //module BLU(BLUControl, A, B, Zero);
-    BLU BLU1(ID_EX_ALUOp, ID_EX_ReadData1_out, ID_EX_ReadData2_out, BLU_out);
-    
-    //module AND(Input_A, Input_B, Output);
-    AND AND1(ID_EX_branch, BLU_out, AND1_out);
-    //END BLU ZONE
 
     
     
