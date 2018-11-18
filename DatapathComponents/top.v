@@ -70,8 +70,6 @@ wire    Clk_out,
         MEM_WB_MemToReg,
         MEM_WB_RegWrite,
         ZEROSrc,
-        ID_EX_branch,
-        EX_MEM_branch,
         branch,
         EX_MEM_ALUZero,
         AND1_out,
@@ -82,7 +80,6 @@ wire    Clk_out,
         ID_EX_JAlSrc,
         EX_MEM_JAlSrc,
         JRSrc,
-        ID_EX_JRSrc,
         BLU_out,
         ID_EX_ZEROSrc,
         MemToReg,
@@ -142,7 +139,6 @@ wire[31:0]  IFU_Instruction_out,
             ZE_out,
             Mux5_out,
             IF_ID_address,
-            ID_EX_address,
             Adder_1_out,
             EX_MEM_Adder_1,
             mux6_out,
@@ -310,21 +306,29 @@ wire [5:0]  ALUOp,
     
     
     /*
-     *Start BLU (Branch Logic Unit)
+     *Start BLU (Branch Logic Unit and associated Program Counter Manipulator)
      */
     
-    
-    //TODO: change BLU's values to decode stage stuff.
-    
      //module BLU(BLUControl, A, B, Zero);
-     BLU BLU1(ID_EX_ALUOp, ID_EX_ReadData1_out, ID_EX_ReadData2_out, BLU_out);
+     BLU BLU1(CR_ALUOp, Mux14_out, Mux15_out, BLU_out);
      
      //module AND(Input_A, Input_B, Output);
-     AND AND1(ID_EX_branch, BLU_out, AND1_out);
+     AND AND1(CR_branch, BLU_out, AND1_out);
      //END BLU ZONE
     
     
-    
+     //module ShiftLeft2(in, out);
+     ShiftLeft2 shiftleftby2_1(SE_out, SL2_out);
+ 
+     //module Mux32Bit2To1(out, inA, inB, sel);
+     Mux32Bit2To1 mux8(mux8_out, hard0, IF_ID_address, CR_JZEROSrc);
+ 
+ 
+     //module Mux32Bit2To1(out, inA, inB, sel);
+     Mux32Bit2To1 mux10(mux10_out, SL2_out, Mux14_out, CR_JRSrc);
+ 
+     //module Adder(A, B, out);
+     Adder Adder_1(mux8_out, mux10_out, Adder_1_out);
     
     
     /*
@@ -350,7 +354,6 @@ wire [5:0]  ALUOp,
 //                      out_ALUSrc, out_ALUOP, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite,
 //                      ALUSft, out_ALUSft,
 //                      ZE_in, ZE_out,
-//                      in_PCplus4, out_PCplus4,
 //                      in_branch, out_branch,
 //                      JZEROSrc, ID_EX_JZEROSrc,
 //                      SEMCtrl_in, out_SEMCtrl,
@@ -365,12 +368,9 @@ wire [5:0]  ALUOp,
                             ID_EX_ALUSrc, ID_EX_ALUOp, ID_EX_RegDst, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite,
                             CR_ALUSft, ID_EX_ALUSft,
                             ZE_out, ID_EX_ZE,
-                            IF_ID_address, ID_EX_address,
-                            CR_branch, ID_EX_branch,
                             CR_JZEROSrc, ID_EX_JZEROSrc,
                             CR_SEMCtrl, ID_EX_SEMCtrl,
                             CR_JalSrc, ID_EX_JAlSrc,
-                            CR_JRSrc, ID_EX_JRSrc,
                             IF_ID_Instruction_out[25:21], ID_EX_rs,
                             IF_ID_Instruction_out[20:16], ID_EX_rt,
                             CR_ZEROSrc, ID_EX_ZEROSrc
@@ -414,21 +414,6 @@ wire [5:0]  ALUOp,
     
     //module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out);
     ALU32Bit ALU1(ID_EX_ALUOp, mux11_out, mux12_out, ALU1_out,ALU1_zero, LO_out, LO_in, HI_out, HI_in);
-
-
-    //module ShiftLeft2(in, out);
-    ShiftLeft2 shiftleftby2_1(ID_EX_SE_out, SL2_out);
-
-    //module Mux32Bit2To1(out, inA, inB, sel);
-    Mux32Bit2To1 mux8(mux8_out, hard0, ID_EX_address, ID_EX_JZEROSrc);
-
-
-    //module Mux32Bit2To1(out, inA, inB, sel);
-    Mux32Bit2To1 mux10(mux10_out, SL2_out, ID_EX_ReadData1_out, ID_EX_JRSrc);
-
-    //module Adder(A, B, out);
-    Adder Adder_1(mux8_out, mux10_out, Adder_1_out);
-
 
 
     //module PCAdder(PCResult, PCAddResult);
