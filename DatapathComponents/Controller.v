@@ -109,6 +109,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             RegWrite <= 0;
             ALUOp <= 6'b000000;
             MemWrite <= 0;
+            MemRead <= 0;
             branch <= 0;
             JalSrc <= 1;
         
