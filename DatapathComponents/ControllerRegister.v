@@ -37,12 +37,14 @@ module ControllerRegister(Hazard,
                         in_JRSrc,        out_JRSrc
                         );
 
-    input Hazard,in_ALUSrc, in_RegDst, in_RegWrite, in_ALUOp, in_MemRead, in_MemWrite,
+    input Hazard,in_ALUSrc, in_RegDst, in_RegWrite, in_MemRead, in_MemWrite,
             in_MemToReg, in_ALUSft, in_ZEROSrc, in_branch, in_JalSrc, in_JZEROSrc, in_JRSrc; 
-    output reg out_ALUSrc, out_RegDst, out_RegWrite, out_ALUOp, out_MemRead, out_MemWrite, out_MemToReg, 
+    input [5:0] in_ALUOp;
+    output reg out_ALUSrc, out_RegDst, out_RegWrite, out_MemRead, out_MemWrite, out_MemToReg, 
                 out_ALUSft, out_ZEROSrc, out_branch, out_JalSrc, out_JZEROSrc, out_JRSrc;
     input [1:0] in_SEMCtrl;
     output reg [1:0] out_SEMCtrl;
+    output reg [5:0] out_ALUOp;
     
     
     

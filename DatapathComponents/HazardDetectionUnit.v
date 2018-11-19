@@ -35,14 +35,15 @@ module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt
     always @ (*)    begin
        Flush <= 0;
        
-       if ((IF_ID_rs == ID_EX_rs) && ID_EX_MemRead) begin
+       if ((IF_ID_rs == ID_EX_rt) && ID_EX_MemRead == 1) begin
+           Flush <= 1;
+       end
+       
+       if ((IF_ID_rt == ID_EX_rt) && ID_EX_MemRead == 1) begin
            Flush <= 1;
        end
        
        
-       
-       
-    end
-    
+       end
 
 endmodule

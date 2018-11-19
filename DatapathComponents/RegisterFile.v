@@ -48,7 +48,9 @@
 // to allow for data multiplexing and setup time.
 ////////////////////////////////////////////////////////////////////////////////
 
-module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2, debug_write_data, s0, s1, s2);
+module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, 
+                    RegWrite, Clk, ReadData1, ReadData2, debug_write_data, 
+                    s0, s1, s2, s3, s4, s5, s6, s7);
 
 	/* Please fill in the implementation here... */
 	
@@ -56,9 +58,7 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
 	input [31:0] WriteData;
 	
 	output [31:0] debug_write_data,
-	              s0,
-	              s1,
-	              s2;
+	              s0, s1, s2, s3, s4, s5, s6, s7;
 
 	
 	input [4:0] ReadRegister1, ReadRegister2, WriteRegister;
@@ -75,13 +75,15 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
 	
 	
 	
-	always @ (negedge Clk) begin
+	//always @ (negedge Clk) begin
+	always @ (*) begin
         ReadData1 <= registers[ReadRegister1];
         ReadData2 <= registers[ReadRegister2];
     end	
 	
 	
-	always @ (posedge Clk) begin
+	//always @ (posedge Clk) begin
+	always @ (negedge Clk) begin
 	  if (RegWrite)    begin
 	   registers[WriteRegister] <= WriteData;
 	  end
@@ -91,6 +93,12 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
 	assign s0 = registers[16];
 	assign s1 = registers[17];
 	assign s2 = registers[18];
+	assign s3 = registers[19];
+	assign s4 = registers[20];
+	assign s5 = registers[21];
+	assign s6 = registers[22];
+	assign s7 = registers[23];
+	
 	assign debug_write_data = WriteData;
 
 endmodule

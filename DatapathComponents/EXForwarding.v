@@ -24,10 +24,15 @@ module EXForwarding(ID_EX_rs, ID_EX_rt,
                     EX_MEM_ALU, EX_MEM_dest_reg, mux3_out, 
                     EX_MEM_RegWrite, EX_MEM_RegRd,
                     MEM_WB_RegWrite, MEM_WB_RegisterRd,
-                    ForwardA, ForwardB);
+                    ForwardA, ForwardB,
+                    ID_EX_MemRead,
+                    ID_EX_RegDst,
+                    ID_EX_ALUSft);
 
-    input [31:0] ID_EX_rs, ID_EX_rt, EX_MEM_ALU, EX_MEM_dest_reg, mux3_out, MEM_WB_RegisterRd;
-    input EX_MEM_RegWrite, EX_MEM_RegRd, MEM_WB_RegWrite;
+    input [31:0] EX_MEM_ALU, mux3_out;
+    input [4:0] EX_MEM_dest_reg, ID_EX_rs, ID_EX_rt, MEM_WB_RegisterRd;
+    input EX_MEM_RegWrite, EX_MEM_RegRd, MEM_WB_RegWrite, ID_EX_MemRead, 
+            ID_EX_ALUSft, ID_EX_RegDst;
     
     
     output reg [1:0] ForwardA, ForwardB;
@@ -39,12 +44,74 @@ module EXForwarding(ID_EX_rs, ID_EX_rt,
     
     always @ (*)    begin
     
+        ForwardA <= 0;
+        ForwardB <= 0;
+    
+    
        if   ((MEM_WB_RegWrite == 1 && MEM_WB_RegisterRd != 0)
              && !(EX_MEM_RegWrite == 1 && EX_MEM_RegRd != 0)
              && (EX_MEM_RegRd == ID_EX_rs)
              && (MEM_WB_RegisterRd == ID_EX_rs)) begin
-                ForwardA = 01;
+                ForwardA <= 01;
        end
+       
+       if   ((MEM_WB_RegWrite == 1 && MEM_WB_RegisterRd != 0)
+             && !(EX_MEM_RegWrite == 1 && EX_MEM_RegRd != 0)
+             && (EX_MEM_RegRd == ID_EX_rt)
+             && (MEM_WB_RegisterRd == ID_EX_rt)) begin
+                ForwardB <= 01;
+       end       
+       
+       /*
+       Handles
+       add $s1, $s2, $s3
+       sub $s4, $s1, $s3
+       sub $s1, $s1, $s4
+       mul $s4, $s1, $s3
+       */
+       
+       if(MEM_WB_RegWrite == 1 && (ID_EX_rs == MEM_WB_RegisterRd))
+               ForwardA <= 2'b01;
+       
+       if(MEM_WB_RegWrite == 1 && (ID_EX_rt == MEM_WB_RegisterRd)
+            && ID_EX_RegDst == 1) begin //register ased op
+               ForwardB <= 2'b01;
+       end
+              
+       
+       
+       
+       //handles
+       //
+       //la $s3, asize0		   #mipshelper convert this to ori
+       //lw $s3, 4($s3)        #[s3] = 0xc8
+       //
+       
+       if(EX_MEM_RegWrite == 1 && (ID_EX_rs == EX_MEM_dest_reg)
+            //&& ID_EX_ALUSft == 0 //make sure that it is not a shift op
+            )   begin
+            ForwardA <= 2'b10;
+       end
+       
+       if(EX_MEM_RegWrite == 1 && (ID_EX_rt == EX_MEM_dest_reg)
+           && (ID_EX_RegDst == 1 || ID_EX_ALUSft == 1) //register based op or shift based op
+           && ID_EX_MemRead == 0 //Made sure it's not lw
+           )   begin
+            ForwardB <= 2'b10;
+       end
+       
+       
+
+       
+       
+       //add $s1, $s2, $s6
+       //ori $s1, s1, 43690
+       
+       
+       
+       
+       
+       
        
        
         

@@ -23,7 +23,7 @@
 
 
 module top(Clk, PC_Reset, Clk_Reset, debug_program_counter, debug_write_data,debug_HI, debug_LO,
-           s0, s1, s2,
+           s0, s1, s2, s3, s4, s5, s6, s7,
            mem0, mem1, mem2, mem3);
 
 
@@ -36,9 +36,7 @@ output  [31:0]  debug_program_counter,
                     debug_write_data,
                     debug_HI,
                     debug_LO,
-                    s0,
-                    s1,
-                    s2,
+                    s0, s1, s2, s3, s4, s5, s6, s7,
                     mem0,
                     mem1,
                     mem2,
@@ -85,8 +83,7 @@ wire    Clk_out,
         MemToReg,
         CR_ALUSrc,
         CR_RegDst,
-        CR_RegWrite,      
-        CR_ALUOp,    
+        CR_RegWrite,    
         CR_MemRead,  
         CR_MemWrite,  
         CR_MemToReg,   
@@ -170,6 +167,7 @@ wire [4:0]  ID_EX_out_rd_i,
             Mux2_out;
 
 wire [5:0]  ALUOp,
+            CR_ALUOp,
             ID_EX_ALUOp;
 
 
@@ -228,7 +226,7 @@ wire [5:0]  ALUOp,
 
     //module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2, debug_write_data);
     RegisterFile Register_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], mux7_out, Mux3_out, MEM_WB_RegWrite,
-                     Clk_out, ReadData1_out, ReadData2_out, debug_write_data, s0, s1, s2);
+                     Clk_out, ReadData1_out, ReadData2_out, debug_write_data, s0, s1, s2, s3, s4, s5, s6, s7);
 
     //module SignExtension(in, out);
     SignExtension SignExtend32_1(IF_ID_Instruction_out[15:0], SE_out);
@@ -282,7 +280,7 @@ wire [5:0]  ALUOp,
 
 
 
-    //module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rt, IF_ID_Write, PCWrite, Flush);
+    //module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush);
     HazardDetectionUnit HazardDetection1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], ID_EX_MemRead,
                                          ID_EX_rs, ID_EX_rt, Flush);
 
@@ -423,16 +421,21 @@ wire [5:0]  ALUOp,
 
     
     
-//    module EXForwarding(ID_EX_rs, ID_EX_rt, 
+//module EXForwarding(ID_EX_rs, ID_EX_rt, 
 //                        EX_MEM_ALU, EX_MEM_dest_reg, mux3_out, 
 //                        EX_MEM_RegWrite, EX_MEM_RegRd,
 //                        MEM_WB_RegWrite, MEM_WB_RegisterRd,
-//                        ForwardA, ForwardB);
+//                        ForwardA, ForwardB,
+//                        ID_EX_MemRead,
+//                        ID_EX_regDst);
+
     EXForwarding EXForwarding1(ID_EX_rs, ID_EX_rt, 
                                EX_MEM_ALU_out, EX_MEM_dest_reg, Mux3_out, 
                                EX_MEM__RegWrite, EX_MEM_dest_reg,
                                MEM_WB_RegWrite, MEM_WB_destination_register,
-                               ForwardA, ForwardB);
+                               ForwardA, ForwardB,
+                               ID_EX_MemRead,
+                               ID_EX_RegDst);
     
     
     
