@@ -123,6 +123,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b010100;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 1;
@@ -139,6 +140,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                     RegDst <= 1;
                     RegWrite <= 1;
                     ALUOp <= 6'b010101;
+                    MemRead <= 0;
                     MemWrite <= 0;
                     MemToReg <= 1;
                     ALUSft <= 1;
@@ -152,6 +154,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                     RegDst <= 1;
                     RegWrite <= 1;
                     ALUOp <= 6'b011000;
+                    MemRead <= 0;
                     MemWrite <= 0;
                     MemToReg <= 1;
                     ALUSft <= 1;
@@ -166,6 +169,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b011001;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 1;
@@ -182,6 +186,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b000000;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -195,6 +200,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b100000;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -208,6 +214,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b000001;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -220,6 +227,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegWrite <= 0;
                 ALUOp <= 6'b000011;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -232,6 +240,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegWrite <= 0;
                 ALUOp <= 6'b100001;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -245,6 +254,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b001111;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -258,6 +268,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b010000;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -271,6 +282,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b010001;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -284,6 +296,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b010010;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -297,6 +310,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b010100;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -310,6 +324,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b011011;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -323,6 +338,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b010110;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -336,6 +352,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b010111;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -352,6 +369,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                     RegDst <= 1;
                     RegWrite <= 1;
                     ALUOp <= 6'b010101;
+                    MemRead <= 0;
                     MemWrite <= 0;
                     MemToReg <= 1;
                     ALUSft <= 0;
@@ -365,6 +383,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                     RegDst <= 1;
                     RegWrite <= 1;
                     ALUOp <= 6'b011000;
+                    MemRead <= 0;
                     MemWrite <= 0;
                     MemToReg <= 1;
                     ALUSft <= 0;
@@ -379,6 +398,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b011001;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -392,6 +412,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b100010;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -404,6 +425,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegWrite <= 0;
                 ALUOp <= 6'b011100;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -416,6 +438,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegWrite <= 0;
                 ALUOp <= 6'b011101;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -428,6 +451,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegWrite <= 1;
                 ALUOp <= 6'b011110;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -441,6 +465,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegWrite <= 1;
                 ALUOp <= 6'b011111;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -453,6 +478,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             else if(Instruction[5:0] == 6'b001000) begin
                 RegWrite <= 0;
                 ALUOp <= 6'b100011;
+                MemRead <= 0;
                 MemWrite <= 0;
                 ALUSft <= 0;
                 branch <= 1;
@@ -471,6 +497,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b000010;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -483,6 +510,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegWrite <= 0;
                 ALUOp <= 6'b000100;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -495,6 +523,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegWrite <= 0;
                 ALUOp <= 6'b000101;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -512,6 +541,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b010011;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -525,6 +555,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 1;
                 RegWrite <= 1;
                 ALUOp <= 6'b011010;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -542,6 +573,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 0;
                 RegWrite <= 1;
                 ALUOp <= 6'b100000;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -556,6 +588,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 0;
                 RegWrite <= 1;
                 ALUOp <= 6'b000000;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -570,6 +603,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 0;
                 RegWrite <= 1;
                 ALUOp <= 6'b001111;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -584,6 +618,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 0;
                 RegWrite <= 1;
                 ALUOp <= 6'b010000;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -598,6 +633,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 0;
                 RegWrite <= 1;
                 ALUOp <= 6'b010010;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -612,6 +648,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 0;
                 RegWrite <= 1;
                 ALUOp <= 6'b011011;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -626,6 +663,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 0;
                 RegWrite <= 1;
                 ALUOp <= 6'b100010;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -655,6 +693,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                  ALUSrc <= 1;
                  RegWrite <= 0;
                  ALUOp <= 6'b000000;
+                 MemRead <= 0;
                  MemWrite <= 1;
                  ALUSft <= 0;
                  ZEROSrc <= 0;
@@ -668,6 +707,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                  ALUSrc <= 1;
                  RegWrite <= 0;
                  ALUOp <= 6'b000000;
+                 MemRead <= 0;
                  MemWrite <= 1;
                  ALUSft <= 0;
                  ZEROSrc <= 0;
@@ -713,6 +753,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                  ALUSrc <= 1;
                  RegWrite <= 0;
                  ALUOp <= 6'b000000;
+                 MemRead <= 0;
                  MemWrite <= 1;
                  ALUSft <= 0;
                  ZEROSrc <= 0;
@@ -728,6 +769,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 if(Instruction[20:16] == 6'b00001) begin
                     RegWrite <= 0;
                     ALUOp <= 6'b000111;
+                    MemRead <= 0;
                     MemWrite <= 0;
                     ALUSft <= 0;
                     branch <= 1;
@@ -740,6 +782,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 else if(Instruction[20:16] == 6'b00000) begin
                     RegWrite <= 0;
                     ALUOp <= 6'b001100;
+                    MemRead <= 0;
                     MemWrite <= 0;
                     ALUSft <= 0;
                     branch <= 1;
@@ -754,6 +797,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegWrite <= 0;
                 ALUOp <= 6'b001000;
+                MemRead <= 0;
                 MemWrite <= 0;
                 ALUSft <= 0;
                 branch <= 1;
@@ -767,6 +811,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 ALUSrc <= 0;
                 RegWrite <= 0;
                 ALUOp <= 6'b001001;
+                MemRead <= 0;
                 MemWrite <= 0;
                 ALUSft <= 0;
                 branch <= 1;
@@ -779,6 +824,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             else if(Instruction[31:26] == 6'b000111) begin
                 RegWrite <= 0;
                 ALUOp <= 6'b001010;
+                MemRead <= 0;
                 MemWrite <= 0;
                 ALUSft <= 0;
                 branch <= 1;
@@ -791,6 +837,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             else if(Instruction[31:26] == 6'b000110) begin
                 RegWrite <= 0;
                 ALUOp <= 6'b001011;
+                MemRead <= 0;
                 MemWrite <= 0;
                 ALUSft <= 0;
                 branch <= 1;
@@ -803,6 +850,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             else if(Instruction[31:26] == 6'b000010) begin
                 RegWrite <= 0;
                 ALUOp <= 6'b001101;
+                MemRead <= 0;
                 MemWrite <= 0;
                 ALUSft <= 0;
                 branch <= 1;
@@ -815,6 +863,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             else if(Instruction[31:26] == 6'b000011) begin
                 RegWrite <= 1;
                 ALUOp <= 6'b001110;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 ALUSft <= 0;
@@ -830,6 +879,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 RegDst <= 0;
                 RegWrite <= 1;
                 ALUOp <= 6'b000110;
+                MemRead <= 0;
                 MemWrite <= 0;
                 MemToReg <= 1;
                 branch <= 0;
