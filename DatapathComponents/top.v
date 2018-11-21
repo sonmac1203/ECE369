@@ -214,7 +214,7 @@ wire [5:0]  ALUOp,
 //    module IF_ID_Register(Clk, IF_ID_Write
 //                          in_Instruction, out_Instruction,
 //                          in_PCplus4, out_PCplus4);
-    IF_ID_Register IFID_Reg_1(Clk_out, Flush,
+    IF_ID_Register IFID_Reg_1(Clk_out, Flush, AND1_out,
                               IM_out, IF_ID_Instruction_out,
                               PCAdder_out, IF_ID_address);
 
@@ -260,7 +260,7 @@ wire [5:0]  ALUOp,
 //                        in_SEMCtrl,     out_SEMCtrl,
 //                        in_JRSrc,        out_JRSrc
 //                        );
-    ControllerRegister ControlReg1(Flush, 
+    ControllerRegister ControlReg1(Flush, AND1_out,
                         ALUSrc,      CR_ALUSrc, 
                         RegDst,      CR_RegDst,
                         RegWrite,    CR_RegWrite,
@@ -280,9 +280,9 @@ wire [5:0]  ALUOp,
 
 
 
-    //module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush);
+//module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite);
     HazardDetectionUnit HazardDetection1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], ID_EX_MemRead,
-                                         ID_EX_rs, ID_EX_rt, Flush);
+                                         ID_EX_rs, ID_EX_rt, Flush, MemWrite);
 
 
     
@@ -308,10 +308,10 @@ wire [5:0]  ALUOp,
      */
     
      //module BLU(BLUControl, A, B, Zero);
-     BLU BLU1(CR_ALUOp, Mux14_out, Mux15_out, BLU_out);
+     BLU BLU1(ALUOp, Mux14_out, Mux15_out, BLU_out);
      
      //module AND(Input_A, Input_B, Output);
-     AND AND1(CR_branch, BLU_out, AND1_out);
+     AND AND1(branch, BLU_out, AND1_out);
      //END BLU ZONE
     
     
@@ -399,7 +399,7 @@ wire [5:0]  ALUOp,
 
 
     //module Mux32Bit2To1(out, inA, inB, sel);
-    Mux32Bit2To1 Mux4(Mux4_out, ID_EX_ReadData1_out, SE1_out, ALUSft);
+    Mux32Bit2To1 Mux4(Mux4_out, ID_EX_ReadData1_out, SE1_out, ID_EX_ALUSft);
     
     
     

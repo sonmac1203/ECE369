@@ -106,8 +106,11 @@ module InstructionMemory(Address, Instruction);
     Memory[38] <= 32'had280004;    //            sw    $t0, 4($t1)
     Memory[39] <= 32'h8d280000;    //            lw    $t0, 0($t1)
     Memory[40] <= 32'h8d2a0004;    //            lw    $t2, 4($t1)
+    
+    //branchy boi
     Memory[41] <= 32'h34040018;    //            ori    $a0, $zero, 24
-    Memory[42] <= 32'h0800002d;    //            j    start
+//    Memory[42] <= 32'h0800002d;    //            j    start
+    Memory[42] <= 32'h08100038;    //            j    start
     Memory[43] <= 32'h2004ffff;    //            addi    $a0, $zero, -1
     Memory[44] <= 32'h2004ffff;    //            addi    $a0, $zero, -1
     Memory[45] <= 32'h8c900004;    //    start:        lw    $s0, 4($a0)

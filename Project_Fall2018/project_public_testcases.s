@@ -15,10 +15,6 @@ lw $s2, 0($s2)		#[s2] = 0x64
 la $s3, asize0							#mipshelper convert this to ori
 lw $s3, 4($s3)		#[s3] = 0xc8
 
-
-
-
-
 #Read After Write(RAW) case 1
 add $s1, $s2, $s3		#[s1] = 0x12c
 sub $s4, $s1, $s3		#[s4] = 0x64
@@ -70,8 +66,8 @@ add   $s4,   $s7,    $t2    #[s4] = 000001f4
 la $t1, asize0				# mipshelper convert it to ori
 lw $t0, 0($t1)				#[t0] = 0x64
 lw $t2, 4($t1)				#[t2] = 0x1f4
-sw $t2, 0($t1)				#
-sw $t0, 4($t1)				#
+sw $t2, 0($t1)				#		mem0 = 0x1f4		<-----
+sw $t0, 4($t1)				#		mem1 = 0x64
 lw $t0, 0($t1)				#[t0] = 0x1f4
 lw $t2, 4($t1)				#[t2] = 0x64
 

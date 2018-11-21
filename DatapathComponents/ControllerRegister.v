@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ControllerRegister(Hazard, 
+module ControllerRegister(Hazard, Branch,
                         in_ALUSrc,      out_ALUSrc, 
                         in_RegDst,      out_RegDst,
                         in_RegWrite,    out_RegWrite,
@@ -37,7 +37,7 @@ module ControllerRegister(Hazard,
                         in_JRSrc,        out_JRSrc
                         );
 
-    input Hazard,in_ALUSrc, in_RegDst, in_RegWrite, in_MemRead, in_MemWrite,
+    input Hazard,in_ALUSrc, in_RegDst, in_RegWrite, in_MemRead, in_MemWrite, Branch,
             in_MemToReg, in_ALUSft, in_ZEROSrc, in_branch, in_JalSrc, in_JZEROSrc, in_JRSrc; 
     input [5:0] in_ALUOp;
     output reg out_ALUSrc, out_RegDst, out_RegWrite, out_MemRead, out_MemWrite, out_MemToReg, 
@@ -67,7 +67,7 @@ module ControllerRegister(Hazard,
 
     always @ (*)    begin
     
-        if  (Hazard)    begin
+        if  (Hazard || Branch)    begin
             out_ALUSrc      <= 0;
             out_RegDst      <= 0;
             out_RegWrite    <= 0;

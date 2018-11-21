@@ -92,7 +92,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
     end
     
     
-    always @ (posedge Clk)  begin
+    always @ (negedge Clk)  begin
         if (MemWrite)   begin
             if(SEMCtrl == 2'b0)
                 memory[Address[11:2]] <= WriteData;
@@ -106,7 +106,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
         
      end
      
-     always @ (negedge Clk) begin
+     always @ (*) begin
         if (MemRead)    begin
             ReadData <= memory[Address[11:2]];
         end

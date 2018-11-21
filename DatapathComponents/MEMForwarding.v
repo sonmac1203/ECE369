@@ -33,17 +33,26 @@ module MEMForwarding(EX_MEM_rt, MEM_WB_rd, MEM_WB_RegWrite, MEMForward);
     end
 
     always @ (*)    begin
-        if (EX_MEM_rt == MEM_WB_rd) begin
-            if (MEM_WB_RegWrite)    begin
-                MEMForward <=1;
-            end
-            else    begin
-                MEMForward <= 0;
-            end
+        MEMForward <= 0;
+        if (EX_MEM_rt == MEM_WB_rd
+            && MEM_WB_RegWrite == 1
+            )   begin
+             MEMForward <= 1;
         end
-        else    begin
-            MEMForward <= 0;
-        end
+    
+//        if (EX_MEM_rt == MEM_WB_rd) begin
+//            if (MEM_WB_RegWrite)    begin
+//                MEMForward <=1;
+//            end
+//            else    begin
+//                MEMForward <= 0;
+//            end
+//        end
+//        else    begin
+//            MEMForward <= 0;
+//        end
+        
+        
     end
 
 
