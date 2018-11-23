@@ -18,3 +18,5 @@ for i in range(256):
 	outFile.write("            ReadData{0} = 0;\n".format(i))
 
 outFile.write("      end\nend")
+
+outFile.close()

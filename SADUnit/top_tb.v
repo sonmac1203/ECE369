@@ -24,7 +24,7 @@
 module top_tb();
     
     reg Clk, MemWrite, MemRead;
-    reg [31:0] MemAddress, WindowAddress, WriteData;
+    reg [31:0] MemAddress, WindowAddress, WriteData, MemWidth, MemHeight, FrameWidth;
     
     wire  [31:0]  SAD_out;
     
@@ -36,6 +36,9 @@ module top_tb();
                 .MemWrite(MemWrite),
                 .MemRead(MemRead),
                 .WriteData(WriteData),
+                .MemWidth(MemWidth),
+                .MemHeight(MemHeight),
+                .FrameWidth(FrameWidth),
                 .SAD_out(SAD_out) );
     
 
@@ -55,6 +58,9 @@ module top_tb();
         MemRead <= 1;
         MemAddress <= 32'b0;
         WindowAddress <= 32'b0;
+        MemWidth <= 8;
+        MemHeight <= 8;
+        FrameWidth <= 16;
     end
     
     

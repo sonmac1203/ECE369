@@ -46,3 +46,5 @@ while(i > 0):
 	i = int(i/2)
 
 outFile.write("            Adder Adder_1_0(Adder1_0_in_A, Adder1_0_in_B, SAD_out);")
+
+outFile.close()
