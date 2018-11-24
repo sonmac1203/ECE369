@@ -289,7 +289,7 @@ wire [5:0]  ALUOp,
     //module DecodeForwarding(DForwardA, DForwardB, rs, rt, 
     //                        ID_EX_rd, ID_EX_RegWrite, EX_MEM__RegWrite, EX_MEM_rd);
     DecodeForwarding DecodeForward1(DForwardA, DForwardB, IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16],
-                                    Mux2_out, ID_EX_RegWrite, EX_MEM__RegWrite, EX_MEM_dest_reg);
+                                    Mux2_out, ID_EX_RegWrite, EX_MEM__RegWrite, EX_MEM_dest_reg, branch);
     
     
     
@@ -319,11 +319,11 @@ wire [5:0]  ALUOp,
      ShiftLeft2 shiftleftby2_1(SE_out, SL2_out);
  
      //module Mux32Bit2To1(out, inA, inB, sel);
-     Mux32Bit2To1 mux8(mux8_out, hard0, IF_ID_address, CR_JZEROSrc);
+     Mux32Bit2To1 mux8(mux8_out, hard0, IF_ID_address, JZEROSrc);
  
  
      //module Mux32Bit2To1(out, inA, inB, sel);
-     Mux32Bit2To1 mux10(mux10_out, SL2_out, Mux14_out, CR_JRSrc);
+     Mux32Bit2To1 mux10(mux10_out, SL2_out, Mux14_out, JRSrc);
  
      //module Adder(A, B, out);
      Adder Adder_1(mux8_out, mux10_out, Adder_1_out);

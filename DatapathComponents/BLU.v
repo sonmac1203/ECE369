@@ -34,6 +34,7 @@ module BLU(BLUControl, A, B, Zero);
     
     Zero <= 0;
     
+    //bgez
     if (BLUControl == 6'b000111) begin
       if ($signed(A) >= 0)
           Zero <= 1;

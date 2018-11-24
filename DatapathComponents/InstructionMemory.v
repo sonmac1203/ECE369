@@ -109,13 +109,14 @@ module InstructionMemory(Address, Instruction);
     
     //branchy boi
     Memory[41] <= 32'h34040018;    //            ori    $a0, $zero, 24
-//    Memory[42] <= 32'h0800002d;    //            j    start
-    Memory[42] <= 32'h08100038;    //            j    start
+    Memory[42] <= 32'h0800002d;    //            j    start
+    //Memory[42] <= 32'h08100038;    //            j    start
     Memory[43] <= 32'h2004ffff;    //            addi    $a0, $zero, -1
     Memory[44] <= 32'h2004ffff;    //            addi    $a0, $zero, -1
     Memory[45] <= 32'h8c900004;    //    start:        lw    $s0, 4($a0)
     Memory[46] <= 32'hac900000;    //            sw    $s0, 0($a0)
     Memory[47] <= 32'h06010003;    //    branch1:    bgez    $s0, branch2
+    //Memory[47] <= 32'h060100d8;    //    branch1:    bgez    $s0, branch2
     Memory[48] <= 32'h22100001;    //            addi    $s0, $s0, 1
     Memory[49] <= 32'h0601fffd;    //            bgez    $s0, branch1
     Memory[50] <= 32'h0800003d;    //            j    error

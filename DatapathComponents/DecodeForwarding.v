@@ -20,11 +20,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module DecodeForwarding(DForwardA, DForwardB, rs, rt, ID_EX_rd, ID_EX_RegWrite, EX_MEM__RegWrite, EX_MEM_rd);
+module DecodeForwarding(DForwardA, DForwardB, IF_ID_rs, IF_ID_rt, ID_EX_rd, ID_EX_RegWrite, EX_MEM__RegWrite, EX_MEM_rd, branch);
 
 
-input [4:0] rs, rt, ID_EX_rd, EX_MEM_rd;
-input ID_EX_RegWrite, EX_MEM__RegWrite;
+input [4:0] IF_ID_rs, IF_ID_rt, ID_EX_rd, EX_MEM_rd;
+input ID_EX_RegWrite, EX_MEM__RegWrite, branch;
 
 output reg [1:0] DForwardA, DForwardB;
 
@@ -32,6 +32,22 @@ output reg [1:0] DForwardA, DForwardB;
     initial begin
         DForwardA <= 0;
         DForwardB <= 0;
+    end
+
+    
+    always @ (*) begin
+        DForwardA <= 0;
+        DForwardB <= 0;
+        
+        
+        if (IF_ID_rs == EX_MEM_rd
+            && EX_MEM__RegWrite == 1
+            && branch == 1
+            ) begin
+            DForwardA <= 1;
+        end
+        
+        
     end
 
 

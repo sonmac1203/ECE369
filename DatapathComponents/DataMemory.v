@@ -68,13 +68,14 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
 //        memory[5] <= -1;
 
 
-          memory[0] <= 100;
+          memory[0] <= 100; //asize 0
           memory[1] <= 200;       
           memory[2] <= 300;
           memory[3] <= 400;
           memory[4] <= 500;
           memory[5] <= 600;
-          memory[6] <= 700;
+          
+          memory[6] <= 700; //asize 1
           memory[7] <= 800;
           memory[8] <= 900;
           memory[9] <= 1000;
