@@ -282,7 +282,7 @@ wire [5:0]  ALUOp,
 
 //module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite);
     HazardDetectionUnit HazardDetection1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], ID_EX_MemRead,
-                                         ID_EX_rs, ID_EX_rt, Flush, MemWrite, branch);
+                                         ID_EX_rs, ID_EX_rt, Flush, MemWrite, branch, ID_EX_RegWrite);
 
 
     
