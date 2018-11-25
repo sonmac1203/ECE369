@@ -20,9 +20,9 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite);
+module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite, branch);
 
-    input ID_EX_MemRead, IF_ID_MemWrite;
+    input ID_EX_MemRead, IF_ID_MemWrite, branch;
     input [4:0] IF_ID_rs, IF_ID_rt, ID_EX_rt, ID_EX_rs;
     
     output reg Flush;
@@ -44,6 +44,19 @@ module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt
             && IF_ID_MemWrite == 0) begin
            Flush <= 1;
        end
+       
+       // FLUSH FOR:
+       // addi rs rt imm
+       // bltz rs imm
+//       if (IF_ID_rs == ID_EX_rs
+//           && branch == 1
+//           ) begin
+//           Flush <= 1;
+//       end
+       
+       
+       
+       
        
        
        end

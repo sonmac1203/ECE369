@@ -33,11 +33,17 @@ module IF_ID_Register(Clk, HazardFlush, Branch,
     end
 
     always @ (posedge Clk)  begin
-        if (HazardFlush || Branch)    begin 
-        out_PCplus4 <= in_PCplus4;
-        out_Instruction <= 0;
-            //do nothing                //out_PCplus4 <= in_PCplus4; //forward PC, but not instruction
+        if (Branch)    begin 
+            out_PCplus4 <= in_PCplus4;
+            out_Instruction <= 0;
         end
+        
+        
+        else if (HazardFlush) begin
+            //do nothing
+        end
+        
+        
         else    begin
             out_Instruction <= in_Instruction;
             out_PCplus4 <= in_PCplus4;

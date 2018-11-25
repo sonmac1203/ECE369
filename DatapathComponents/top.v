@@ -211,9 +211,9 @@ wire [5:0]  ALUOp,
     */
 
 
-//    module IF_ID_Register(Clk, IF_ID_Write
-//                          in_Instruction, out_Instruction,
-//                          in_PCplus4, out_PCplus4);
+    //module IF_ID_Register(Clk, HazardFlush, Branch,
+    //                      in_Instruction, out_Instruction,
+    //                      in_PCplus4, out_PCplus4);
     IF_ID_Register IFID_Reg_1(Clk_out, Flush, AND1_out,
                               IM_out, IF_ID_Instruction_out,
                               PCAdder_out, IF_ID_address);
@@ -282,7 +282,7 @@ wire [5:0]  ALUOp,
 
 //module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite);
     HazardDetectionUnit HazardDetection1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], ID_EX_MemRead,
-                                         ID_EX_rs, ID_EX_rt, Flush, MemWrite);
+                                         ID_EX_rs, ID_EX_rt, Flush, MemWrite, branch);
 
 
     
