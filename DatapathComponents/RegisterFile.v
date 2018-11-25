@@ -50,7 +50,7 @@
 
 module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, 
                     RegWrite, Clk, ReadData1, ReadData2, debug_write_data, 
-                    s0, s1, s2, s3, s4, s5, s6, s7);
+                    s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0);
 
 	/* Please fill in the implementation here... */
 	
@@ -58,7 +58,7 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData,
 	input [31:0] WriteData;
 	
 	output [31:0] debug_write_data,
-	              s0, s1, s2, s3, s4, s5, s6, s7;
+	              s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0;
 
 	
 	input [4:0] ReadRegister1, ReadRegister2, WriteRegister;
@@ -98,6 +98,14 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData,
 	assign s5 = registers[21];
 	assign s6 = registers[22];
 	assign s7 = registers[23];
+	
+	assign t0 = registers[8];
+	assign t1 = registers[9];
+	assign t2 = registers[10];
+	assign t3 = registers[11];
+	assign t4 = registers[12];
+	
+	assign a0 = registers[4];
 	
 	assign debug_write_data = WriteData;
 
