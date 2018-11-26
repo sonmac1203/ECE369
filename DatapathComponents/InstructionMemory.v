@@ -50,7 +50,22 @@ module InstructionMemory(Address, Instruction);
     
     initial begin
 
-        memory[0] <= 32'h23bdfffc;  //  main:           addi    $sp, $sp, -4
+        memory[0] <= 32'h22100006;  //  tomato: addi    $s0, $s0, 6
+        memory[1] <= 32'h03e00008;  //      jr  $ra
+        memory[2] <= 32'h22110005;  //  orange: addi    $s1, $s0, 5
+        memory[3] <= 32'h22120005;  //      addi    $s2, $s0, 5
+        memory[4] <= 32'h22130005;  //      addi    $s3, $s0, 5
+        memory[5] <= 32'h22140005;  //      addi    $s4, $s0, 5
+        memory[6] <= 32'h22150005;  //      addi    $s5, $s0, 5
+        memory[7] <= 32'h03e00008;  //      jr  $ra
+        memory[8] <= 32'h34100004;  //  main:   ori $s0, $zero, 4
+        memory[9] <= 32'h0c000000;  //      jal tomato
+        memory[10] <= 32'h02108820; //      add $s1, $s0, $s0
+        memory[11] <= 32'h02309020; //      add $s2, $s1, $s0
+        memory[12] <= 32'h0c000002; //      jal orange
+
+
+        /*memory[0] <= 32'h23bdfffc;  //  main:           addi    $sp, $sp, -4
         memory[1] <= 32'hafbf0000;  //              sw  $ra, 0($sp)
         memory[2] <= 32'h34040000;  //              ori $a0, $zero, 0
         memory[3] <= 32'h34050010;  //              ori $a1, $zero, 16
@@ -307,7 +322,7 @@ module InstructionMemory(Address, Instruction);
         memory[254] <= 32'h03e00008;    //              jr  $ra
         memory[255] <= 32'h21ceffff;    //  upsubroutine:       addi    $t6, $t6, -1
         memory[256] <= 32'h21ef0001;    //              addi    $t7, $t7, 1
-        memory[257] <= 32'h03e00008;    //              jr  $ra
+        memory[257] <= 32'h03e00008;    //              jr  $ra*/
 
 
     
