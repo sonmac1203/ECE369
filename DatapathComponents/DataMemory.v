@@ -60,27 +60,27 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
 //        memory[2] <= 32'hffffffff;
 
 //        //this is for phase 1 part 1
-        memory[0] <= 0;
-        memory[1] <= 1;
-        memory[2] <= 2;
-        memory[3] <= 3;
-        memory[4] <= 4;
-        memory[5] <= -1;
+//        memory[0] <= 0;
+//        memory[1] <= 1;
+//        memory[2] <= 2;
+//        memory[3] <= 3;
+//        memory[4] <= 4;
+//        memory[5] <= -1;
 
 
-//          memory[0] <= 100; //asize 0
-//          memory[1] <= 200;       
-//          memory[2] <= 300;
-//          memory[3] <= 400;
-//          memory[4] <= 500;
-//          memory[5] <= 600;
+          memory[0] <= 100; //asize 0
+          memory[1] <= 200;       
+          memory[2] <= 300;
+          memory[3] <= 400;
+          memory[4] <= 500;
+          memory[5] <= 600;
           
-//          memory[6] <= 700; //asize 1
-//          memory[7] <= 800;
-//          memory[8] <= 900;
-//          memory[9] <= 1000;
-//          memory[10] <= 1100;
-//          memory[11] <= 1200;   
+          memory[6] <= 700; //asize 1
+          memory[7] <= 800;
+          memory[8] <= 900;
+          memory[9] <= 1000;
+          memory[10] <= 1100;
+          memory[11] <= 1200;   
 
 
 

@@ -27,6 +27,7 @@ module IF_ID_Register(Clk, HazardFlush, Branch,
     input [31:0] in_Instruction, in_PCplus4;
     output reg [31:0] out_Instruction, out_PCplus4;
     
+    
     initial begin
             out_Instruction <= 0;
             out_PCplus4 <= 0;
@@ -44,7 +45,7 @@ module IF_ID_Register(Clk, HazardFlush, Branch,
         end
         
         
-        else    begin
+        else    begin   //normal sending data through
             out_Instruction <= in_Instruction;
             out_PCplus4 <= in_PCplus4;
         end

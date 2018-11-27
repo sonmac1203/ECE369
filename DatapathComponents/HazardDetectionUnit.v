@@ -20,9 +20,9 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite, branch, ID_EX_RegWrite);
+module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite, branch, ID_EX_RegWrite, ID_EX_JALSrc);
 
-    input ID_EX_MemRead, IF_ID_MemWrite, branch, ID_EX_RegWrite;
+    input ID_EX_MemRead, IF_ID_MemWrite, branch, ID_EX_RegWrite, ID_EX_JALSrc;
     input [4:0] IF_ID_rs, IF_ID_rt, ID_EX_rt, ID_EX_rs;
     
     output reg Flush;
@@ -58,8 +58,20 @@ module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt
        end
        
        
-       
-       
+//       /*
+//        * Case for:
+//        *            jal jal1
+//        *            ...
+//        *   jal1   : jr $ra
+//        */
+        
+//        if ( ID_EX_JALSrc == 0
+//            && ((IF_ID_rs == 31) || (IF_ID_rt == 31))
+//            )   begin
+//            Flush <= 1;
+//        end
+        
+               
        
        
        end

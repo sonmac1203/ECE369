@@ -52,7 +52,7 @@ module InstructionMemory(Address, Instruction);
 
         //$readmemh("/home/mitch/Instruction_memory.txt", memory);
         
-        /*
+        
           //public test case Final Phase1
   memory[0] <= 32'h34120000;  //      main:           ori     $s2, $zero, 0
   memory[1] <= 32'h8e520000;    //            lw    $s2, 0($s2)
@@ -126,7 +126,7 @@ module InstructionMemory(Address, Instruction);
   memory[60] <= 32'h0800003c;    //    done:        j    done
   memory[61] <= 32'h0800003d;    //    error:        j    error
         
-        */
+        
         
         
         
@@ -442,7 +442,7 @@ module InstructionMemory(Address, Instruction);
              *
              */
             
-            
+            /*
             
             memory[0] <= 32'h34040000;	//	main:		ori	$a0, $zero, 0
             memory[1] <= 32'h08000004;	//			j	start
@@ -501,7 +501,7 @@ module InstructionMemory(Address, Instruction);
             memory[54] <= 32'h3402000a;	//			ori	$v0, $zero, 10
             memory[55] <= 32'h00000000;	//			nop
             
-            
+            */
 
             
             

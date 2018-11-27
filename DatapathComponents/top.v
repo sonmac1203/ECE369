@@ -214,9 +214,9 @@ wire [5:0]  ALUOp,
     */
 
 
-    //module IF_ID_Register(Clk, HazardFlush, Branch,
-    //                      in_Instruction, out_Instruction,
-    //                      in_PCplus4, out_PCplus4);
+//module IF_ID_Register(Clk, HazardFlush, Branch,
+//                      in_Instruction, out_Instruction,
+//                      in_PCplus4, out_PCplus4);
     IF_ID_Register IFID_Reg_1(Clk_out, Flush, AND1_out,
                               IM_out, IF_ID_Instruction_out,
                               PCAdder_out, IF_ID_address);
@@ -279,27 +279,26 @@ wire [5:0]  ALUOp,
                         SEMCtrl,     CR_SEMCtrl,
                         JRSrc,       CR_JRSrc
                         );
-
-
-
-
-//module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite);
+      
+      
+//module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite, branch, ID_EX_RegWrite, ID_EX_JALSrc);
     HazardDetectionUnit HazardDetection1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], ID_EX_MemRead,
-                                         ID_EX_rs, ID_EX_rt, Flush, MemWrite, branch, ID_EX_RegWrite);
+                                         ID_EX_rs, ID_EX_rt, Flush, MemWrite, branch, ID_EX_RegWrite, ID_EX_JAlSrc);
 
 
     
-    //module DecodeForwarding(DForwardA, DForwardB, rs, rt, 
-    //                        ID_EX_rd, ID_EX_RegWrite, EX_MEM__RegWrite, EX_MEM_rd);
+//module DecodeForwarding(DForwardA, DForwardB, IF_ID_rs, IF_ID_rt, 
+//                ID_EX_rd, ID_EX_RegWrite, EX_MEM__RegWrite, EX_MEM_rd, branch, EX_MEM_JALSrc);
+
     DecodeForwarding DecodeForward1(DForwardA, DForwardB, IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16],
-                                    Mux2_out, ID_EX_RegWrite, EX_MEM__RegWrite, EX_MEM_dest_reg, branch);
+                                    Mux2_out, ID_EX_RegWrite, EX_MEM__RegWrite, EX_MEM_dest_reg, branch, EX_MEM_JAlSrc);
     
     
     
     
     
-    //module Mux32Bit3To1(out, inA, inB, inC, sel);
-    Mux32Bit3To1 mux14(Mux14_out, ReadData1_out, EX_MEM_ALU_out, mux9_out, DForwardA);
+    //module Mux32Bit4To1(out, inA, inB, inC, inD, sel);
+    Mux32Bit4To1 mux14(Mux14_out, ReadData1_out, EX_MEM_ALU_out, mux9_out, EX_MEM_JLAdder_out, DForwardA);
     
     //module Mux32Bit3To1(out, inA, inB, inC, sel);
     Mux32Bit3To1 mux15(Mux15_out, ReadData2_out, EX_MEM_ALU_out, mux9_out, DForwardB);
@@ -418,8 +417,8 @@ wire [5:0]  ALUOp,
     ALU32Bit ALU1(ID_EX_ALUOp, mux11_out, mux12_out, ALU1_out,ALU1_zero, LO_out, LO_in, HI_out, HI_in);
 
 
-    //module PCAdder(PCResult, PCAddResult);
-    PCAdder JLAdder(ID_EX_address, JLAdder_out);
+//    //module PCAdder(PCResult, PCAddResult);
+//    PCAdder JLAdder(ID_EX_address, JLAdder_out);
 
 
 
@@ -485,7 +484,7 @@ wire [5:0]  ALUOp,
     EX_MEM_Register EX_MEM_1(Clk_out, ALU1_out, mux16_out, Mux2_out, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite,
                              EX_MEM_ALU_out, EX_MEM_ReadData_2, EX_MEM_dest_reg, EX_MEM__MemWrite, EX_MEM__MemRead, EX_MEM__MemToReg, EX_MEM__RegWrite,
                              ID_EX_SEMCtrl, EX_MEM_SEMCtrl,
-                             JLAdder_out, EX_MEM_JLAdder_out,
+                             ID_EX_address, EX_MEM_JLAdder_out,
                              ID_EX_JAlSrc, EX_MEM_JAlSrc,
                              ID_EX_rt, EX_MEM_rt);
 

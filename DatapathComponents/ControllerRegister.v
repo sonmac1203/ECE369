@@ -59,7 +59,7 @@ module ControllerRegister(Hazard, Branch,
         out_ALUSft      <= 0;
         out_ZEROSrc     <= 0;
         out_branch      <= 0;
-        out_JalSrc      <= 0;
+        out_JalSrc      <= 1;
         out_JZEROSrc    <= 0;
         out_SEMCtrl     <= 2'b00;
         out_JRSrc       <= 0;
@@ -67,7 +67,8 @@ module ControllerRegister(Hazard, Branch,
 
     always @ (*)    begin
     
-        if  (Hazard || Branch)    begin
+        if  ((Hazard || Branch)
+             && (in_ALUOp != 6'b001110))    begin
             out_ALUSrc      <= 0;
             out_RegDst      <= 0;
             out_RegWrite    <= 0;
@@ -78,7 +79,7 @@ module ControllerRegister(Hazard, Branch,
             out_ALUSft      <= 0;
             out_ZEROSrc     <= 0;
             out_branch      <= 0;
-            out_JalSrc      <= 0;
+            out_JalSrc      <= 1;
             out_JZEROSrc    <= 0;
             out_SEMCtrl     <= 0;
             out_JRSrc       <= 0;
