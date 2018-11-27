@@ -59,7 +59,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
 //        memory[1] <= 32'h00000001;
 //        memory[2] <= 32'hffffffff;
 
-        //this is for phase 1 part 1
+//        //this is for phase 1 part 1
         memory[0] <= 0;
         memory[1] <= 1;
         memory[2] <= 2;
@@ -68,7 +68,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
         memory[5] <= -1;
 
 
-//         memory[0] <= 100; //asize 0
+//          memory[0] <= 100; //asize 0
 //          memory[1] <= 200;       
 //          memory[2] <= 300;
 //          memory[3] <= 400;

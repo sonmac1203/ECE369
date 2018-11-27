@@ -96,6 +96,7 @@ wire    Clk_out,
         IF_ID_Write,
         PCWrite,
         MEMForward,
+        DataMemForward,
         CR_JRSrc;
 
 wire [1:0]  SEMCtrl,
@@ -152,6 +153,7 @@ wire[31:0]  IFU_Instruction_out,
             mux13_out,
             Mux14_out,
             Mux15_out,
+            mux16_out,
             ID_EX_address,
             ID_EX_ZE;
 
@@ -422,25 +424,40 @@ wire [5:0]  ALUOp,
 
 
     
-    
-//module EXForwarding(ID_EX_rs, ID_EX_rt, 
-//                        EX_MEM_ALU, EX_MEM_dest_reg, mux3_out, 
-//                        EX_MEM_RegWrite, EX_MEM_RegRd,
-//                        MEM_WB_RegWrite, MEM_WB_RegisterRd,
-//                        ForwardA, ForwardB,
-//                        ID_EX_MemRead,
-//                        ID_EX_regDst);
+        //module EXForwarding(ID_EX_rs, ID_EX_rt, 
+        //                        EX_MEM_ALU, EX_MEM_dest_reg, mux3_out, 
+        //                        EX_MEM_RegWrite, EX_MEM_RegRd,
+        //                        MEM_WB_RegWrite, MEM_WB_RegisterRd,
+        //                        ForwardA, ForwardB,
+        //                        ID_EX_MemRead,
+        //                        ID_EX_RegDst,
+        //                        ID_EX_ALUSft,
+        //                        DataMemForward,
+        //                        MEM_WB_MemToReg,
+        //                        ID_EX_MemWrite);
 
-    EXForwarding EXForwarding1(ID_EX_rs, ID_EX_rt, 
+        EXForwarding EXForwarding1(ID_EX_rs, ID_EX_rt, 
                                EX_MEM_ALU_out, EX_MEM_dest_reg, Mux3_out, 
                                EX_MEM__RegWrite, EX_MEM_dest_reg,
                                MEM_WB_RegWrite, MEM_WB_destination_register,
                                ForwardA, ForwardB,
                                ID_EX_MemRead,
-                               ID_EX_RegDst);
+                               ID_EX_RegDst,
+                               ID_EX_ALUSft,
+                               DataMemForward,
+                               MEM_WB_MemToReg,
+                               ID_EX_MemWrite
+                               );
     
     
     
+    
+        //module Mux32Bit2To1(out, inA, inB, inC, sel);
+        Mux32Bit2To1 mux16(mux16_out, ID_EX_ReadData2_out, Mux3_out, DataMemForward);
+    
+    
+    
+
 
 
    /*
@@ -465,7 +482,7 @@ wire [5:0]  ALUOp,
 
 
 
-    EX_MEM_Register EX_MEM_1(Clk_out, ALU1_out, ID_EX_ReadData2_out, Mux2_out, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite,
+    EX_MEM_Register EX_MEM_1(Clk_out, ALU1_out, mux16_out, Mux2_out, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_MemToReg, ID_EX_RegWrite,
                              EX_MEM_ALU_out, EX_MEM_ReadData_2, EX_MEM_dest_reg, EX_MEM__MemWrite, EX_MEM__MemRead, EX_MEM__MemToReg, EX_MEM__RegWrite,
                              ID_EX_SEMCtrl, EX_MEM_SEMCtrl,
                              JLAdder_out, EX_MEM_JLAdder_out,

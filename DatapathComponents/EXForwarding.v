@@ -27,26 +27,30 @@ module EXForwarding(ID_EX_rs, ID_EX_rt,
                     ForwardA, ForwardB,
                     ID_EX_MemRead,
                     ID_EX_RegDst,
-                    ID_EX_ALUSft);
+                    ID_EX_ALUSft,
+                    DataMemForward,
+                    MEM_WB_MemToReg,
+                    ID_EX_MemWrite);
 
     input [31:0] EX_MEM_ALU, mux3_out;
     input [4:0] EX_MEM_dest_reg, ID_EX_rs, ID_EX_rt, MEM_WB_RegisterRd;
     input EX_MEM_RegWrite, EX_MEM_RegRd, MEM_WB_RegWrite, ID_EX_MemRead, 
-            ID_EX_ALUSft, ID_EX_RegDst;
+            ID_EX_ALUSft, ID_EX_RegDst, MEM_WB_MemToReg, ID_EX_MemWrite;
     
     
-    output reg [1:0] ForwardA, ForwardB;
+    output reg [1:0] ForwardA, ForwardB, DataMemForward;
     
     initial begin
         ForwardA <= 0;
         ForwardB <= 0;
+        DataMemForward <= 0;
     end
     
     always @ (*)    begin
     
         ForwardA <= 0;
         ForwardB <= 0;
-    
+        DataMemForward <= 0;
     
        if   ((MEM_WB_RegWrite == 1 && MEM_WB_RegisterRd != 0)
              && !(EX_MEM_RegWrite == 1 && EX_MEM_RegRd != 0)
@@ -86,7 +90,6 @@ module EXForwarding(ID_EX_rs, ID_EX_rt,
        //la $s3, asize0		   #mipshelper convert this to ori
        //lw $s3, 4($s3)        #[s3] = 0xc8
        //
-       
        if(EX_MEM_RegWrite == 1 && (ID_EX_rs == EX_MEM_dest_reg)
             //&& ID_EX_ALUSft == 0 //make sure that it is not a shift op
             )   begin
@@ -101,11 +104,28 @@ module EXForwarding(ID_EX_rs, ID_EX_rt,
        end
        
        
+    
+    
+       /*
+        *handles
+        *
+        * lw $s0, offset(base)  F D E M W
+        * <any instruction>       F D E M W
+        * sw $s0, offset(base)      F D E M W
+        *
+        *   issue because lw's writeback happens
+        *   during sw's execution stage.
+        *
+        *
+        */
 
-       
-       
-       //add $s1, $s2, $s6
-       //ori $s1, s1, 43690
+       if (MEM_WB_MemToReg == 0         //proves mem/wb read from datamem
+          && MEM_WB_RegWrite == 1 
+          && MEM_WB_RegisterRd == ID_EX_rt 
+          && ID_EX_MemWrite == 1
+          ) begin
+          DataMemForward <= 1;
+       end
        
        
        
