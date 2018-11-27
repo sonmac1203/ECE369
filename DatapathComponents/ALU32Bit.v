@@ -135,28 +135,28 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
          
          // mult | 00011 | (hi,lo) <= A * B
          else if (ALUControl == 6'b00011)   begin
-            temp = $signed(A) * $signed(B);
-            HI_out = temp[63:32];
-            LO_out = temp[31:0];
+            temp <= $signed(A) * $signed(B);
+            HI_out <= temp[63:32];
+            LO_out <= temp[31:0];
             if (temp == 0)
                 Zero <= 1;
          end
          
          // multu| 100001 | (hi, lo) <= A * B unsigned
          else if (ALUControl == 6'b100001)  begin
-            temp = A * B;   //UNSIGNED
-             HI_out = temp[63:32];
-             LO_out = temp[31:0];
+            temp <= A * B;   //UNSIGNED
+             HI_out <= temp[63:32];
+             LO_out <= temp[31:0];
              if (temp == 0)
                  Zero <= 1;
          end
          
          // madd | 00100 | (hi, lo) <= (hi, lo) + (A * B)
          else if (ALUControl == 6'b00100)   begin
-            temp = $signed({HI_in, LO_in}) + $signed(($signed(A) * $signed(B)));
+            temp <= $signed({HI_in, LO_in}) + $signed(($signed(A) * $signed(B)));
             
-            HI_out = $signed(temp[63:32]);
-            LO_out = $signed(temp[31:0]);
+            HI_out <= $signed(temp[63:32]);
+            LO_out <= $signed(temp[31:0]);
             if (temp == 0)
                 Zero <= 1;
          end
@@ -164,13 +164,13 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero, LO_in, LO_out, HI_in, HI_out)
          
          // msub | 00101 | (hi, lo) <= (hi, lo) - (A * B)
          else if (ALUControl == 6'b000101)   begin
-            temp = $signed({HI_in, LO_in}) - $signed(($signed(A) * $signed(B)));
+            temp <= $signed({HI_in, LO_in}) - $signed(($signed(A) * $signed(B)));
             
             
             //temp = temp - (A * B);
             
-            HI_out = $signed(temp[63:32]);
-            LO_out = $signed(temp[31:0]);
+            HI_out <= $signed(temp[63:32]);
+            LO_out <= $signed(temp[31:0]);
             if (temp == 0)
                 Zero <= 1;
          end      

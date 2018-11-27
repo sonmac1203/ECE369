@@ -128,14 +128,7 @@ module EXForwarding(ID_EX_rs, ID_EX_rt,
        end
        
        
-       
-       
-       
-       
-       
-       
-        
-        
+  
     end
     
     

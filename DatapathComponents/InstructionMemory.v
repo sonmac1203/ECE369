@@ -52,6 +52,95 @@ module InstructionMemory(Address, Instruction);
 
         //$readmemh("/home/mitch/Instruction_memory.txt", memory);
         
+        /*
+        //test case 9-14
+        memory[0] <= 32'h20100001;	//	main:	addi	$s0, $zero, 1
+        memory[1] <= 32'h20110001;    //        addi    $s1, $zero, 1
+        memory[2] <= 32'h02118024;    //        and    $s0, $s0, $s1
+        memory[3] <= 32'h02008024;    //        and    $s0, $s0, $zero
+        memory[4] <= 32'h02308022;    //        sub    $s0, $s1, $s0
+        memory[5] <= 32'h02008027;    //        nor    $s0, $s0, $zero
+        memory[6] <= 32'h02008027;    //        nor    $s0, $s0, $zero
+        memory[7] <= 32'h00008025;    //        or    $s0, $zero, $zero
+        memory[8] <= 32'h02208025;    //        or    $s0, $s1, $zero
+        memory[9] <= 32'h00108080;    //        sll    $s0, $s0, 2
+        memory[10] <= 32'h02308004;    //        sllv    $s0, $s0, $s1
+        memory[11] <= 32'h0200802a;    //        slt    $s0, $s0, $zero
+        memory[12] <= 32'h0211802a;    //        slt    $s0, $s0, $s1
+        memory[13] <= 32'h00118043;    //        sra    $s0, $s1, 1
+        memory[14] <= 32'h00118007;    //        srav    $s0, $s1, $zero
+        memory[15] <= 32'h00118042;    //        srl    $s0, $s1, 1
+        memory[16] <= 32'h001180c0;    //        sll    $s0, $s1, 3
+        memory[17] <= 32'h001080c2;    //        srl    $s0, $s0, 3
+        memory[18] <= 32'h02308004;    //        sllv    $s0, $s0, $s1
+        memory[19] <= 32'h02308006;    //        srlv    $s0, $s0, $s1
+        memory[20] <= 32'h02118026;    //        xor    $s0, $s0, $s1
+        memory[21] <= 32'h02118026;    //        xor    $s0, $s0, $s1
+        memory[22] <= 32'h20120004;    //        addi    $s2, $zero, 4
+        memory[23] <= 32'h72128002;    //        mul    $s0, $s0, $s2
+        memory[24] <= 32'h22100004;    //        addi    $s0, $s0, 4
+        memory[25] <= 32'h32100000;    //        andi    $s0, $s0, 0
+        memory[26] <= 32'h36100001;    //        ori    $s0, $s0, 1
+        memory[27] <= 32'h2a100000;    //        slti    $s0, $s0, 0
+        memory[28] <= 32'h2a100001;    //        slti    $s0, $s0, 1
+        memory[29] <= 32'h3a100001;    //        xori    $s0, $s0, 1
+        memory[30] <= 32'h3a100001;    //        xori    $s0, $s0, 1
+        memory[31] <= 32'h2010fffe;    //        addi    $s0, $zero, -2
+        memory[32] <= 32'h20110002;    //        addi    $s1, $zero, 2
+        memory[33] <= 32'h0230902b;    //        sltu    $s2, $s1, $s0
+        memory[34] <= 32'h2e30fffe;    //        sltiu    $s0, $s1, -2
+        memory[35] <= 32'h0220800a;    //        movz    $s0, $s1, $zero
+        memory[36] <= 32'h0011800b;    //        movn    $s0, $zero, $s1
+        memory[37] <= 32'h02328020;    //        add    $s0, $s1, $s2
+        memory[38] <= 32'h2010fffe;    //        addi    $s0, $zero, -2
+        memory[39] <= 32'h02308821;    //        addu    $s1, $s1, $s0
+        memory[40] <= 32'h2411ffff;    //        addiu    $s1, $zero, -1
+        memory[41] <= 32'h20120020;    //        addi    $s2, $zero, 32
+        memory[42] <= 32'h02320018;    //        mult    $s1, $s2
+        memory[43] <= 32'h0000a010;    //        mfhi    $s4
+        memory[44] <= 32'h0000a812;    //        mflo    $s5
+        memory[45] <= 32'h02320019;    //        multu    $s1, $s2
+        memory[46] <= 32'h0000a010;    //        mfhi    $s4
+        memory[47] <= 32'h0000a812;    //        mflo    $s5
+        memory[48] <= 32'h72320000;    //        madd    $s1, $s2
+        memory[49] <= 32'h0000a010;    //        mfhi    $s4
+        memory[50] <= 32'h0000a812;    //        mflo    $s5
+        memory[51] <= 32'h02400011;    //        mthi    $s2
+        memory[52] <= 32'h02200013;    //        mtlo    $s1
+        memory[53] <= 32'h0000a010;    //        mfhi    $s4
+        memory[54] <= 32'h0000a812;    //        mflo    $s5
+        memory[55] <= 32'h3231ffff;    //        andi    $s1, $s1, 65535
+        memory[56] <= 32'h72920004;    //        msub    $s4, $s2
+        memory[57] <= 32'h0000a010;    //        mfhi    $s4
+        memory[58] <= 32'h0000a812;    //        mflo    $s5
+        memory[59] <= 32'h20120001;    //        addi    $s2, $zero, 1
+        memory[60] <= 32'h00328fc2;    //        rotr    $s1, $s2, 31
+        memory[61] <= 32'h2014001f;    //        addi    $s4, $zero, 31
+        memory[62] <= 32'h02918846;    //        rotrv    $s1, $s1, $s4
+        memory[63] <= 32'h34110ff0;    //        ori    $s1, $zero, 0x0FF0
+        memory[64] <= 32'h7c11a420;    //        seb    $s4, $s1
+        memory[65] <= 32'h7c11a620;    //        seh    $s4, $s1
+
+        
+        */
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
           //public test case Final Phase1
   memory[0] <= 32'h34120000;  //      main:           ori     $s2, $zero, 0
