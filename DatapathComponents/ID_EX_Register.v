@@ -31,22 +31,24 @@ module ID_EX_Register(Clk, in_ReadData1, in_ReadData2, in_immediate_extended, in
                       in_JALSrc, out_JALSrc,
                       in_rs, out_rs,
                       in_rt, out_rt,
-                      in_ZEROsrc, out_ZEROsrc
+                      in_ZEROsrc, out_ZEROsrc,
+                      in_address, out_address
                       );
 
 input Clk, in_ALUSrc, in_RegDst, in_Mem_Write, in_MemRead, in_MemToReg, in_RegWrite, ALUSft, JZEROSrc, in_JALSrc, in_ZEROsrc;
 input [1:0] SEMCtrl_in;
-input [31:0] in_ReadData1, in_ReadData2, in_immediate_extended, ZE_in;
+input [31:0] in_ReadData1, in_ReadData2, in_immediate_extended, ZE_in, in_address;
 input [4:0] in_rd_i, in_rd_r, in_rs, in_rt;
 input [5:0] in_ALUOP;
 
 output reg out_ALUSrc, out_RegDst, out_Mem_Write, out_MemRead, out_MemToReg, out_RegWrite, out_ALUSft, ID_EX_JZEROSrc, out_JALSrc, out_ZEROsrc;
 output reg [1:0] out_SEMCtrl;
-output reg [31:0] out_ReadData1, out_ReadData2, out_immediate_extended, ZE_out;
+output reg [31:0] out_ReadData1, out_ReadData2, out_immediate_extended, ZE_out, out_address;
 output reg [4:0] out_rd_i, out_rd_r, out_rs, out_rt;
 output reg [5:0] out_ALUOP;
 
     initial begin
+        out_address     <= 0;
         out_ZEROsrc     <= 0;
         out_rs          <= 0;
         out_rt          <= 0;
@@ -70,6 +72,7 @@ output reg [5:0] out_ALUOP;
     end
     
     always @ (posedge Clk)  begin
+        out_address     <= in_address;
         out_ZEROsrc     <= in_ZEROsrc;
         out_rs          <= in_rs;
         out_rt          <= in_rt;

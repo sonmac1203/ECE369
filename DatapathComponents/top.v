@@ -152,6 +152,7 @@ wire[31:0]  IFU_Instruction_out,
             mux13_out,
             Mux14_out,
             Mux15_out,
+            ID_EX_address,
             ID_EX_ZE;
 
 
@@ -371,7 +372,8 @@ wire [5:0]  ALUOp,
                             CR_JalSrc, ID_EX_JAlSrc,
                             IF_ID_Instruction_out[25:21], ID_EX_rs,
                             IF_ID_Instruction_out[20:16], ID_EX_rt,
-                            CR_ZEROSrc, ID_EX_ZEROSrc
+                            CR_ZEROSrc, ID_EX_ZEROSrc,
+                            IF_ID_address, ID_EX_address
                             );
     
     

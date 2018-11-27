@@ -103,7 +103,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
     always@(Instruction) begin
 
         branch <= 0;
-    
+        
         //NOP
         if(Instruction == 32'b0) begin
             RegWrite <= 0;

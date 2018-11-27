@@ -68,7 +68,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
 //        memory[5] <= -1;
 
 
-/*          memory[0] <= 100; //asize 0
+         memory[0] <= 100; //asize 0
           memory[1] <= 200;       
           memory[2] <= 300;
           memory[3] <= 400;
@@ -87,8 +87,8 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
         for (index = 0; index < 1024; index = index + 1) begin
             memory[index] = 32'h0;
         end
-*/
 
+/*
             memory[0] <= 4;
             memory[1] <=  4;
             memory[2] <=  2;
@@ -8210,7 +8210,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
             memory[8118] <= 0;
             memory[8119] <= 0;
 
-
+*/
 
     end
     
