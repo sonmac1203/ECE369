@@ -93,8 +93,20 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
     // jal    | 000011 | ----- | ----- | ------ | jal
     
     initial begin
-    
+        ALUSrc <= 0;
+        RegDst <= 0;
+        RegWrite <= 0;
+        MemRead <= 0;
+        MemWrite <= 0;
+        MemToReg <= 0;
+        ALUSft <= 0;
+        ZEROSrc <= 0;
         branch <= 0;
+         JalSrc <= 0;
+         JZEROSrc <= 0;
+         JRSrc <= 0;
+        ALUOp <=  6'b0;
+        SEMCtrl <= 2'b0;
     
     
     end
@@ -102,7 +114,20 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
 
     always@(Instruction) begin
 
+        ALUSrc <= 0;
+        RegDst <= 0;
+        RegWrite <= 0;
+        MemRead <= 0;
+        MemWrite <= 0;
+        MemToReg <= 0;
+        ALUSft <= 0;
+        ZEROSrc <= 0;
         branch <= 0;
+         JalSrc <= 0;
+         JZEROSrc <= 0;
+         JRSrc <= 0;
+        ALUOp <=  6'b0;
+        SEMCtrl <= 2'b0;
         
         //NOP
         if(Instruction == 32'b0) begin
@@ -226,6 +251,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             //mult
             else if(Instruction[5:0] == 6'b011000) begin
                 ALUSrc <= 0;
+                RegDst <= 1;
                 RegWrite <= 0;
                 ALUOp <= 6'b000011;
                 MemRead <= 0;
@@ -239,6 +265,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             //multu
             else if(Instruction[5:0] == 6'b011001) begin
                 ALUSrc <= 0;
+                RegDst <= 1;
                 RegWrite <= 0;
                 ALUOp <= 6'b100001;
                 MemRead <= 0;
@@ -424,6 +451,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             //mthi
             else if(Instruction[5:0] == 6'b010001) begin
                 ALUSrc <= 0;
+                RegDst <= 1;
                 RegWrite <= 0;
                 ALUOp <= 6'b011100;
                 MemRead <= 0;
@@ -437,6 +465,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             //mtlo
             else if(Instruction[5:0] == 6'b010011) begin
                 ALUSrc <= 0;
+                RegDst <= 1;
                 RegWrite <= 0;
                 ALUOp <= 6'b011101;
                 MemRead <= 0;
@@ -509,6 +538,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             //madd
             else if(Instruction[5:0] == 6'b000000) begin
                 ALUSrc <= 0;
+                RegDst <= 1;
                 RegWrite <= 0;
                 ALUOp <= 6'b000100;
                 MemRead <= 0;
@@ -522,6 +552,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
             //msub
             else if(Instruction[5:0] == 6'b000100) begin
                 ALUSrc <= 0;
+                RegDst <= 1;
                 RegWrite <= 0;
                 ALUOp <= 6'b000101;
                 MemRead <= 0;

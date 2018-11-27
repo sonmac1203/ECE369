@@ -1,6 +1,7 @@
 .text
 .globl main
 
+j main
 
 tomato:
 	addi $s0, $s0, 6
