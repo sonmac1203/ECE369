@@ -88,7 +88,9 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
             memory[index] = 32'h0;
         end
 
-
+    
+    
+    
             memory[0] <= 4;
             memory[1] <=  4;
             memory[2] <=  2;
@@ -8209,8 +8211,6 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
             memory[8117] <= 0;
             memory[8118] <= 0;
             memory[8119] <= 0;
-
-
 
     end
     
