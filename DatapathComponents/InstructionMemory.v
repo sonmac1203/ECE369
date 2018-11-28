@@ -52,7 +52,7 @@ module InstructionMemory(Address, Instruction);
 
         //$readmemh("/home/mitch/Instruction_memory.txt", memory);
         
-        /*
+       /*
         //test case 9-14
         memory[0] <= 32'h20100001;	//	main:	addi	$s0, $zero, 1
         memory[1] <= 32'h20110001;    //        addi    $s1, $zero, 1
@@ -120,9 +120,7 @@ module InstructionMemory(Address, Instruction);
         memory[63] <= 32'h34110ff0;    //        ori    $s1, $zero, 0x0FF0
         memory[64] <= 32'h7c11a420;    //        seb    $s4, $s1
         memory[65] <= 32'h7c11a620;    //        seh    $s4, $s1
-
-        
-        */
+    */
         
         
         
@@ -131,16 +129,8 @@ module InstructionMemory(Address, Instruction);
         
         
         
-        
-        
-        
-        
-        
-        
-      
-        
+ 
         /*
-        
           //public test case Final Phase1
   memory[0] <= 32'h34120000;  //      main:           ori     $s2, $zero, 0
   memory[1] <= 32'h8e520000;    //            lw    $s2, 0($s2)
@@ -213,9 +203,72 @@ module InstructionMemory(Address, Instruction);
   memory[59] <= 32'h0800003d;    //            j    error
   memory[60] <= 32'h0800003c;    //    done:        j    done
   memory[61] <= 32'h0800003d;    //    error:        j    error
-        
         */
         
+       /*             
+       *public test case 15-18 without NOPS
+       *
+       */
+      
+      
+      memory[0] <= 32'h34040000;    //    main:        ori    $a0, $zero, 0
+      memory[1] <= 32'h08000004;    //            j    start
+      memory[2] <= 32'h2004000a;    //            addi    $a0, $zero, 10
+      memory[3] <= 32'h2004000a;    //            addi    $a0, $zero, 10
+      memory[4] <= 32'h8c900004;    //    start:        lw    $s0, 4($a0)
+      memory[5] <= 32'h8c900008;    //            lw    $s0, 8($a0)
+      memory[6] <= 32'hac900000;    //            sw    $s0, 0($a0)
+      memory[7] <= 32'hac90000c;    //            sw    $s0, 12($a0)
+      memory[8] <= 32'h8c910000;    //            lw    $s1, 0($a0)
+      memory[9] <= 32'h8c92000c;    //            lw    $s2, 12($a0)
+      memory[10] <= 32'h12000003;    //            beq    $s0, $zero, branch1
+      memory[11] <= 32'h02008820;    //            add    $s1, $s0, $zero
+      memory[12] <= 32'h12110001;    //            beq    $s0, $s1, branch1
+      memory[13] <= 32'h08000035;    //            j    error
+      memory[14] <= 32'h2010ffff;    //    branch1:    addi    $s0, $zero, -1
+      memory[15] <= 32'h0601fff4;    //            bgez    $s0, start
+      memory[16] <= 32'h22100001;    //            addi    $s0, $s0, 1
+      memory[17] <= 32'h06010001;    //            bgez    $s0, branch2
+      memory[18] <= 32'h08000035;    //            j    error
+      memory[19] <= 32'h2010ffff;    //    branch2:    addi    $s0, $zero, -1
+      memory[20] <= 32'h1e000003;    //            bgtz    $s0, branch3
+      memory[21] <= 32'h20100001;    //            addi    $s0, $zero, 1
+      memory[22] <= 32'h1e000001;    //            bgtz    $s0, branch3
+      memory[23] <= 32'h08000035;    //            j    error
+      memory[24] <= 32'h06000003;    //    branch3:    bltz    $s0, branch4
+      memory[25] <= 32'h2010ffff;    //            addi    $s0, $zero, -1
+      memory[26] <= 32'h06000001;    //            bltz    $s0, branch4
+      memory[27] <= 32'h08000035;    //            j    error
+      memory[28] <= 32'h2011ffff;    //    branch4:    addi    $s1, $zero, -1
+      memory[29] <= 32'h16110002;    //            bne    $s0, $s1, branch5
+      memory[30] <= 32'h16000001;    //            bne    $s0, $zero, branch5
+      memory[31] <= 32'h08000035;    //            j    error
+      memory[32] <= 32'h20100080;    //    branch5:    addi    $s0, $zero, 128
+      memory[33] <= 32'ha0900000;    //            sb    $s0, 0($a0)
+      memory[34] <= 32'h80900000;    //            lb    $s0, 0($a0)
+      memory[35] <= 32'h1a000001;    //            blez    $s0, branch6
+      memory[36] <= 32'h08000035;    //            j    error
+      memory[37] <= 32'h2010ffff;    //    branch6:    addi    $s0, $zero, -1
+      memory[38] <= 32'ha4900000;    //            sh    $s0, 0($a0)
+      memory[39] <= 32'h20100000;    //            addi    $s0, $zero, 0
+      memory[40] <= 32'h84900000;    //            lh    $s0, 0($a0)
+      memory[41] <= 32'h1a000001;    //            blez    $s0, branch7
+      memory[42] <= 32'h08000035;    //            j    error
+      memory[43] <= 32'h2010ffff;    //    branch7:    addi    $s0, $zero, -1
+      memory[44] <= 32'h3c100001;    //            lui    $s0, 1
+      memory[45] <= 32'h06010001;    //            bgez    $s0, branch8
+      memory[46] <= 32'h08000035;    //            j    error
+      memory[47] <= 32'h08000031;    //    branch8:    j    jump1
+      memory[48] <= 32'h2210fffe;    //            addi    $s0, $s0, -2
+      memory[49] <= 32'h0c000033;    //    jump1:        jal    jal1
+      memory[50] <= 32'h08000004;    //            j    start
+      memory[51] <= 32'h03e00008;    //    jal1:        jr    $ra
+      memory[52] <= 32'h08000035;    //            j    error
+      memory[53] <= 32'h00000008;    //    error:        jr    $zero
+      memory[54] <= 32'h3402000a;    //            ori    $v0, $zero, 10
+      memory[55] <= 32'h00000000;    //            nop
+    
+  
         
         /*
         memory[0] <= 32'h08000009;    //   	 j    main
@@ -498,7 +551,8 @@ module InstructionMemory(Address, Instruction);
     
         */
     
-
+    /*
+    
    memory[0] <= 32'h23bdfffc;	//	main:			addi	$sp, $sp, -4
         memory[1] <= 32'hafbf0000;    //                sw    $ra, 0($sp)
         memory[2] <= 32'h34040000;    //                ori    $a0, $zero, 0
@@ -763,7 +817,7 @@ module InstructionMemory(Address, Instruction);
         memory[261] <= 32'h21ef0001;    //                addi    $t7, $t7, 1
         memory[262] <= 32'h03e00008;    //                jr    $ra
 
-
+    */
 
 
 
@@ -1836,73 +1890,7 @@ module InstructionMemory(Address, Instruction);
 
 
             
-            /*
-             *public test case 15-18 without NOPS
-             *
-             */
-            
-            /*
-            
-            memory[0] <= 32'h34040000;	//	main:		ori	$a0, $zero, 0
-            memory[1] <= 32'h08000004;	//			j	start
-            memory[2] <= 32'h2004000a;	//			addi	$a0, $zero, 10
-            memory[3] <= 32'h2004000a;	//			addi	$a0, $zero, 10
-            memory[4] <= 32'h8c900004;	//	start:		lw	$s0, 4($a0)
-            memory[5] <= 32'h8c900008;	//			lw	$s0, 8($a0)
-            memory[6] <= 32'hac900000;	//			sw	$s0, 0($a0)
-            memory[7] <= 32'hac90000c;	//			sw	$s0, 12($a0)
-            memory[8] <= 32'h8c910000;	//			lw	$s1, 0($a0)
-            memory[9] <= 32'h8c92000c;	//			lw	$s2, 12($a0)
-            memory[10] <= 32'h12000003;	//			beq	$s0, $zero, branch1
-            memory[11] <= 32'h02008820;	//			add	$s1, $s0, $zero
-            memory[12] <= 32'h12110001;	//			beq	$s0, $s1, branch1
-            memory[13] <= 32'h08000035;	//			j	error
-            memory[14] <= 32'h2010ffff;	//	branch1:	addi	$s0, $zero, -1
-            memory[15] <= 32'h0601fff4;	//			bgez	$s0, start
-            memory[16] <= 32'h22100001;	//			addi	$s0, $s0, 1
-            memory[17] <= 32'h06010001;	//			bgez	$s0, branch2
-            memory[18] <= 32'h08000035;	//			j	error
-            memory[19] <= 32'h2010ffff;	//	branch2:	addi	$s0, $zero, -1
-            memory[20] <= 32'h1e000003;	//			bgtz	$s0, branch3
-            memory[21] <= 32'h20100001;	//			addi	$s0, $zero, 1
-            memory[22] <= 32'h1e000001;	//			bgtz	$s0, branch3
-            memory[23] <= 32'h08000035;	//			j	error
-            memory[24] <= 32'h06000003;	//	branch3:	bltz	$s0, branch4
-            memory[25] <= 32'h2010ffff;	//			addi	$s0, $zero, -1
-            memory[26] <= 32'h06000001;	//			bltz	$s0, branch4
-            memory[27] <= 32'h08000035;	//			j	error
-            memory[28] <= 32'h2011ffff;	//	branch4:	addi	$s1, $zero, -1
-            memory[29] <= 32'h16110002;	//			bne	$s0, $s1, branch5
-            memory[30] <= 32'h16000001;	//			bne	$s0, $zero, branch5
-            memory[31] <= 32'h08000035;	//			j	error
-            memory[32] <= 32'h20100080;	//	branch5:	addi	$s0, $zero, 128
-            memory[33] <= 32'ha0900000;	//			sb	$s0, 0($a0)
-            memory[34] <= 32'h80900000;	//			lb	$s0, 0($a0)
-            memory[35] <= 32'h1a000001;	//			blez	$s0, branch6
-            memory[36] <= 32'h08000035;	//			j	error
-            memory[37] <= 32'h2010ffff;	//	branch6:	addi	$s0, $zero, -1
-            memory[38] <= 32'ha4900000;	//			sh	$s0, 0($a0)
-            memory[39] <= 32'h20100000;	//			addi	$s0, $zero, 0
-            memory[40] <= 32'h84900000;	//			lh	$s0, 0($a0)
-            memory[41] <= 32'h1a000001;	//			blez	$s0, branch7
-            memory[42] <= 32'h08000035;	//			j	error
-            memory[43] <= 32'h2010ffff;	//	branch7:	addi	$s0, $zero, -1
-            memory[44] <= 32'h3c100001;	//			lui	$s0, 1
-            memory[45] <= 32'h06010001;	//			bgez	$s0, branch8
-            memory[46] <= 32'h08000035;	//			j	error
-            memory[47] <= 32'h08000031;	//	branch8:	j	jump1
-            memory[48] <= 32'h2210fffe;	//			addi	$s0, $s0, -2
-            memory[49] <= 32'h0c000033;	//	jump1:		jal	jal1
-            memory[50] <= 32'h08000004;	//			j	start
-            memory[51] <= 32'h03e00008;	//	jal1:		jr	$ra
-            memory[52] <= 32'h08000035;	//			j	error
-            memory[53] <= 32'h00000008;	//	error:		jr	$zero
-            memory[54] <= 32'h3402000a;	//			ori	$v0, $zero, 10
-            memory[55] <= 32'h00000000;	//			nop
-            
-            */
 
-            
             
 
 

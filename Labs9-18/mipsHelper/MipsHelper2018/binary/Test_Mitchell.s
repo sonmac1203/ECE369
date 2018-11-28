@@ -6,11 +6,12 @@ main:
    
    addi $t0, $0, 0   
    jal testjal
+returnjal:   
    addi $t0, $0, 1
    j end
 
 testjal: 
-   jr $ra
+   j returnjal
 
 end:
    j end
