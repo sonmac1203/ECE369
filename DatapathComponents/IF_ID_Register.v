@@ -34,7 +34,8 @@ module IF_ID_Register(Clk, HazardFlush, Branch,
     end
 
     always @ (posedge Clk)  begin
-    
+        
+//        else 
         if (HazardFlush) begin
         //do nothing
         end

@@ -70,6 +70,7 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData,
 	
 	initial begin
 	   registers[0] = 32'b0;
+	   registers[29] = 32760;
 	end
 	
 	

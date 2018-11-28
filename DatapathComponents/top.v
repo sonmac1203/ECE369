@@ -93,10 +93,9 @@ wire    Clk_out,
         CR_JalSrc,   
         CR_JZEROSrc,  
         Flush,
-        IF_ID_Write,
-        PCWrite,
         MEMForward,
         DataMemForward,
+        ID_EX_HazardCtrl,
         CR_JRSrc;
 
 wire [1:0]  SEMCtrl,
@@ -109,8 +108,7 @@ wire [1:0]  SEMCtrl,
             EX_MEM_SEMCtrl;
 
 
-wire[31:0]  IFU_Instruction_out,
-            IF_ID_Instruction_out,
+wire[31:0]  IF_ID_Instruction_out,
             SE_out,
             ReadData1_out,
             ReadData2_out,
@@ -140,7 +138,6 @@ wire[31:0]  IFU_Instruction_out,
             Adder_1_out,
             EX_MEM_Adder_1,
             mux6_out,
-            mux7_out,
             mux8_out,
             SEM1_out,
             JLAdder_out,
@@ -167,6 +164,7 @@ wire [4:0]  ID_EX_out_rd_i,
             ID_EX_rs,
             ID_EX_rt,
             EX_MEM_rt,
+            mux7_out,
             Mux2_out;
 
 wire [5:0]  ALUOp,
@@ -281,9 +279,9 @@ wire [5:0]  ALUOp,
                         );
       
       
-//module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite, branch, ID_EX_RegWrite, ID_EX_JALSrc);
+//module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite, branch, ID_EX_RegWrite, ID_EX_JALSrc, ID_EX_rd, ID_EX_HazardCtrl);
     HazardDetectionUnit HazardDetection1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], ID_EX_MemRead,
-                                         ID_EX_rs, ID_EX_rt, Flush, MemWrite, branch, ID_EX_RegWrite, ID_EX_JAlSrc);
+                                         ID_EX_rs, ID_EX_rt, Flush, MemWrite, AND1_out, ID_EX_RegWrite, ID_EX_JAlSrc, Mux2_out);
 
 
     
@@ -437,7 +435,7 @@ wire [5:0]  ALUOp,
 
         EXForwarding EXForwarding1(ID_EX_rs, ID_EX_rt, 
                                EX_MEM_ALU_out, EX_MEM_dest_reg, Mux3_out, 
-                               EX_MEM__RegWrite, EX_MEM_dest_reg,
+                               EX_MEM__RegWrite,
                                MEM_WB_RegWrite, MEM_WB_destination_register,
                                ForwardA, ForwardB,
                                ID_EX_MemRead,

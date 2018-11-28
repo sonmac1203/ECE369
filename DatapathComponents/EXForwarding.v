@@ -22,7 +22,7 @@
 
 module EXForwarding(ID_EX_rs, ID_EX_rt, 
                     EX_MEM_ALU, EX_MEM_dest_reg, mux3_out, 
-                    EX_MEM_RegWrite, EX_MEM_RegRd,
+                    EX_MEM_RegWrite,
                     MEM_WB_RegWrite, MEM_WB_RegisterRd,
                     ForwardA, ForwardB,
                     ID_EX_MemRead,
@@ -34,11 +34,13 @@ module EXForwarding(ID_EX_rs, ID_EX_rt,
 
     input [31:0] EX_MEM_ALU, mux3_out;
     input [4:0] EX_MEM_dest_reg, ID_EX_rs, ID_EX_rt, MEM_WB_RegisterRd;
-    input EX_MEM_RegWrite, EX_MEM_RegRd, MEM_WB_RegWrite, ID_EX_MemRead, 
+    input EX_MEM_RegWrite, MEM_WB_RegWrite, ID_EX_MemRead, 
             ID_EX_ALUSft, ID_EX_RegDst, MEM_WB_MemToReg, ID_EX_MemWrite;
     
     
-    output reg [1:0] ForwardA, ForwardB, DataMemForward;
+    output reg [1:0] ForwardA, ForwardB;
+    output reg DataMemForward;
+    
     
     initial begin
         ForwardA <= 0;
@@ -51,17 +53,32 @@ module EXForwarding(ID_EX_rs, ID_EX_rt,
         ForwardA <= 0;
         ForwardB <= 0;
         DataMemForward <= 0;
+        
+//        if   ((MEM_WB_RegWrite == 1 && MEM_WB_RegisterRd != 0)
+//              && !(EX_MEM_RegWrite == 1 && EX_MEM_RegRd != 0)
+//              && (EX_MEM_RegRd == ID_EX_rs)
+//              && (MEM_WB_RegisterRd == ID_EX_rs)) begin
+//                 ForwardA <= 01;
+//        end
+        
+//        if   ((MEM_WB_RegWrite == 1 && MEM_WB_RegisterRd != 0)
+//              && !(EX_MEM_RegWrite == 1 && EX_MEM_RegRd != 0)
+//              && (EX_MEM_RegRd == ID_EX_rt)
+//              && (MEM_WB_RegisterRd == ID_EX_rt)) begin
+//                 ForwardB <= 01;
+//        end       
+    
     
        if   ((MEM_WB_RegWrite == 1 && MEM_WB_RegisterRd != 0)
-             && !(EX_MEM_RegWrite == 1 && EX_MEM_RegRd != 0)
-             && (EX_MEM_RegRd == ID_EX_rs)
+             && !(EX_MEM_RegWrite == 1 && EX_MEM_dest_reg != 0)
+             && (EX_MEM_dest_reg == ID_EX_rs)
              && (MEM_WB_RegisterRd == ID_EX_rs)) begin
                 ForwardA <= 01;
        end
        
        if   ((MEM_WB_RegWrite == 1 && MEM_WB_RegisterRd != 0)
-             && !(EX_MEM_RegWrite == 1 && EX_MEM_RegRd != 0)
-             && (EX_MEM_RegRd == ID_EX_rt)
+             && !(EX_MEM_RegWrite == 1 && EX_MEM_dest_reg != 0)
+             && (EX_MEM_dest_reg == ID_EX_rt)
              && (MEM_WB_RegisterRd == ID_EX_rt)) begin
                 ForwardB <= 01;
        end       

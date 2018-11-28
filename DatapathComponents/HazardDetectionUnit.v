@@ -20,10 +20,10 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite, branch, ID_EX_RegWrite, ID_EX_JALSrc);
+module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt, Flush, IF_ID_MemWrite, branch, ID_EX_RegWrite, ID_EX_JALSrc, ID_EX_rd);
 
     input ID_EX_MemRead, IF_ID_MemWrite, branch, ID_EX_RegWrite, ID_EX_JALSrc;
-    input [4:0] IF_ID_rs, IF_ID_rt, ID_EX_rt, ID_EX_rs;
+    input [4:0] IF_ID_rs, IF_ID_rt, ID_EX_rt, ID_EX_rs, ID_EX_rd;
     
     output reg Flush;
     
@@ -31,6 +31,7 @@ module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt
     initial begin 
         Flush <= 0;
     end
+    
     
     always @ (*)    begin
        Flush <= 0;
@@ -42,9 +43,17 @@ module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt
        
        if ((IF_ID_rt == ID_EX_rt) && (ID_EX_MemRead == 1)
             && IF_ID_MemWrite == 0) begin
-           Flush <= 1;
+            Flush <= 1;
        end
        
+       //slt $s0 (rd), rs, rt
+       //beq $s0 (rs), rt, offset
+       if (branch
+           && ID_EX_rd == IF_ID_rs
+           && ID_EX_RegWrite == 1
+           ) begin
+                Flush <= 1;
+       end
        
        
        // FLUSH FOR:
@@ -54,7 +63,7 @@ module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt
            && branch == 1
            && ID_EX_RegWrite == 1
            ) begin
-           Flush <= 1;
+                Flush <= 1;
        end
        
        

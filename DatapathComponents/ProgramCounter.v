@@ -26,8 +26,8 @@
 
 module ProgramCounter(Address, PCResult, Reset, Clk, debug_program_counter, HazardFlush);
 
-	input [31:0] Address, HazardFlush;
-	input Reset, Clk;
+	input [31:0] Address;
+	input Reset, Clk, HazardFlush;
 
 //	(* mark_debug = "true" *)  output reg [31:0] PCResult;
 	output reg [31:0] PCResult;

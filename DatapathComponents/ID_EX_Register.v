@@ -72,6 +72,7 @@ output reg [5:0] out_ALUOP;
     end
     
     always @ (posedge Clk)  begin
+    
         out_address     <= in_address;
         out_ZEROsrc     <= in_ZEROsrc;
         out_rs          <= in_rs;
