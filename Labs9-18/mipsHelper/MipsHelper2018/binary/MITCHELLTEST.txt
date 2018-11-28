@@ -1,0 +1,6 @@
+memory[0] <= 32'h20080000;	//	main:		addi	$t0, $0, 0
+memory[1] <= 32'h0c000004;	//			jal	testjal
+memory[2] <= 32'h20080001;	//			addi	$t0, $0, 1
+memory[3] <= 32'h08000005;	//			j	end
+memory[4] <= 32'h03e00008;	//	testjal:	jr	$ra
+memory[5] <= 32'h08000005;	//	end:		j	end
