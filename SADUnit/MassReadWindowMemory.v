@@ -59,7 +59,14 @@ module MassReadWindowMemory(Address, WriteData, Clk, MemWrite, MemRead, MemWidth
          for (i = 0; i < 1024; i = i + 1) begin
             memory[i] = 32'h0;
         end
+        
+        memory[0] <= 1;
+        memory[1] <=  2;
+        memory[2] <= 3;
+        memory[3] <=  4;
 
+
+            /*Test 10
             memory[0] <= 9;
             memory[1] <= 9;
             memory[2] <= 9;
@@ -124,6 +131,7 @@ module MassReadWindowMemory(Address, WriteData, Clk, MemWrite, MemRead, MemWidth
             memory[61] <= 9;
             memory[62] <= 9;
             memory[63] <= 9;
+            */
 
 
     end

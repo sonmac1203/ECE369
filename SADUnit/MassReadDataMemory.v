@@ -60,8 +60,24 @@ module MassReadDataMemory(Address, WriteData, Clk, MemWrite, MemRead, MemWidth, 
      for (i = 0; i < 1024; i = i + 1) begin
         memory[i] = 32'h0;
      end
+                    memory[0] <= 0;
+                     memory[1] <=  0;
+                     memory[2] <=  1;
+                     memory[3] <=  2;
+                     memory[4] <= 0;
+                     memory[5] <=  0;
+                     memory[6] <=  3;
+                     memory[7] <=  4;
+                     memory[8] <= 0;
+                     memory[9] <=  0;
+                     memory[10] <=  0;
+                     memory[11] <=  0;
+                     memory[12] <= 0;
+                     memory[13] <=  0;
+                     memory[14] <=  0;
 
-            memory[0] <= 9;
+         /*  Test10
+          memory[0] <= 9;
             memory[1] <= 19;
             memory[2] <= 9;
             memory[3] <= 9;
@@ -316,7 +332,7 @@ module MassReadDataMemory(Address, WriteData, Clk, MemWrite, MemRead, MemWidth, 
             memory[252] <= 108;
             memory[253] <= 120;
             memory[254] <= 132;
-            memory[255] <= 0;
+            memory[255] <= 0;*/
 
 
     end

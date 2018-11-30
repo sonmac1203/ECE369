@@ -58,9 +58,19 @@ module top_tb();
         MemRead <= 1;
         MemAddress <= 32'b0;
         WindowAddress <= 32'b0;
+        MemWidth <= 2;
+        MemHeight <= 2;
+        FrameWidth <= 4;
+        
+    
+        /* Test 10
+        MemWrite <= 0;
+        MemRead <= 1;
+        MemAddress <= 32'b0;
+        WindowAddress <= 32'b0;
         MemWidth <= 8;
         MemHeight <= 8;
-        FrameWidth <= 16;
+        FrameWidth <= 16;*/
     end
     
     
