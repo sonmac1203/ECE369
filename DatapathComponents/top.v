@@ -22,11 +22,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-//module top(Clk, PC_Reset, Clk_Reset, debug_program_counter, debug_write_data,debug_HI, debug_LO,
-//           s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0, v0, v1,
-//           mem0, mem1, mem2, mem3, out7, en_out);
+module top(Clk, PC_Reset, Clk_Reset, debug_program_counter, debug_write_data,debug_HI, debug_LO,
+           s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0, v0, v1,
+           mem0, mem1, mem2, mem3, out7, en_out);
            
-module top(Clk, PC_Reset, Clk_Reset, out7, en_out);
+//module top(Clk, PC_Reset, Clk_Reset, out7, en_out);
 
 
 input Clk, PC_Reset, Clk_Reset;
@@ -34,15 +34,15 @@ input Clk, PC_Reset, Clk_Reset;
 //output reg [31:0] debug_program_counter, debug_write_data,debug_HI, debug_LO;
 
 
-//output  [31:0]  debug_program_counter,
-//                    debug_write_data,
-//                    debug_HI,
-//                    debug_LO,
-//                    s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0, v0, v1,
-//                    mem0,
-//                    mem1,
-//                    mem2,
-//                    mem3;
+output  [31:0]  debug_program_counter,
+                    debug_write_data,
+                    debug_HI,
+                    debug_LO,
+                    s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0, v0, v1,
+                    mem0,
+                    mem1,
+                    mem2,
+                    mem3;
 
 
 wire [4:0] hard31 = 31;

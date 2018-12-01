@@ -907,7 +907,7 @@ main:
 
 ################### Print Result ####################################
 print_result:
-	nop
+	add $s7, $0, $0
     # Printing $v0
     # add     $a0, $v0, $zero     # Load $v0 for printing
     # li      $v0, 1              # Load the system call numbers
@@ -1098,7 +1098,6 @@ zigzagloop:                         # while ((frameLoc[column] + frameLoc[row] *
 # Down-left Collision Detection
    addi $s4, $0, 1                  # loopflag = 1
 dlcollisiondetect:
-	nop
    beq  $s4, $0, edlcollisiondetect # if(loopflag == 0) end
 
 # Check down
@@ -1113,17 +1112,14 @@ dlcollisiondetect:
    j    downcollisionaend           # goto end of outer if
 
 leftcollisiona:                     # left collision 
-	nop
    jal  downsubroutine              # move down
    add  $s4, $0, $0                 # loopflag = 0
    j    downcollisionaend           # goto end of outer loop
 
 downcollisiona:                     # down collision
-	nop
    jal  rightsubroutine             # move right
    add  $s4, $0, $0 
 downcollisionaend:
-	nop
    jal  sad                         # check SAD
    j    dlcollisiondetect           # goto start of dl loop
 edlcollisiondetect:
@@ -1150,7 +1146,6 @@ urcollisiondetect:
    slt  $t0, $t7, $t0               # t0 = (frameLoc[column] < t0)
    beq  $t0, $0,  rightcollisiona   # if(t0 != 0)
    jal  uprightsubroutine           # move up and right
-   nop
    j    upcollisionaend             # goto end of outer if
 
 rightcollisiona:
@@ -1167,178 +1162,69 @@ upcollisiona:
    j    upcollisionaend             # goto end of outer if
    
 rightcollisionb:
-	nop
    jal downsubroutine               # move down
    add  $s4, $0, $0                 # loopflag = 0  
 upcollisionaend:
-	nop
    jal  sad                         # check SAD
-   	nop
    j    urcollisiondetect           # goto beginning of up-right loop
 eurcollisiondetect:
-	nop
    jal  sad                         # check SAD   
-   	nop
    j    zigzagloop                  # goto beginning of main loop
 endzigzag:
-	nop
-	nop
    lw   $ra, 0($sp)                 # get return address from the stack
-	nop
-	nop
    jr   $ra                         # return to function call
 
 
 # SAD Function 
 sad:
    nop
-   nop
-   nop
-   nop
    add  $t0, $0, $0                 # set sum to 0
    add  $t1, $0, $0                 # set outer loop variable j to 0
 sadouterloop:                       # for(int j = 0; j < windowSizeY; j++){
-   nop
-   nop
-   nop
-   nop
    slt  $t3, $t1, $s2               # t3 = (j < windowSizeY)
-   nop
-   nop
-   nop
-   nop
    beq  $t3, $0, sadouterloopend    # if(t3 == 0) exit outer loop
-   nop
-   nop
-   nop
-   nop
    add  $t2, $0, $0                 # set inner loop variable i to 0
 sadinnerloop:                       # for(int i = 0; i < windowSizeX; i++) {
-   nop
-   nop
-   nop
-   nop
    slt  $t3, $t2, $s3               # t3 = (i < windowSizeX)
-   nop
-   nop
    beq  $t3, $0, sadinnerloopend    # if(t3 == 0) exit inner loop
-   nop
-   nop
-   nop
-   nop
    add  $t3, $t1, $t6               # t3 = j + frameLoc[row]
-   nop
-   nop
-   nop
    mul  $t3, $t3, $s1               # t3 = t3 * frameSizeX          
-   nop
-   nop
-   nop
    add  $t3, $t3, $t2               # t3 = t3 + i
-   nop
-   nop
-   nop
    add  $t3, $t3, $t7               # t3 = t3 + frameLoc[column]
-   nop
-   nop
-   nop
    sll  $t3, $t3, 2                 # t3 = t3 * 4
-   nop
-   nop
-   nop
    mul  $t4, $t1, $s3               # t4 = j * windowSizeX
-   nop
-   nop
-   nop
    add  $t4, $t4, $t2               # t4 = t4 + i
-   nop
-   nop
-   nop
    sll  $t4, $t4, 2                 # t4 = t4 * 4
-   nop
-   nop
-   nop
    add  $t3, $a1, $t3               # t3 = &frame[t3]
-   nop
-   nop
-   nop
    add  $t4, $a2, $t4               # t4 = &frame[t4]
-   nop
-   nop
-   nop
-   nop
    lw   $t3, 0($t3)                 # t3 = *t3
-   nop
-   nop
-   nop
-   nop
    lw   $t4, 0($t4)                 # t4 = *t4
-   nop
-   nop
-   nop
-   nop
    sub  $t3, $t3, $t4               # t3 = t3 - t4
-   nop
-   nop
-   nop
    slt  $t4, $t3, $0                # t4 = (t3 < 0)
-   nop
-   nop
-   nop
-   nop
    beq  $t4, $0, absifend           # if(t4 != 0)
    addi $t5, $0, -1                 # t5 = -1
    mul  $t3, $t3, $t5               # t3 = t3 * -1
 absifend:
-   nop
-   nop
-   nop
-   nop
    add  $t0, $t0, $t3               # sum = sum + t3
    addi $t2, $t2, 1                 # i++
-   nop
-   nop
-   nop
-   nop
    j    sadinnerloop                # goto inner loop start
 sadinnerloopend:
-   nop
-   nop
-   nop
-   nop
    addi $t1, $t1, 1                 # j++
-   nop
-   nop
-   nop
-   nop
    j    sadouterloop                # got outer loop start
 sadouterloopend:
-   nop
-   nop
-   nop
-   nop
 # Test if SAD is a minimum value and update
    beq  $t0, $s6, lteqcurrmin       # if(new sad == current min)
    slt  $t1, $t0, $s6               # t2 = (new sad < current min)
-   nop
-   nop
-   nop
-   nop
    beq  $t1, $0, lteqcurrminend     # if(newsad <= min)
 lteqcurrmin:
    add  $s6, $t0, $0                # store new minimum
    add  $v0, $t6, $0                # store new min x
    add  $v1, $t7, $0                # store new min y
 lteqcurrminend:
-	nop
-   nop
-   nop
-   nop
    jr   $ra                         # jump to next vbsme command
 
 # Subroutines
 rightsubroutine:
-	nop
    addi $t7, $t7, 1                 # frameLoc[column]++
    jr   $ra                         # jump to next vbsme command
 
@@ -1348,7 +1234,6 @@ downleftsubroutine:
    jr   $ra                         # jump to next vbsme command
 
 uprightsubroutine:
-	nop
    addi $t6, $t6, -1                # frameLoc[row]++
    addi $t7, $t7,  1                # frameLoc[column]--
    jr   $ra                         # jump to next vbsme command
