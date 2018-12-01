@@ -23,22 +23,21 @@
 
 module top_tb();
     
-    reg Clk, MemWrite, MemRead;
-    reg [31:0] MemAddress, WindowAddress, WriteData, MemWidth, MemHeight, FrameWidth;
+    reg Clk, SADOp;
+    reg [31:0] MemAddress, WindowAddress, Width, Height;
+    reg [5:0] ALUOp;
     
     wire  [31:0]  SAD_out;
     
     
-    //module top(Clk, Address, MemWrite, MemRead, WriteData, SAD_out );
+    // top(Clk, MemAddress, WindowAddress, Width, Height, ALUOp, SADOp, SAD_out );
     top t0(.Clk(Clk), 
                 .MemAddress(MemAddress),
                 .WindowAddress(WindowAddress),
-                .MemWrite(MemWrite),
-                .MemRead(MemRead),
-                .WriteData(WriteData),
-                .MemWidth(MemWidth),
-                .MemHeight(MemHeight),
-                .FrameWidth(FrameWidth),
+                .Width(Width),
+                .Height(Height),
+                .ALUOp(ALUOp),
+                .SADOp(SADOp),
                 .SAD_out(SAD_out) );
     
 
@@ -54,13 +53,23 @@ module top_tb();
     
     
     initial begin
-        MemWrite <= 0;
-        MemRead <= 1;
+        //Set window size
         MemAddress <= 32'b0;
         WindowAddress <= 32'b0;
-        MemWidth <= 8;
-        MemHeight <= 8;
-        FrameWidth <= 16;
+        Width <= 32'b10;
+        Height <= 32'b10;
+        ALUOp <= 6'b111110;
+        SADOp <= 1'b1;
+        
+        //Set Frame Width
+        #200;
+        Width <= 32'b100;
+        ALUOp <= 6'b111100;
+          
+        //Begin Sad
+       #200;
+       MemAddress <= 0;
+       ALUOp <= 6'b111111; 
     end
     
     
