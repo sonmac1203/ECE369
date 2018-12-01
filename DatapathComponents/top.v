@@ -151,6 +151,7 @@ wire[31:0]  IF_ID_Instruction_out,
             Mux14_out,
             Mux15_out,
             mux16_out,
+            mux17_out,
             ID_EX_address,
             ID_EX_ZE;
 
@@ -202,6 +203,12 @@ wire [5:0]  ALUOp,
     //module InstructionMemory(Address, Instruction);
     InstructionMemory IM(PCResult, IM_out);
 
+
+    //module Mux32Bit2To1(out, inA, inB, sel);
+    Mux32Bit2To1 Mux17(mux17_out, IM_out, hard0, AND1_out);    
+
+
+
     /*
         ___ _____      __  ___ ____
        |_ _|  ___|    / / |_ _|  _ \
@@ -216,7 +223,7 @@ wire [5:0]  ALUOp,
 //                      in_Instruction, out_Instruction,
 //                      in_PCplus4, out_PCplus4);
     IF_ID_Register IFID_Reg_1(Clk_out, Flush, AND1_out,
-                              IM_out, IF_ID_Instruction_out,
+                              mux17_out, IF_ID_Instruction_out,
                               PCAdder_out, IF_ID_address);
 
 

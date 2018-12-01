@@ -55,17 +55,20 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
     integer index;
 
     initial begin
+    for (index = 0; index < 1024; index = index + 1) begin
+        memory[index] = 32'h0;
+    end
 //        memory[0] <= 32'h0;
 //        memory[1] <= 32'h00000001;
 //        memory[2] <= 32'hffffffff;
 
 //        //this is for phase 1 part 1
-        memory[0] <= 0;
-        memory[1] <= 1;
-        memory[2] <= 2;
-        memory[3] <= 3;
-        memory[4] <= 4;
-        memory[5] <= -1;
+//        memory[0] <= 0;
+//        memory[1] <= 1;
+//        memory[2] <= 2;
+//        memory[3] <= 3;
+//        memory[4] <= 4;
+//        memory[5] <= -1;
 
 
 //          memory[0] <= 100; //asize 0
@@ -83,13 +86,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
 //          memory[11] <= 1200;   
 
 
-
-        for (index = 0; index < 1024; index = index + 1) begin
-            memory[index] = 32'h0;
-        end
-
-    
-    /*
+        
     
             memory[0] <= 4;
             memory[1] <=  4;
@@ -8211,7 +8208,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
             memory[8117] <= 0;
             memory[8118] <= 0;
             memory[8119] <= 0;
-        */
+        
         
     end
     

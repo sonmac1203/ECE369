@@ -40,10 +40,10 @@ module IF_ID_Register(Clk, HazardFlush, Branch,
         //do nothing
         end
         
-        else if (Branch)    begin 
-            out_PCplus4 <= in_PCplus4;
-            out_Instruction <= 0;
-        end
+//        else if (Branch)    begin 
+//            out_PCplus4 <= in_PCplus4;
+//            //out_Instruction <= 0;
+//        end
         
         
         else    begin   //normal sending data through
