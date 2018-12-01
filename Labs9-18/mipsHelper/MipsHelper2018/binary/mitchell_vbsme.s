@@ -634,6 +634,18 @@ main:
     addi    $sp, $sp, -4    # Make space on stack
     sw      $ra, 0($sp)     # Save return address
     
+
+    # Start test 10 
+    ############################################################
+    la      $a0, asize10        # 1st parameter: address of asize10[0]
+    la      $a1, frame10        # 2nd parameter: address of frame10[0]
+    la      $a2, window10       # 3rd parameter: address of window10[0]   
+
+    jal     vbsme               # call function
+    jal     print_result        # print results to console
+    ############################################################
+    # End of test 10  
+
     # Start test 0
     ############################################################
     la      $a0, asize0     # 1st parameter: address of asize1[0]
@@ -754,19 +766,6 @@ main:
     jal     print_result    # print results to console
     ############################################################
     # End of test 9      
-   
-   
-    # Start test 10 
-    ############################################################
-    la      $a0, asize10        # 1st parameter: address of asize10[0]
-    la      $a1, frame10        # 2nd parameter: address of frame10[0]
-    la      $a2, window10       # 3rd parameter: address of window10[0]   
-
-    jal     vbsme               # call function
-    jal     print_result        # print results to console
-    ############################################################
-    # End of test 10  
-   
    
     # Start test 11
     ############################################################
@@ -1185,45 +1184,139 @@ endzigzag:
 
 # SAD Function 
 sad:
+   nop
+   nop
+   nop
+   nop
    add  $t0, $0, $0                 # set sum to 0
    add  $t1, $0, $0                 # set outer loop variable j to 0
 sadouterloop:                       # for(int j = 0; j < windowSizeY; j++){
+   nop
+   nop
+   nop
+   nop
    slt  $t3, $t1, $s2               # t3 = (j < windowSizeY)
+   nop
+   nop
+   nop
+   nop
    beq  $t3, $0, sadouterloopend    # if(t3 == 0) exit outer loop
+   nop
+   nop
+   nop
+   nop
    add  $t2, $0, $0                 # set inner loop variable i to 0
 sadinnerloop:                       # for(int i = 0; i < windowSizeX; i++) {
+   nop
+   nop
+   nop
+   nop
    slt  $t3, $t2, $s3               # t3 = (i < windowSizeX)
+   nop
+   nop
    beq  $t3, $0, sadinnerloopend    # if(t3 == 0) exit inner loop
+   nop
+   nop
+   nop
+   nop
    add  $t3, $t1, $t6               # t3 = j + frameLoc[row]
+   nop
+   nop
+   nop
    mul  $t3, $t3, $s1               # t3 = t3 * frameSizeX          
+   nop
+   nop
+   nop
    add  $t3, $t3, $t2               # t3 = t3 + i
+   nop
+   nop
+   nop
    add  $t3, $t3, $t7               # t3 = t3 + frameLoc[column]
+   nop
+   nop
+   nop
    sll  $t3, $t3, 2                 # t3 = t3 * 4
+   nop
+   nop
+   nop
    mul  $t4, $t1, $s3               # t4 = j * windowSizeX
+   nop
+   nop
+   nop
    add  $t4, $t4, $t2               # t4 = t4 + i
+   nop
+   nop
+   nop
    sll  $t4, $t4, 2                 # t4 = t4 * 4
+   nop
+   nop
+   nop
    add  $t3, $a1, $t3               # t3 = &frame[t3]
+   nop
+   nop
+   nop
    add  $t4, $a2, $t4               # t4 = &frame[t4]
+   nop
+   nop
+   nop
+   nop
    lw   $t3, 0($t3)                 # t3 = *t3
+   nop
+   nop
+   nop
+   nop
    lw   $t4, 0($t4)                 # t4 = *t4
+   nop
+   nop
+   nop
+   nop
    sub  $t3, $t3, $t4               # t3 = t3 - t4
+   nop
+   nop
+   nop
    slt  $t4, $t3, $0                # t4 = (t3 < 0)
+   nop
+   nop
+   nop
+   nop
    beq  $t4, $0, absifend           # if(t4 != 0)
    addi $t5, $0, -1                 # t5 = -1
    mul  $t3, $t3, $t5               # t3 = t3 * -1
 absifend:
+   nop
+   nop
+   nop
+   nop
    add  $t0, $t0, $t3               # sum = sum + t3
    addi $t2, $t2, 1                 # i++
+   nop
+   nop
+   nop
+   nop
    j    sadinnerloop                # goto inner loop start
 sadinnerloopend:
    nop
+   nop
+   nop
+   nop
    addi $t1, $t1, 1                 # j++
+   nop
+   nop
+   nop
+   nop
    j    sadouterloop                # got outer loop start
 sadouterloopend:
-
+   nop
+   nop
+   nop
+   nop
 # Test if SAD is a minimum value and update
    beq  $t0, $s6, lteqcurrmin       # if(new sad == current min)
    slt  $t1, $t0, $s6               # t2 = (new sad < current min)
+   nop
+   nop
+   nop
+   nop
    beq  $t1, $0, lteqcurrminend     # if(newsad <= min)
 lteqcurrmin:
    add  $s6, $t0, $0                # store new minimum
@@ -1231,6 +1324,9 @@ lteqcurrmin:
    add  $v1, $t7, $0                # store new min y
 lteqcurrminend:
 	nop
+   nop
+   nop
+   nop
    jr   $ra                         # jump to next vbsme command
 
 # Subroutines
