@@ -20,10 +20,40 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module SadRegister( MemWidth,  MemHeight,  FrameWidth );
+module SadRegister( Clk, Width,  Height,  SADOp, ALUOp, MemWidth, MemHeight, FrameWidth);
 
-    input [31:0] MemWidth, //Amount of memory per row read
-                          MemHeight, //Amount of rows to read
-                          FrameWidth; //width of the overall image frame
+    input [31:0] Width, //Amount of memory per row read
+                          Height;
+   input [5:0] ALUOp;
+   input Clk, SADOp;
+   
+   output reg [31:0] MemWidth,
+                                   MemHeight,
+                                   FrameWidth; 
+   
+   
+                          
+   initial begin
+        MemWidth <= 0;
+        MemHeight <= 0;
+        FrameWidth <= 0;
+   end
+   
+   always @(posedge Clk) begin
+   
+         if (SADOp == 1)    begin 
+                  //Initialize Frame
+                  if(ALUOp == 6'b111100) begin
+                       FrameWidth <= Width;
+                 end
+                 
+                 //Initialize Window
+                 else if(ALUOp == 6'b111110) begin
+                      MemWidth <= Width;
+                      MemHeight <= Height;
+                 end 
+         end
+   
+   end
 
 endmodule
