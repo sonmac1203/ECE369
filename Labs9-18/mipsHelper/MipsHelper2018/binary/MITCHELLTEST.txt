@@ -3,4 +3,4 @@ memory[1] <= 32'h0c000004;	//			jal	testjal
 memory[2] <= 32'h20080001;	//	returnjal:	addi	$t0, $0, 1
 memory[3] <= 32'h08000005;	//			j	end
 memory[4] <= 32'h08000002;	//	testjal:	j	returnjal
-memory[5] <= 32'h08000005;	//	end:		j	end
+memory[5] <= 32'h08000005;	/it/	end:		j	end
