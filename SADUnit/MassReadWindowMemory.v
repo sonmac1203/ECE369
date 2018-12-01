@@ -35,19 +35,20 @@
 // of the "Address" input to index any of the 256 words. 
 ////////////////////////////////////////////////////////////////////////////////
 
-module MassReadWindowMemory(Address, WriteData, Clk, MemWrite, MemRead, MemWidth, MemHeight, ReadData0, ReadData1, ReadData2, ReadData3, ReadData4, ReadData5, ReadData6, ReadData7, ReadData8, ReadData9, ReadData10, ReadData11, ReadData12, ReadData13, ReadData14, ReadData15, ReadData16, ReadData17, ReadData18, ReadData19, ReadData20, ReadData21, ReadData22, ReadData23, ReadData24, ReadData25, ReadData26, ReadData27, ReadData28, ReadData29, ReadData30, ReadData31, ReadData32, ReadData33, ReadData34, ReadData35, ReadData36, ReadData37, ReadData38, ReadData39, ReadData40, ReadData41, ReadData42, ReadData43, ReadData44, ReadData45, ReadData46, ReadData47, ReadData48, ReadData49, ReadData50, ReadData51, ReadData52, ReadData53, ReadData54, ReadData55, ReadData56, ReadData57, ReadData58, ReadData59, ReadData60, ReadData61, ReadData62, ReadData63, ReadData64, ReadData65, ReadData66, ReadData67, ReadData68, ReadData69, ReadData70, ReadData71, ReadData72, ReadData73, ReadData74, ReadData75, ReadData76, ReadData77, ReadData78, ReadData79, ReadData80, ReadData81, ReadData82, ReadData83, ReadData84, ReadData85, ReadData86, ReadData87, ReadData88, ReadData89, ReadData90, ReadData91, ReadData92, ReadData93, ReadData94, ReadData95, ReadData96, ReadData97, ReadData98, ReadData99, ReadData100, ReadData101, ReadData102, ReadData103, ReadData104, ReadData105, ReadData106, ReadData107, ReadData108, ReadData109, ReadData110, ReadData111, ReadData112, ReadData113, ReadData114, ReadData115, ReadData116, ReadData117, ReadData118, ReadData119, ReadData120, ReadData121, ReadData122, ReadData123, ReadData124, ReadData125, ReadData126, ReadData127, ReadData128, ReadData129, ReadData130, ReadData131, ReadData132, ReadData133, ReadData134, ReadData135, ReadData136, ReadData137, ReadData138, ReadData139, ReadData140, ReadData141, ReadData142, ReadData143, ReadData144, ReadData145, ReadData146, ReadData147, ReadData148, ReadData149, ReadData150, ReadData151, ReadData152, ReadData153, ReadData154, ReadData155, ReadData156, ReadData157, ReadData158, ReadData159, ReadData160, ReadData161, ReadData162, ReadData163, ReadData164, ReadData165, ReadData166, ReadData167, ReadData168, ReadData169, ReadData170, ReadData171, ReadData172, ReadData173, ReadData174, ReadData175, ReadData176, ReadData177, ReadData178, ReadData179, ReadData180, ReadData181, ReadData182, ReadData183, ReadData184, ReadData185, ReadData186, ReadData187, ReadData188, ReadData189, ReadData190, ReadData191, ReadData192, ReadData193, ReadData194, ReadData195, ReadData196, ReadData197, ReadData198, ReadData199, ReadData200, ReadData201, ReadData202, ReadData203, ReadData204, ReadData205, ReadData206, ReadData207, ReadData208, ReadData209, ReadData210, ReadData211, ReadData212, ReadData213, ReadData214, ReadData215, ReadData216, ReadData217, ReadData218, ReadData219, ReadData220, ReadData221, ReadData222, ReadData223, ReadData224, ReadData225, ReadData226, ReadData227, ReadData228, ReadData229, ReadData230, ReadData231, ReadData232, ReadData233, ReadData234, ReadData235, ReadData236, ReadData237, ReadData238, ReadData239, ReadData240, ReadData241, ReadData242, ReadData243, ReadData244, ReadData245, ReadData246, ReadData247, ReadData248, ReadData249, ReadData250, ReadData251, ReadData252, ReadData253, ReadData254, ReadData255); 
+
+module MassReadWindowMemory(Address, ItemA, ItemB, Clk, ALUOp, SADOp, ReadData0, ReadData1, ReadData2, ReadData3, ReadData4, ReadData5, ReadData6, ReadData7, ReadData8, ReadData9, ReadData10, ReadData11, ReadData12, ReadData13, ReadData14, ReadData15, ReadData16, ReadData17, ReadData18, ReadData19, ReadData20, ReadData21, ReadData22, ReadData23, ReadData24, ReadData25, ReadData26, ReadData27, ReadData28, ReadData29, ReadData30, ReadData31, ReadData32, ReadData33, ReadData34, ReadData35, ReadData36, ReadData37, ReadData38, ReadData39, ReadData40, ReadData41, ReadData42, ReadData43, ReadData44, ReadData45, ReadData46, ReadData47, ReadData48, ReadData49, ReadData50, ReadData51, ReadData52, ReadData53, ReadData54, ReadData55, ReadData56, ReadData57, ReadData58, ReadData59, ReadData60, ReadData61, ReadData62, ReadData63, ReadData64, ReadData65, ReadData66, ReadData67, ReadData68, ReadData69, ReadData70, ReadData71, ReadData72, ReadData73, ReadData74, ReadData75, ReadData76, ReadData77, ReadData78, ReadData79, ReadData80, ReadData81, ReadData82, ReadData83, ReadData84, ReadData85, ReadData86, ReadData87, ReadData88, ReadData89, ReadData90, ReadData91, ReadData92, ReadData93, ReadData94, ReadData95, ReadData96, ReadData97, ReadData98, ReadData99, ReadData100, ReadData101, ReadData102, ReadData103, ReadData104, ReadData105, ReadData106, ReadData107, ReadData108, ReadData109, ReadData110, ReadData111, ReadData112, ReadData113, ReadData114, ReadData115, ReadData116, ReadData117, ReadData118, ReadData119, ReadData120, ReadData121, ReadData122, ReadData123, ReadData124, ReadData125, ReadData126, ReadData127, ReadData128, ReadData129, ReadData130, ReadData131, ReadData132, ReadData133, ReadData134, ReadData135, ReadData136, ReadData137, ReadData138, ReadData139, ReadData140, ReadData141, ReadData142, ReadData143, ReadData144, ReadData145, ReadData146, ReadData147, ReadData148, ReadData149, ReadData150, ReadData151, ReadData152, ReadData153, ReadData154, ReadData155, ReadData156, ReadData157, ReadData158, ReadData159, ReadData160, ReadData161, ReadData162, ReadData163, ReadData164, ReadData165, ReadData166, ReadData167, ReadData168, ReadData169, ReadData170, ReadData171, ReadData172, ReadData173, ReadData174, ReadData175, ReadData176, ReadData177, ReadData178, ReadData179, ReadData180, ReadData181, ReadData182, ReadData183, ReadData184, ReadData185, ReadData186, ReadData187, ReadData188, ReadData189, ReadData190, ReadData191, ReadData192, ReadData193, ReadData194, ReadData195, ReadData196, ReadData197, ReadData198, ReadData199, ReadData200, ReadData201, ReadData202, ReadData203, ReadData204, ReadData205, ReadData206, ReadData207, ReadData208, ReadData209, ReadData210, ReadData211, ReadData212, ReadData213, ReadData214, ReadData215, ReadData216, ReadData217, ReadData218, ReadData219, ReadData220, ReadData221, ReadData222, ReadData223, ReadData224, ReadData225, ReadData226, ReadData227, ReadData228, ReadData229, ReadData230, ReadData231, ReadData232, ReadData233, ReadData234, ReadData235, ReadData236, ReadData237, ReadData238, ReadData239, ReadData240, ReadData241, ReadData242, ReadData243, ReadData244, ReadData245, ReadData246, ReadData247, ReadData248, ReadData249, ReadData250, ReadData251, ReadData252, ReadData253, ReadData254, ReadData255); 
 
     input [31:0] Address,	// Input Address 
-                          WriteData, // Data that needs to be written into the address 
-                          MemWidth, //Amount of memory per row read
-                          MemHeight; //Amount of rows to read
-    input Clk;
-    input MemWrite; 		// Control signal for memory write 
-    input MemRead; 			// Control signal for memory read 
+                          ItemA, //Width Data
+                          ItemB; // Height Data
+    input [5:0] ALUOp;
+    input Clk, SADOp;
 
     output reg[31:0]  ReadData0, ReadData1, ReadData2, ReadData3, ReadData4, ReadData5, ReadData6, ReadData7, ReadData8, ReadData9, ReadData10, ReadData11, ReadData12, ReadData13, ReadData14, ReadData15, ReadData16, ReadData17, ReadData18, ReadData19, ReadData20, ReadData21, ReadData22, ReadData23, ReadData24, ReadData25, ReadData26, ReadData27, ReadData28, ReadData29, ReadData30, ReadData31, ReadData32, ReadData33, ReadData34, ReadData35, ReadData36, ReadData37, ReadData38, ReadData39, ReadData40, ReadData41, ReadData42, ReadData43, ReadData44, ReadData45, ReadData46, ReadData47, ReadData48, ReadData49, ReadData50, ReadData51, ReadData52, ReadData53, ReadData54, ReadData55, ReadData56, ReadData57, ReadData58, ReadData59, ReadData60, ReadData61, ReadData62, ReadData63, ReadData64, ReadData65, ReadData66, ReadData67, ReadData68, ReadData69, ReadData70, ReadData71, ReadData72, ReadData73, ReadData74, ReadData75, ReadData76, ReadData77, ReadData78, ReadData79, ReadData80, ReadData81, ReadData82, ReadData83, ReadData84, ReadData85, ReadData86, ReadData87, ReadData88, ReadData89, ReadData90, ReadData91, ReadData92, ReadData93, ReadData94, ReadData95, ReadData96, ReadData97, ReadData98, ReadData99, ReadData100, ReadData101, ReadData102, ReadData103, ReadData104, ReadData105, ReadData106, ReadData107, ReadData108, ReadData109, ReadData110, ReadData111, ReadData112, ReadData113, ReadData114, ReadData115, ReadData116, ReadData117, ReadData118, ReadData119, ReadData120, ReadData121, ReadData122, ReadData123, ReadData124, ReadData125, ReadData126, ReadData127, ReadData128, ReadData129, ReadData130, ReadData131, ReadData132, ReadData133, ReadData134, ReadData135, ReadData136, ReadData137, ReadData138, ReadData139, ReadData140, ReadData141, ReadData142, ReadData143, ReadData144, ReadData145, ReadData146, ReadData147, ReadData148, ReadData149, ReadData150, ReadData151, ReadData152, ReadData153, ReadData154, ReadData155, ReadData156, ReadData157, ReadData158, ReadData159, ReadData160, ReadData161, ReadData162, ReadData163, ReadData164, ReadData165, ReadData166, ReadData167, ReadData168, ReadData169, ReadData170, ReadData171, ReadData172, ReadData173, ReadData174, ReadData175, ReadData176, ReadData177, ReadData178, ReadData179, ReadData180, ReadData181, ReadData182, ReadData183, ReadData184, ReadData185, ReadData186, ReadData187, ReadData188, ReadData189, ReadData190, ReadData191, ReadData192, ReadData193, ReadData194, ReadData195, ReadData196, ReadData197, ReadData198, ReadData199, ReadData200, ReadData201, ReadData202, ReadData203, ReadData204, ReadData205, ReadData206, ReadData207, ReadData208, ReadData209, ReadData210, ReadData211, ReadData212, ReadData213, ReadData214, ReadData215, ReadData216, ReadData217, ReadData218, ReadData219, ReadData220, ReadData221, ReadData222, ReadData223, ReadData224, ReadData225, ReadData226, ReadData227, ReadData228, ReadData229, ReadData230, ReadData231, ReadData232, ReadData233, ReadData234, ReadData235, ReadData236, ReadData237, ReadData238, ReadData239, ReadData240, ReadData241, ReadData242, ReadData243, ReadData244, ReadData245, ReadData246, ReadData247, ReadData248, ReadData249, ReadData250, ReadData251, ReadData252, ReadData253, ReadData254, ReadData255;
 
-    /* Please fill in the implementation here */
+    reg [31:0]    MemWidth, //Amount of memory per row read
+                          MemHeight, //Amount of rows to read
+                          FrameWidth; //width of the overall image frame
     
     reg[31:0] memory [0:1023];
     reg [31:0] ReadData[0:255]; //Temporary location for outgoing data
@@ -135,28 +136,38 @@ module MassReadWindowMemory(Address, WriteData, Clk, MemWrite, MemRead, MemWidth
 
 
     end
-    
-    
-    always @ (negedge Clk)  begin
-        if (MemWrite)   begin
-            memory[Address[11:2]] <= WriteData;
-        end  
-        
-    end
+
+
+
 
    always @ (*) begin
-        if (MemRead)    begin
-            k = 0;
-            for(i = 0; i < MemHeight[3:0]; i = i + 1) begin   //Up to 16 rows
-                for(j = 0; j < MemWidth[3:0]; j = j + 1)begin //Up to 16 values per row
-                        ReadData[k] <= memory[Address[11:2] + i * MemWidth[3:0] + j];
-                        k = k + 1;
-                end
-            end
-            
-            for(i=k; i < 256; i = i + 1) begin
-                ReadData[i] = 32'b0;
-            end
+       if (SADOp)    begin
+              
+                  //Initialize Frame
+                  if(ALUOp == 6'b111100) begin
+                       FrameWidth <= ItemA;
+                 end
+                 
+                 //Initialize Window
+                 else if(ALUOp == 6'b111110) begin
+                      MemWidth <= ItemA;
+                      MemHeight <= ItemB;
+                 end
+                 
+                 //Run SAD
+                 else if(ALUOp == 6'b111111) begin
+                     k = 0;
+                      for(i = 0; i < MemHeight[3:0]; i = i + 1) begin   //Up to 16 rows
+                          for(j = 0; j < MemWidth[3:0]; j = j + 1) begin //Up to 16 values per row
+                                  ReadData[k] <= memory[Address[11:2] + i * FrameWidth[5:0] + j]; //Up to 64 framewidth
+                                  k <= k + 1;
+                          end
+                      end
+                      
+                      for(i=k; i < 256; i = i + 1) begin
+                          ReadData[i] <= 32'b0;
+                      end
+                  end
         
             assign ReadData0 = ReadData[0];
             assign ReadData1 = ReadData[1];
