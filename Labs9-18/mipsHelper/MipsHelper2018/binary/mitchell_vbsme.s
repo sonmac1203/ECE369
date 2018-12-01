@@ -907,7 +907,7 @@ main:
 
 ################### Print Result ####################################
 print_result:
-	add $s7, $0, $0
+	nop
     # Printing $v0
     # add     $a0, $v0, $zero     # Load $v0 for printing
     # li      $v0, 1              # Load the system call numbers
@@ -1089,7 +1089,6 @@ doneerrordetectright:
 
 # Main zigzag loop
 zigzagloop:                         # while ((frameLoc[column] + frameLoc[row] * frameSizeX) < Final Location){
-   nop
    mul  $t0, $t6, $s1               # t0 = frameLoc[row] * frameSizeX
    add  $t0, $t0, $t7               # t0 = t0 + frameLoc[column]
    slt  $t0, $t0, $s5               # t0 = (t0 < final location)
@@ -1117,9 +1116,11 @@ leftcollisiona:                     # left collision
    j    downcollisionaend           # goto end of outer loop
 
 downcollisiona:                     # down collision
+	nop
    jal  rightsubroutine             # move right
    add  $s4, $0, $0 
 downcollisionaend:
+	nop
    jal  sad                         # check SAD
    j    dlcollisiondetect           # goto start of dl loop
 edlcollisiondetect:
@@ -1146,6 +1147,7 @@ urcollisiondetect:
    slt  $t0, $t7, $t0               # t0 = (frameLoc[column] < t0)
    beq  $t0, $0,  rightcollisiona   # if(t0 != 0)
    jal  uprightsubroutine           # move up and right
+   nop
    j    upcollisionaend             # goto end of outer if
 
 rightcollisiona:
@@ -1162,16 +1164,25 @@ upcollisiona:
    j    upcollisionaend             # goto end of outer if
    
 rightcollisionb:
+	nop
    jal downsubroutine               # move down
    add  $s4, $0, $0                 # loopflag = 0  
 upcollisionaend:
+	nop
    jal  sad                         # check SAD
+   	nop
    j    urcollisiondetect           # goto beginning of up-right loop
 eurcollisiondetect:
+	nop
    jal  sad                         # check SAD   
+   	nop
    j    zigzagloop                  # goto beginning of main loop
 endzigzag:
+	nop
+	nop
    lw   $ra, 0($sp)                 # get return address from the stack
+	nop
+	nop
    jr   $ra                         # return to function call
 
 
@@ -1246,5 +1257,4 @@ upsubroutine:
    addi $t6, $t6, -1                # frameLoc[row]--
    addi $t7, $t7,  1                # frameLoc[column]++
    jr   $ra                         # jump to next vbsme command
-
 
