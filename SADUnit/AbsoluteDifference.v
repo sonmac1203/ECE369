@@ -24,11 +24,16 @@ module AbsoluteDifference(A, B, out);
 
     input [31:0] A, B;
     output reg [31:0] out;
+    reg [31:0]  nonAbsOut;
 
     always @ (*)    begin
-        out <= A - B;
-        if(out < 0)
-            out <= B - A;    
+        nonAbsOut <=  A - B;
+        if(nonAbsOut[31] == 1'b1) begin
+            out <= B - A;
+       end
+        else begin
+            out <= A - B;
+         end      
     end
 
 endmodule
