@@ -52,6 +52,298 @@ module InstructionMemory(Address, Instruction);
 
         //$readmemh("/home/mitch/Instruction_memory.txt", memory);
         
+        
+         memory[0] <= 32'h23bdfffc;  //  main:           addi    $sp, $sp, -4
+               memory[1] <= 32'hafbf0000;  //              sw  $ra, 0($sp)
+               memory[2] <= 32'h34040000;  //              ori $a0, $zero, 0
+               memory[3] <= 32'h34050010;  //              ori $a1, $zero, 16
+               memory[4] <= 32'h34060050;  //              ori $a2, $zero, 80
+               memory[5] <= 32'h0c00007f;  //              jal vbsme
+               memory[6] <= 32'h0c00006f;  //              jal print_result
+               memory[7] <= 32'h34040060;  //              ori $a0, $zero, 96
+               memory[8] <= 32'h34050070;  //              ori $a1, $zero, 112
+               memory[9] <= 32'h34060470;  //              ori $a2, $zero, 1136
+               memory[10] <= 32'h0c00007f; //              jal vbsme
+               memory[11] <= 32'h0c00006f; //              jal print_result
+               memory[12] <= 32'h340404b0; //              ori $a0, $zero, 1200
+               memory[13] <= 32'h340504c0; //              ori $a1, $zero, 1216
+               memory[14] <= 32'h340608c0; //              ori $a2, $zero, 2240
+               memory[15] <= 32'h0c00007f; //              jal vbsme
+               memory[16] <= 32'h0c00006f; //              jal print_result
+               memory[17] <= 32'h34040940; //              ori $a0, $zero, 2368
+               memory[18] <= 32'h34050950; //              ori $a1, $zero, 2384
+               memory[19] <= 32'h34060d50; //              ori $a2, $zero, 3408
+               memory[20] <= 32'h0c00007f; //              jal vbsme
+               memory[21] <= 32'h0c00006f; //              jal print_result
+               memory[22] <= 32'h34040dd0; //              ori $a0, $zero, 3536
+               memory[23] <= 32'h34050de0; //              ori $a1, $zero, 3552
+               memory[24] <= 32'h340611e0; //              ori $a2, $zero, 4576
+               memory[25] <= 32'h0c00007f; //              jal vbsme
+               memory[26] <= 32'h0c00006f; //              jal print_result
+               memory[27] <= 32'h34041220; //              ori $a0, $zero, 4640
+               memory[28] <= 32'h34051230; //              ori $a1, $zero, 4656
+               memory[29] <= 32'h34062230; //              ori $a2, $zero, 8752
+               memory[30] <= 32'h0c00007f; //              jal vbsme
+               memory[31] <= 32'h0c00006f; //              jal print_result
+               memory[32] <= 32'h34042430; //              ori $a0, $zero, 9264
+               memory[33] <= 32'h34052440; //              ori $a1, $zero, 9280
+               memory[34] <= 32'h34063440; //              ori $a2, $zero, 13376
+               memory[35] <= 32'h0c00007f; //              jal vbsme
+               memory[36] <= 32'h0c00006f; //              jal print_result
+               memory[37] <= 32'h34043480; //              ori $a0, $zero, 13440
+               memory[38] <= 32'h34053490; //              ori $a1, $zero, 13456
+               memory[39] <= 32'h34064490; //              ori $a2, $zero, 17552
+               memory[40] <= 32'h0c00007f; //              jal vbsme
+               memory[41] <= 32'h0c00006f; //              jal print_result
+               memory[42] <= 32'h34044510; //              ori $a0, $zero, 17680
+               memory[43] <= 32'h34054520; //              ori $a1, $zero, 17696
+               memory[44] <= 32'h34064920; //              ori $a2, $zero, 18720
+               memory[45] <= 32'h0c00007f; //              jal vbsme
+               memory[46] <= 32'h0c00006f; //              jal print_result
+               memory[47] <= 32'h340449a0; //              ori $a0, $zero, 18848
+               memory[48] <= 32'h340549b0; //              ori $a1, $zero, 18864
+               memory[49] <= 32'h34064db0; //              ori $a2, $zero, 19888
+               memory[50] <= 32'h0c00007f; //              jal vbsme
+               memory[51] <= 32'h0c00006f; //              jal print_result
+               memory[52] <= 32'h34044df0; //              ori $a0, $zero, 19952
+               memory[53] <= 32'h34054e00; //              ori $a1, $zero, 19968
+               memory[54] <= 32'h34065200; //              ori $a2, $zero, 20992
+               memory[55] <= 32'h0c00007f; //              jal vbsme
+               memory[56] <= 32'h0c00006f; //              jal print_result
+               memory[57] <= 32'h34045300; //              ori $a0, $zero, 21248
+               memory[58] <= 32'h34055310; //              ori $a1, $zero, 21264
+               memory[59] <= 32'h34066310; //              ori $a2, $zero, 25360
+               memory[60] <= 32'h0c00007f; //              jal vbsme
+               memory[61] <= 32'h0c00006f; //              jal print_result
+               memory[62] <= 32'h34046710; //              ori $a0, $zero, 26384
+               memory[63] <= 32'h34056720; //              ori $a1, $zero, 26400
+               memory[64] <= 32'h34066b20; //              ori $a2, $zero, 27424
+               memory[65] <= 32'h0c00007f; //              jal vbsme
+               memory[66] <= 32'h0c00006f; //              jal print_result
+               memory[67] <= 32'h34046b60; //              ori $a0, $zero, 27488
+               memory[68] <= 32'h34056b70; //              ori $a1, $zero, 27504
+               memory[69] <= 32'h34067b70; //              ori $a2, $zero, 31600
+               memory[70] <= 32'h0c00007f; //              jal vbsme
+               memory[71] <= 32'h0c00006f; //              jal print_result
+               memory[72] <= 32'h34047bb0; //              ori $a0, $zero, 31664
+               memory[73] <= 32'h34057bc0; //              ori $a1, $zero, 31680
+               memory[74] <= 32'h34067c00; //              ori $a2, $zero, 31744
+               memory[75] <= 32'h0c00007f; //              jal vbsme
+               memory[76] <= 32'h0c00006f; //              jal print_result
+               memory[77] <= 32'h34047c40; //              ori $a0, $zero, 31808
+               memory[78] <= 32'h34057c50; //              ori $a1, $zero, 31824
+               memory[79] <= 32'h34067c90; //              ori $a2, $zero, 31888
+               memory[80] <= 32'h0c00007f; //              jal vbsme
+               memory[81] <= 32'h0c00006f; //              jal print_result
+               memory[82] <= 32'h34047cd8; //              ori $a0, $zero, 31960
+               memory[83] <= 32'h34057ce8; //              ori $a1, $zero, 31976
+               memory[84] <= 32'h34067d58; //              ori $a2, $zero, 32088
+               memory[85] <= 32'h0c00007f; //              jal vbsme
+               memory[86] <= 32'h0c00006f; //              jal print_result
+               memory[87] <= 32'h34047da0; //              ori $a0, $zero, 32160
+               memory[88] <= 32'h34057db0; //              ori $a1, $zero, 32176
+               memory[89] <= 32'h34067e00; //              ori $a2, $zero, 32256
+               memory[90] <= 32'h0c00007f; //              jal vbsme
+               memory[91] <= 32'h0c00006f; //              jal print_result
+               memory[92] <= 32'h34047e20; //              ori $a0, $zero, 32288
+               memory[93] <= 32'h34057e30; //              ori $a1, $zero, 32304
+               memory[94] <= 32'h34067e80; //              ori $a2, $zero, 32384
+               memory[95] <= 32'h0c00007f; //              jal vbsme
+               memory[96] <= 32'h0c00006f; //              jal print_result
+               memory[97] <= 32'h34047e8c; //              ori $a0, $zero, 32396
+               memory[98] <= 32'h34057e9c; //              ori $a1, $zero, 32412
+               memory[99] <= 32'h34067eec; //              ori $a2, $zero, 32492
+               memory[100] <= 32'h0c00007f;    //              jal vbsme
+               memory[101] <= 32'h0c00006f;    //              jal print_result
+               memory[102] <= 32'h34047ef8;    //              ori $a0, $zero, 32504
+               memory[103] <= 32'h34057f08;    //              ori $a1, $zero, 32520
+               memory[104] <= 32'h34067f50;    //              ori $a2, $zero, 32592
+               memory[105] <= 32'h0c00007f;    //              jal vbsme
+               memory[106] <= 32'h0c00006f;    //              jal print_result
+               memory[107] <= 32'h8fbf0000;    //              lw  $ra, 0($sp)
+               memory[108] <= 32'h23bd0004;    //              addi    $sp, $sp, 4
+               memory[109] <= 32'h3402000a;    //  exit:           ori $v0, $zero, 10
+               memory[110] <= 32'h00000000;    //              nop
+               memory[111] <= 32'h00402020;    //  print_result:       add $a0, $v0, $zero
+               memory[112] <= 32'h34020001;    //              ori $v0, $zero, 1
+               memory[113] <= 32'h00000000;    //              nop
+               memory[114] <= 32'h34047f74;    //              ori $a0, $zero, 32628
+               memory[115] <= 32'h34020004;    //              ori $v0, $zero, 4
+               memory[116] <= 32'h00000000;    //              nop
+               memory[117] <= 32'h00602020;    //              add $a0, $v1, $zero
+               memory[118] <= 32'h34020001;    //              ori $v0, $zero, 1
+               memory[119] <= 32'h00000000;    //              nop
+               memory[120] <= 32'h34047f74;    //              ori $a0, $zero, 32628
+               memory[121] <= 32'h34020004;    //              ori $v0, $zero, 4
+               memory[122] <= 32'h00000000;    //              nop
+               memory[123] <= 32'h34047f74;    //              ori $a0, $zero, 32628
+               memory[124] <= 32'h34020004;    //              ori $v0, $zero, 4
+               memory[125] <= 32'h00000000;    //              nop
+               memory[126] <= 32'h03e00008;    //              jr  $ra
+               memory[127] <= 32'h8c900000;    //  vbsme:          lw  $s0, 0($a0)
+               memory[128] <= 32'h8c910004;    //              lw  $s1, 4($a0)
+               memory[129] <= 32'h8c920008;    //              lw  $s2, 8($a0)
+               memory[130] <= 32'h8c93000c;    //              lw  $s3, 12($a0)
+               memory[131] <= 32'h340e0000;    //              ori $t6, $zero, 0
+               memory[132] <= 32'h340f0000;    //              ori $t7, $zero, 0
+               memory[133] <= 32'h02124022;    //              sub $t0, $s0, $s2
+               memory[134] <= 32'h71114002;    //              mul $t0, $t0, $s1
+               memory[135] <= 32'h02334822;    //              sub $t1, $s1, $s3
+               memory[136] <= 32'h0109a820;    //              add $s5, $t0, $t1
+               memory[137] <= 32'hafa80004;    //              sw  $t0, 4($sp)
+               memory[138] <= 32'h34020000;    //              ori $v0, $zero, 0
+               memory[139] <= 32'h34030000;    //              ori $v1, $zero, 0
+               memory[140] <= 32'h3416270f;    //              ori $s6, $zero, 9999
+               memory[141] <= 32'h23bdfffc;    //              addi    $sp, $sp, -4
+               memory[142] <= 32'hafbf0000;    //              sw  $ra, 0($sp)
+               memory[143] <= 32'h0271402a;    //              slt $t0, $s3, $s1
+               memory[144] <= 32'h0250482a;    //              slt $t1, $s2, $s0
+               memory[145] <= 32'h01094025;    //              or  $t0, $t0, $t1
+               memory[146] <= 32'h1100003c;    //              beq $t0, $0, endzigzag
+               memory[147] <= 32'h0c0000d1;    //              jal sad
+               memory[148] <= 32'h02334022;    //              sub $t0, $s1, $s3
+               memory[149] <= 32'h01e8402a;    //              slt $t0, $t7, $t0
+               memory[150] <= 32'h11000002;    //              beq $t0, $0, errordetectnexta
+               memory[151] <= 32'h0c0000f5;    //              jal rightsubroutine
+               memory[152] <= 32'h0800009d;    //              j   doneerrordetectright
+               memory[153] <= 32'h02124022;    //  errordetectnexta:   sub $t0, $s0, $s2
+               memory[154] <= 32'h01c8402a;    //              slt $t0, $t6, $t0
+               memory[155] <= 32'h11000033;    //              beq $t0, $0, endzigzag
+               memory[156] <= 32'h0c0000fd;    //              jal downsubroutine
+               memory[157] <= 32'h0c0000d1;    //  doneerrordetectright:   jal sad
+               memory[158] <= 32'h71d14002;    //  zigzagloop:     mul $t0, $t6, $s1
+               memory[159] <= 32'h010f4020;    //              add $t0, $t0, $t7
+               memory[160] <= 32'h0115402a;    //              slt $t0, $t0, $s5
+               memory[161] <= 32'h1100002d;    //              beq $t0, $0, endzigzag
+               memory[162] <= 32'h20140001;    //              addi    $s4, $0, 1
+               memory[163] <= 32'h1280000e;    //  dlcollisiondetect:  beq $s4, $0, edlcollisiondetect
+               memory[164] <= 32'h02124022;    //              sub $t0, $s0, $s2
+               memory[165] <= 32'h01c8402a;    //              slt $t0, $t6, $t0
+               memory[166] <= 32'h11000007;    //              beq $t0, $0, downcollisiona
+               memory[167] <= 32'h000f402a;    //              slt $t0, $0, $t7
+               memory[168] <= 32'h11000002;    //              beq $t0, $0, leftcollisiona
+               memory[169] <= 32'h0c0000f7;    //              jal downleftsubroutine
+               memory[170] <= 32'h080000b0;    //              j   downcollisionaend
+               memory[171] <= 32'h0c0000fd;    //  leftcollisiona:     jal downsubroutine
+               memory[172] <= 32'h0000a020;    //              add $s4, $0, $0
+               memory[173] <= 32'h080000b0;    //              j   downcollisionaend
+               memory[174] <= 32'h0c0000f5;    //  downcollisiona:     jal rightsubroutine
+               memory[175] <= 32'h0000a020;    //              add $s4, $0, $0
+               memory[176] <= 32'h0c0000d1;    //  downcollisionaend:  jal sad
+               memory[177] <= 32'h080000a3;    //              j   dlcollisiondetect
+               memory[178] <= 32'h0c0000d1;    //  edlcollisiondetect: jal sad
+               memory[179] <= 32'h71d14002;    //              mul $t0, $t6, $s1
+               memory[180] <= 32'h010f4020;    //              add $t0, $t0, $t7
+               memory[181] <= 32'h0115402a;    //              slt $t0, $t0, $s5
+               memory[182] <= 32'h11000018;    //              beq $t0, $0, endzigzag
+               memory[183] <= 32'h20140001;    //              addi    $s4, $0, 1
+               memory[184] <= 32'h12800014;    //  urcollisiondetect:  beq $s4, $0, eurcollisiondetect
+               memory[185] <= 32'h000e402a;    //              slt $t0, $0, $t6
+               memory[186] <= 32'h11000008;    //              beq $t0, $0, upcollisiona
+               memory[187] <= 32'h02334022;    //              sub $t0, $s1, $s3
+               memory[188] <= 32'h01e8402a;    //              slt $t0, $t7, $t0
+               memory[189] <= 32'h11000002;    //              beq $t0, $0, rightcollisiona
+               memory[190] <= 32'h0c0000fa;    //              jal uprightsubroutine
+               memory[191] <= 32'h080000cb;    //              j   upcollisionaend
+               memory[192] <= 32'h0c0000fd;    //  rightcollisiona:    jal downsubroutine
+               memory[193] <= 32'h0000a020;    //              add $s4, $0, $0
+               memory[194] <= 32'h080000cb;    //              j   upcollisionaend
+               memory[195] <= 32'h02334022;    //  upcollisiona:       sub $t0, $s1, $s3
+               memory[196] <= 32'h01e8402a;    //              slt $t0, $t7, $t0
+               memory[197] <= 32'h11000003;    //              beq $t0, $0, rightcollisionb
+               memory[198] <= 32'h0c0000f5;    //              jal rightsubroutine
+               memory[199] <= 32'h0000a020;    //              add $s4, $0, $0
+               memory[200] <= 32'h080000cb;    //              j   upcollisionaend
+               memory[201] <= 32'h0c0000fd;    //  rightcollisionb:    jal downsubroutine
+               memory[202] <= 32'h0000a020;    //              add $s4, $0, $0
+               memory[203] <= 32'h0c0000d1;    //  upcollisionaend:    jal sad
+               memory[204] <= 32'h080000b8;    //              j   urcollisiondetect
+               memory[205] <= 32'h0c0000d1;    //  eurcollisiondetect: jal sad
+               memory[206] <= 32'h0800009e;    //              j   zigzagloop
+               memory[207] <= 32'h8fbf0000;    //  endzigzag:      lw  $ra, 0($sp)
+               memory[208] <= 32'h03e00008;    //              jr  $ra
+               memory[209] <= 32'h00004020;    //  sad:            add $t0, $0, $0
+               memory[210] <= 32'h00004820;    //              add $t1, $0, $0
+               memory[211] <= 32'h0132582a;    //  sadouterloop:       slt $t3, $t1, $s2
+               memory[212] <= 32'h11600019;    //              beq $t3, $0, sadouterloopend
+               memory[213] <= 32'h00005020;    //              add $t2, $0, $0
+               memory[214] <= 32'h0153582a;    //  sadinnerloop:       slt $t3, $t2, $s3
+               memory[215] <= 32'h11600014;    //              beq $t3, $0, sadinnerloopend
+               memory[216] <= 32'h012e5820;    //              add $t3, $t1, $t6
+               memory[217] <= 32'h71715802;    //              mul $t3, $t3, $s1
+               memory[218] <= 32'h016a5820;    //              add $t3, $t3, $t2
+               memory[219] <= 32'h016f5820;    //              add $t3, $t3, $t7
+               memory[220] <= 32'h000b5880;    //              sll $t3, $t3, 2
+               memory[221] <= 32'h71336002;    //              mul $t4, $t1, $s3
+               memory[222] <= 32'h018a6020;    //              add $t4, $t4, $t2
+               memory[223] <= 32'h000c6080;    //              sll $t4, $t4, 2
+               memory[224] <= 32'h00ab5820;    //              add $t3, $a1, $t3
+               memory[225] <= 32'h00cc6020;    //              add $t4, $a2, $t4
+               memory[226] <= 32'h8d6b0000;    //              lw  $t3, 0($t3)
+               memory[227] <= 32'h8d8c0000;    //              lw  $t4, 0($t4)
+               memory[228] <= 32'h016c5822;    //              sub $t3, $t3, $t4
+               memory[229] <= 32'h0160602a;    //              slt $t4, $t3, $0
+               memory[230] <= 32'h11800002;    //              beq $t4, $0, absifend
+               memory[231] <= 32'h200dffff;    //              addi    $t5, $0, -1
+               memory[232] <= 32'h716d5802;    //              mul $t3, $t3, $t5
+               memory[233] <= 32'h010b4020;    //  absifend:       add $t0, $t0, $t3
+               memory[234] <= 32'h214a0001;    //              addi    $t2, $t2, 1
+               memory[235] <= 32'h080000d6;    //              j   sadinnerloop
+               memory[236] <= 32'h21290001;    //  sadinnerloopend:    addi    $t1, $t1, 1
+               memory[237] <= 32'h080000d3;    //              j   sadouterloop
+               memory[238] <= 32'h11160002;    //  sadouterloopend:    beq $t0, $s6, lteqcurrmin
+               memory[239] <= 32'h0116482a;    //              slt $t1, $t0, $s6
+               memory[240] <= 32'h11200003;    //              beq $t1, $0, lteqcurrminend
+               memory[241] <= 32'h0100b020;    //  lteqcurrmin:        add $s6, $t0, $0
+               memory[242] <= 32'h01c01020;    //              add $v0, $t6, $0
+               memory[243] <= 32'h01e01820;    //              add $v1, $t7, $0
+               memory[244] <= 32'h03e00008;    //  lteqcurrminend:     jr  $ra
+               memory[245] <= 32'h21ef0001;    //  rightsubroutine:    addi    $t7, $t7, 1
+               memory[246] <= 32'h03e00008;    //              jr  $ra
+               memory[247] <= 32'h21ce0001;    //  downleftsubroutine: addi    $t6, $t6, 1
+               memory[248] <= 32'h21efffff;    //              addi    $t7, $t7, -1
+               memory[249] <= 32'h03e00008;    //              jr  $ra
+               memory[250] <= 32'h21ceffff;    //  uprightsubroutine:  addi    $t6, $t6, -1
+               memory[251] <= 32'h21ef0001;    //              addi    $t7, $t7, 1
+               memory[252] <= 32'h03e00008;    //              jr  $ra
+               memory[253] <= 32'h21ce0001;    //  downsubroutine:     addi    $t6, $t6, 1
+               memory[254] <= 32'h03e00008;    //              jr  $ra
+               memory[255] <= 32'h21ceffff;    //  upsubroutine:       addi    $t6, $t6, -1
+               memory[256] <= 32'h21ef0001;    //              addi    $t7, $t7, 1
+               memory[257] <= 32'h03e00008;    //              jr  $ra
+           
+           
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         /*
         //test case 9-14
         memory[0] <= 32'h20100001;	//	main:	addi	$s0, $zero, 1
@@ -139,7 +431,7 @@ module InstructionMemory(Address, Instruction);
         
         
         
-        
+        /*
         
         
           //public test case Final Phase1
@@ -214,7 +506,7 @@ module InstructionMemory(Address, Instruction);
   memory[59] <= 32'h0800003d;    //            j    error
   memory[60] <= 32'h0800003c;    //    done:        j    done
   memory[61] <= 32'h0800003d;    //    error:        j    error
-        
+        */
         
         
         
