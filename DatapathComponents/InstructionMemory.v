@@ -50,6 +50,187 @@ module InstructionMemory(Address, Instruction);
     
     initial begin
 
+
+
+
+
+memory[0] <= 32'h23bdfffc;	//	main:			addi	$sp, $sp, -4
+memory[1] <= 32'hafbf0000;	//				sw	$ra, 0($sp)
+memory[2] <= 32'h34040000;	//				ori	$a0, $zero, 0
+memory[3] <= 32'h34050010;	//				ori	$a1, $zero, 16
+memory[4] <= 32'h34060410;	//				ori	$a2, $zero, 1040
+memory[5] <= 32'h0c00000a;	//				jal	vbsme
+memory[6] <= 32'h0c000008;	//				jal	print_result
+memory[7] <= 32'h08000007;	//	exit:			j	exit
+memory[8] <= 32'h00000000;	//	print_result:		nop
+memory[9] <= 32'h03e00008;	//				jr	$ra
+memory[10] <= 32'h8c900000;	//	vbsme:			lw	$s0, 0($a0)
+memory[11] <= 32'h8c910004;	//				lw	$s1, 4($a0)
+memory[12] <= 32'h8c920008;	//				lw	$s2, 8($a0)
+memory[13] <= 32'h8c93000c;	//				lw	$s3, 12($a0)
+memory[14] <= 32'h340e0000;	//				ori	$t6, $zero, 0
+memory[15] <= 32'h340f0000;	//				ori	$t7, $zero, 0
+memory[16] <= 32'h02124022;	//				sub	$t0, $s0, $s2
+memory[17] <= 32'h71114002;	//				mul	$t0, $t0, $s1
+memory[18] <= 32'h02334822;	//				sub	$t1, $s1, $s3
+memory[19] <= 32'h0109a820;	//				add	$s5, $t0, $t1
+memory[20] <= 32'hafa80004;	//				sw	$t0, 4($sp)
+memory[21] <= 32'h34020000;	//				ori	$v0, $zero, 0
+memory[22] <= 32'h34030000;	//				ori	$v1, $zero, 0
+memory[23] <= 32'h3416270f;	//				ori	$s6, $zero, 9999
+memory[24] <= 32'h23bdfffc;	//				addi	$sp, $sp, -4
+memory[25] <= 32'hafbf0000;	//				sw	$ra, 0($sp)
+memory[26] <= 32'h0271402a;	//				slt	$t0, $s3, $s1
+memory[27] <= 32'h0250482a;	//				slt	$t1, $s2, $s0
+memory[28] <= 32'h01094025;	//				or	$t0, $t0, $t1
+memory[29] <= 32'h1100003c;	//				beq	$t0, $0, endzigzag
+memory[30] <= 32'h0c00005e;	//				jal	sad
+memory[31] <= 32'h02334022;	//				sub	$t0, $s1, $s3
+memory[32] <= 32'h01e8402a;	//				slt	$t0, $t7, $t0
+memory[33] <= 32'h11000002;	//				beq	$t0, $0, errordetectnexta
+memory[34] <= 32'h0c000083;	//				jal	rightsubroutine
+memory[35] <= 32'h08000028;	//				j	doneerrordetectright
+memory[36] <= 32'h02124022;	//	errordetectnexta:	sub	$t0, $s0, $s2
+memory[37] <= 32'h01c8402a;	//				slt	$t0, $t6, $t0
+memory[38] <= 32'h11000033;	//				beq	$t0, $0, endzigzag
+memory[39] <= 32'h0c00008b;	//				jal	downsubroutine
+memory[40] <= 32'h0c00005e;	//	doneerrordetectright:	jal	sad
+memory[41] <= 32'h71d14002;	//	zigzagloop:		mul	$t0, $t6, $s1
+memory[42] <= 32'h010f4020;	//				add	$t0, $t0, $t7
+memory[43] <= 32'h0115402a;	//				slt	$t0, $t0, $s5
+memory[44] <= 32'h1100002d;	//				beq	$t0, $0, endzigzag
+memory[45] <= 32'h20140001;	//				addi	$s4, $0, 1
+memory[46] <= 32'h1280000e;	//	dlcollisiondetect:	beq	$s4, $0, edlcollisiondetect
+memory[47] <= 32'h02124022;	//				sub	$t0, $s0, $s2
+memory[48] <= 32'h01c8402a;	//				slt	$t0, $t6, $t0
+memory[49] <= 32'h11000007;	//				beq	$t0, $0, downcollisiona
+memory[50] <= 32'h000f402a;	//				slt	$t0, $0, $t7
+memory[51] <= 32'h11000002;	//				beq	$t0, $0, leftcollisiona
+memory[52] <= 32'h0c000085;	//				jal	downleftsubroutine
+memory[53] <= 32'h0800003b;	//				j	downcollisionaend
+memory[54] <= 32'h0c00008b;	//	leftcollisiona:		jal	downsubroutine
+memory[55] <= 32'h0000a020;	//				add	$s4, $0, $0
+memory[56] <= 32'h0800003b;	//				j	downcollisionaend
+memory[57] <= 32'h0c000083;	//	downcollisiona:		jal	rightsubroutine
+memory[58] <= 32'h0000a020;	//				add	$s4, $0, $0
+memory[59] <= 32'h0c00005e;	//	downcollisionaend:	jal	sad
+memory[60] <= 32'h0800002e;	//				j	dlcollisiondetect
+memory[61] <= 32'h0c00005e;	//	edlcollisiondetect:	jal	sad
+memory[62] <= 32'h71d14002;	//				mul	$t0, $t6, $s1
+memory[63] <= 32'h010f4020;	//				add	$t0, $t0, $t7
+memory[64] <= 32'h0115402a;	//				slt	$t0, $t0, $s5
+memory[65] <= 32'h11000018;	//				beq	$t0, $0, endzigzag
+memory[66] <= 32'h20140001;	//				addi	$s4, $0, 1
+memory[67] <= 32'h12800014;	//	urcollisiondetect:	beq	$s4, $0, eurcollisiondetect
+memory[68] <= 32'h000e402a;	//				slt	$t0, $0, $t6
+memory[69] <= 32'h11000008;	//				beq	$t0, $0, upcollisiona
+memory[70] <= 32'h02334022;	//				sub	$t0, $s1, $s3
+memory[71] <= 32'h01e8402a;	//				slt	$t0, $t7, $t0
+memory[72] <= 32'h11000002;	//				beq	$t0, $0, rightcollisiona
+memory[73] <= 32'h0c000088;	//				jal	uprightsubroutine
+memory[74] <= 32'h08000056;	//				j	upcollisionaend
+memory[75] <= 32'h0c00008b;	//	rightcollisiona:	jal	downsubroutine
+memory[76] <= 32'h0000a020;	//				add	$s4, $0, $0
+memory[77] <= 32'h08000056;	//				j	upcollisionaend
+memory[78] <= 32'h02334022;	//	upcollisiona:		sub	$t0, $s1, $s3
+memory[79] <= 32'h01e8402a;	//				slt	$t0, $t7, $t0
+memory[80] <= 32'h11000003;	//				beq	$t0, $0, rightcollisionb
+memory[81] <= 32'h0c000083;	//				jal	rightsubroutine
+memory[82] <= 32'h0000a020;	//				add	$s4, $0, $0
+memory[83] <= 32'h08000056;	//				j	upcollisionaend
+memory[84] <= 32'h0c00008b;	//	rightcollisionb:	jal	downsubroutine
+memory[85] <= 32'h0000a020;	//				add	$s4, $0, $0
+memory[86] <= 32'h0c00005e;	//	upcollisionaend:	jal	sad
+memory[87] <= 32'h08000043;	//				j	urcollisiondetect
+memory[88] <= 32'h0c00005e;	//	eurcollisiondetect:	jal	sad
+memory[89] <= 32'h08000029;	//				j	zigzagloop
+memory[90] <= 32'h8fbf0000;	//	endzigzag:		lw	$ra, 0($sp)
+memory[91] <= 32'h00000000;	//				nop
+memory[92] <= 32'h00000000;	//				nop
+memory[93] <= 32'h03e00008;	//				jr	$ra
+memory[94] <= 32'h00000000;	//	sad:			nop
+memory[95] <= 32'h00004020;	//				add	$t0, $0, $0
+memory[96] <= 32'h00004820;	//				add	$t1, $0, $0
+memory[97] <= 32'h0132582a;	//	sadouterloop:		slt	$t3, $t1, $s2
+memory[98] <= 32'h11600019;	//				beq	$t3, $0, sadouterloopend
+memory[99] <= 32'h00005020;	//				add	$t2, $0, $0
+memory[100] <= 32'h0153582a;	//	sadinnerloop:		slt	$t3, $t2, $s3
+memory[101] <= 32'h11600014;	//				beq	$t3, $0, sadinnerloopend
+memory[102] <= 32'h012e5820;	//				add	$t3, $t1, $t6
+memory[103] <= 32'h71715802;	//				mul	$t3, $t3, $s1
+memory[104] <= 32'h016a5820;	//				add	$t3, $t3, $t2
+memory[105] <= 32'h016f5820;	//				add	$t3, $t3, $t7
+memory[106] <= 32'h000b5880;	//				sll	$t3, $t3, 2
+memory[107] <= 32'h71336002;	//				mul	$t4, $t1, $s3
+memory[108] <= 32'h018a6020;	//				add	$t4, $t4, $t2
+memory[109] <= 32'h000c6080;	//				sll	$t4, $t4, 2
+memory[110] <= 32'h00ab5820;	//				add	$t3, $a1, $t3
+memory[111] <= 32'h00cc6020;	//				add	$t4, $a2, $t4
+memory[112] <= 32'h8d6b0000;	//				lw	$t3, 0($t3)
+memory[113] <= 32'h8d8c0000;	//				lw	$t4, 0($t4)
+memory[114] <= 32'h016c5822;	//				sub	$t3, $t3, $t4
+memory[115] <= 32'h0160602a;	//				slt	$t4, $t3, $0
+memory[116] <= 32'h11800002;	//				beq	$t4, $0, absifend
+memory[117] <= 32'h200dffff;	//				addi	$t5, $0, -1
+memory[118] <= 32'h716d5802;	//				mul	$t3, $t3, $t5
+memory[119] <= 32'h010b4020;	//	absifend:		add	$t0, $t0, $t3
+memory[120] <= 32'h214a0001;	//				addi	$t2, $t2, 1
+memory[121] <= 32'h08000064;	//				j	sadinnerloop
+memory[122] <= 32'h21290001;	//	sadinnerloopend:	addi	$t1, $t1, 1
+memory[123] <= 32'h08000061;	//				j	sadouterloop
+memory[124] <= 32'h11160002;	//	sadouterloopend:	beq	$t0, $s6, lteqcurrmin
+memory[125] <= 32'h0116482a;	//				slt	$t1, $t0, $s6
+memory[126] <= 32'h11200003;	//				beq	$t1, $0, lteqcurrminend
+memory[127] <= 32'h0100b020;	//	lteqcurrmin:		add	$s6, $t0, $0
+memory[128] <= 32'h01c01020;	//				add	$v0, $t6, $0
+memory[129] <= 32'h01e01820;	//				add	$v1, $t7, $0
+memory[130] <= 32'h03e00008;	//	lteqcurrminend:		jr	$ra
+memory[131] <= 32'h21ef0001;	//	rightsubroutine:	addi	$t7, $t7, 1
+memory[132] <= 32'h03e00008;	//				jr	$ra
+memory[133] <= 32'h21ce0001;	//	downleftsubroutine:	addi	$t6, $t6, 1
+memory[134] <= 32'h21efffff;	//				addi	$t7, $t7, -1
+memory[135] <= 32'h03e00008;	//				jr	$ra
+memory[136] <= 32'h21ceffff;	//	uprightsubroutine:	addi	$t6, $t6, -1
+memory[137] <= 32'h21ef0001;	//				addi	$t7, $t7, 1
+memory[138] <= 32'h03e00008;	//				jr	$ra
+memory[139] <= 32'h21ce0001;	//	downsubroutine:		addi	$t6, $t6, 1
+memory[140] <= 32'h03e00008;	//				jr	$ra
+memory[141] <= 32'h21ceffff;	//	upsubroutine:		addi	$t6, $t6, -1
+memory[142] <= 32'h21ef0001;	//				addi	$t7, $t7, 1
+memory[143] <= 32'h03e00008;	//				jr	$ra
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//regular dp with all test cases required.
+/*
 memory[0] <= 32'h23bdfffc;	//	main:			addi	$sp, $sp, -4
 memory[1] <= 32'hafbf0000;	//				sw	$ra, 0($sp)
 memory[2] <= 32'h34044df0;	//				ori	$a0, $zero, 19952
@@ -194,7 +375,7 @@ memory[140] <= 32'h03e00008;	//				jr	$ra
 memory[141] <= 32'h21ceffff;	//	upsubroutine:		addi	$t6, $t6, -1
 memory[142] <= 32'h21ef0001;	//				addi	$t7, $t7, 1
 memory[143] <= 32'h03e00008;	//				jr	$ra
-
+*/
 
 
 /*
