@@ -36,6 +36,7 @@ input Clk, PC_Reset, Clk_Reset;
 
 //(* mark_debug = "true" *)  
 (* mark_debug = "true" *)  wire [31:0] 
+                           debug_program_counter,
                            debug_write_data,
                            debug_HI,
                            debug_LO,
@@ -43,7 +44,10 @@ input Clk, PC_Reset, Clk_Reset;
                            mem0,
                            mem1,
                            mem2,
-                           mem3;                 
+                           mem3;       
+                           
+                           
+                           
 //output [31:0]  debug_program_counter,
 //                    debug_write_data,
 //                    debug_HI,
@@ -57,6 +61,14 @@ input Clk, PC_Reset, Clk_Reset;
 
     output [6:0] out7;
     output [7:0] en_out;
+    
+    wire [6:0] out;
+//    output [6:0] Number;
+//    assign Number = out;
+    
+    //addv0v1 addv0tov1(v0, v1, out);
+    
+    //TwoDigitDisplay TDP(Clk, out, out7, en_out);
     
     Two4DigitDisplay top_Display(Clk, v0[15:0], v1[15:0], out7, en_out);
 
