@@ -1116,11 +1116,9 @@ leftcollisiona:                     # left collision
    j    downcollisionaend           # goto end of outer loop
 
 downcollisiona:                     # down collision
-	nop
    jal  rightsubroutine             # move right
    add  $s4, $0, $0 
 downcollisionaend:
-	nop
    jal  sad                         # check SAD
    j    dlcollisiondetect           # goto start of dl loop
 edlcollisiondetect:
@@ -1147,7 +1145,6 @@ urcollisiondetect:
    slt  $t0, $t7, $t0               # t0 = (frameLoc[column] < t0)
    beq  $t0, $0,  rightcollisiona   # if(t0 != 0)
    jal  uprightsubroutine           # move up and right
-   nop
    j    upcollisionaend             # goto end of outer if
 
 rightcollisiona:
@@ -1164,25 +1161,18 @@ upcollisiona:
    j    upcollisionaend             # goto end of outer if
    
 rightcollisionb:
-	nop
    jal downsubroutine               # move down
    add  $s4, $0, $0                 # loopflag = 0  
 upcollisionaend:
-	nop
    jal  sad                         # check SAD
-   	nop
    j    urcollisiondetect           # goto beginning of up-right loop
 eurcollisiondetect:
-	nop
    jal  sad                         # check SAD   
-   	nop
    j    zigzagloop                  # goto beginning of main loop
 endzigzag:
-	nop
-	nop
    lw   $ra, 0($sp)                 # get return address from the stack
-	nop
-	nop
+   nop
+   nop
    jr   $ra                         # return to function call
 
 
