@@ -77,9 +77,17 @@ module top_tb();
 //           .mem3(mem3)
 //           );
     
+    
+    wire [6:0] out7;
+    wire [7:0] en_out;
+    
+    
+    //module top(Clk, PC_Reset, Clk_Reset, out7, en_out);
     top top_0(.Clk(Clk_tb), 
            .PC_Reset(Reset_tb), 
-           .Clk_Reset(Clk_Reset_tb)
+           .Clk_Reset(Clk_Reset_tb),
+           .out7(out7),
+           .en_out(en_out)
            );
 
 
@@ -103,9 +111,7 @@ module top_tb();
     end
 
     
-    
-    //reset for 4-5 whole cycles
-    
+
     
     
 endmodule
