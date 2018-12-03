@@ -480,6 +480,7 @@ vbsme:
    li   $t6,  0                     # x = 0
    li   $t7,  0                     # y = 0
 
+   ori  $t8, $a1, 0                 #t8 = a1
 
 # Get Final Location
    sub  $t0, $s0, $s2               # t0 = frameSizeY - windowSizeY
@@ -495,8 +496,8 @@ vbsme:
 # Initialize min array
    sw   $t0, 4($sp)                 # current min = max int value
    li   $v0,  0                     # min x = 0
-   li   $v1,  0 		    # min y = 0
-   li   $s6,  9999 		    # current min = arbitrarily large int
+   li   $v1,  0 		               # min y = 0
+   li   $s6,  9999 		            # current min = arbitrarily large int
 
    addi $sp, $sp, -4                # make room for 1 element on the stack
    sw   $ra, 0($sp)                 # store the return address for vbsme on the stack
@@ -532,7 +533,6 @@ doneerrordetectright:
 zigzagloop:                         # while ((frameLoc[column] + frameLoc[row] * frameSizeX) < Final Location){
    mul  $t0, $t6, $s1               # t0 = frameLoc[row] * frameSizeX
    add  $t0, $t0, $t7               # t0 = t0 + frameLoc[column]
-   ori  $t8, $t0, 0                 # t8 = t0
    slt  $t0, $t0, $s5               # t0 = (t0 < final location)
    beq  $t0, $0,  endzigzag         # exit loop and end zigzag
 
@@ -683,39 +683,31 @@ lteqcurrminend:
 # Subroutines
 rightsubroutine:
    addi $t7, $t7, 1                 # frameLoc[column]++
-   #mul  $t8, $t6, $s1               # t8 = frameLoc[row] * frameSizeX
-   #add  $t8, $t8, $t7               # t8 = t8 + frameLoc[column]
-   #add  $t8, $t8, $a1               # t8 = t8 + frame
+   addi  $t8, $t8, 1                # t8++
    jr   $ra                         # jump to next vbsme command
 
 downleftsubroutine:
    addi $t6, $t6,  1                # frameLoc[row]++
    addi $t7, $t7, -1                # frameLoc[column]--
-   #mul  $t8, $t6, $s1               # t8 = frameLoc[row] * frameSizeX
-   #add  $t8, $t8, $t7               # t8 = t8 + frameLoc[column]
-   #add  $t8, $t8, $a1               # t8 = t8 + frame
+   addi $t8, $t8, -1                # t8--
+   add  $t8, $t8, $s1               # t8 = t8 + frameSizeX
    jr   $ra                         # jump to next vbsme command
 
 uprightsubroutine:
    addi $t6, $t6, -1                # frameLoc[row]++
    addi $t7, $t7,  1                # frameLoc[column]--
-   #mul  $t8, $t6, $s1               # t8 = frameLoc[row] * frameSizeX
-   #add  $t8, $t8, $t7               # t8 = t8 + frameLoc[column]
-   #add  $t8, $t8, $a1               # t8 = t8 + frame
+   addi $t8, $t8, 1                 # t8++
+   sub  $t8, $t8, $s1               # t8 = t8 - frameSizeX
    jr   $ra                         # jump to next vbsme command
 
 downsubroutine:
    addi $t6, $t6, 1                 # frameLoc[row]++
-   #mul  $t8, $t6, $s1               # t8 = frameLoc[row] * frameSizeX
-   #add  $t8, $t8, $t7               # t8 = t8 + frameLoc[column]
-   #add  $t8, $t8, $a1               # t8 = t8 + frame
+   add  $t8, $t8, $s1               # t8 = t8 + frameSizeX
    jr   $ra                         # jump to next vbsme command
 
 upsubroutine:
    addi $t6, $t6, -1                # frameLoc[row]--
    addi $t7, $t7,  1                # frameLoc[column]++
-   #mul  $t8, $t6, $s1               # t8 = frameLoc[row] * frameSizeX
-   #add  $t8, $t8, $t7               # t8 = t8 + frameLoc[column]
-   #add  $t8, $t8, $a1               # t8 = t8 + frame
+   sub  $t8, $t8, $s1               # t8 = t8 - frameSizeX
    jr   $ra                         # jump to next vbsme command
 
