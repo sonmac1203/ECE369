@@ -59,6 +59,34 @@ module HazardDetectionUnit(IF_ID_rs, IF_ID_rt, ID_EX_MemRead, ID_EX_rs, ID_EX_rt
        end
        
        
+       //addi $s2, $0, 2
+       //beq $s1, $s2, checktwo
+       if (branch
+           && IF_ID_rt == ID_EX_rt
+           && ID_EX_RegWrite == 1
+           && IF_ID_ALUop != 6'b001110  //not jal in decode
+           && IF_ID_ALUop != 6'b001101  //not jump in decode
+           )    begin
+           Flush <= 1;
+       end
+       
+       
+       //addi $s2, $s0, $s1
+       //beq $s3, $s2, checkfour
+       if (branch
+           && IF_ID_rt == ID_EX_rd
+           && ID_EX_RegWrite == 1
+           && IF_ID_ALUop != 6'b001110  //not jal in decode
+           && IF_ID_ALUop != 6'b001101  //not jump in decode
+           )    begin
+           Flush <= 1;
+       end           
+       
+       
+       
+       
+       
+       
        // FLUSH FOR:
        // addi rt rs imm
        // bltz rs imm

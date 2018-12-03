@@ -56,6 +56,15 @@ output reg [1:0] DForwardA, DForwardB;
             DForwardA <= 3;
         end
         
+        //addi to beq
+        if  (IF_ID_rt == EX_MEM_rd
+            && EX_MEM__RegWrite == 1
+            && branch == 1
+            )   begin
+            DForwardB <= 1;
+        end
+        
+        
         
         
         

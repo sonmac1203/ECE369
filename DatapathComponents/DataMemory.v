@@ -50,22 +50,26 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
 
     /* Please fill in the implementation here */
     
-    reg[31:0] memory [0:8191];
+    reg[31:0] memory [0:1023];
 
     integer index;
 
     initial begin
+
+//    for (index = 0; index < 1024; index = index + 1) begin
+//        memory[index] = 32'h0;
+//    end
 //        memory[0] <= 32'h0;
 //        memory[1] <= 32'h00000001;
 //        memory[2] <= 32'hffffffff;
 
 //        //this is for phase 1 part 1
-        memory[0] <= 0;
-        memory[1] <= 1;
-        memory[2] <= 2;
-        memory[3] <= 3;
-        memory[4] <= 4;
-        memory[5] <= -1;
+//        memory[0] <= 0;
+//        memory[1] <= 1;
+//        memory[2] <= 2;
+//        memory[3] <= 3;
+//        memory[4] <= 4;
+//        memory[5] <= -1;
 
 
 //          memory[0] <= 100; //asize 0
@@ -84,13 +88,354 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, mem0, me
 
 
 
-        for (index = 0; index < 1024; index = index + 1) begin
-            memory[index] = 32'h0;
-        end
+
+
+//Test case 10
+    
+    memory[0] <= 16;
+    memory[1] <= 16;
+    memory[2] <= 8;
+    memory[3] <= 8;
+    memory[4] <= 9;
+    memory[5] <= 19;
+    memory[6] <= 9;
+    memory[7] <= 9;
+    memory[8] <= 9;
+    memory[9] <= 9;
+    memory[10] <= 9;
+    memory[11] <= 9;
+    memory[12] <= 96;
+    memory[13] <= 108;
+    memory[14] <= 120;
+    memory[15] <= 132;
+    memory[16] <= 0;
+    memory[17] <= 1;
+    memory[18] <= 2;
+    memory[19] <= 3;
+    memory[20] <= 9;
+    memory[21] <= 91;
+    memory[22] <= 9;
+    memory[23] <= 9;
+    memory[24] <= 9;
+    memory[25] <= 9;
+    memory[26] <= 9;
+    memory[27] <= 9;
+    memory[28] <= 96;
+    memory[29] <= 108;
+    memory[30] <= 120;
+    memory[31] <= 132;
+    memory[32] <= 0;
+    memory[33] <= 1;
+    memory[34] <= 2;
+    memory[35] <= 3;
+    memory[36] <= 9;
+    memory[37] <= 9;
+    memory[38] <= 19;
+    memory[39] <= 9;
+    memory[40] <= 9;
+    memory[41] <= 9;
+    memory[42] <= 9;
+    memory[43] <= 9;
+    memory[44] <= 96;
+    memory[45] <= 108;
+    memory[46] <= 120;
+    memory[47] <= 132;
+    memory[48] <= 0;
+    memory[49] <= 1;
+    memory[50] <= 2;
+    memory[51] <= 3;
+    memory[52] <= 9;
+    memory[53] <= 9;
+    memory[54] <= 91;
+    memory[55] <= 9;
+    memory[56] <= 9;
+    memory[57] <= 9;
+    memory[58] <= 9;
+    memory[59] <= 9;
+    memory[60] <= 96;
+    memory[61] <= 108;
+    memory[62] <= 120;
+    memory[63] <= 132;
+    memory[64] <= 0;
+    memory[65] <= 1;
+    memory[66] <= 2;
+    memory[67] <= 3;
+    memory[68] <= 91;
+    memory[69] <= 9;
+    memory[70] <= 9;
+    memory[71] <= 9;
+    memory[72] <= 9;
+    memory[73] <= 9;
+    memory[74] <= 9;
+    memory[75] <= 9;
+    memory[76] <= 96;
+    memory[77] <= 108;
+    memory[78] <= 120;
+    memory[79] <= 132;
+    memory[80] <= 0;
+    memory[81] <= 1;
+    memory[82] <= 2;
+    memory[83] <= 3;
+    memory[84] <= 9;
+    memory[85] <= 19;
+    memory[86] <= 9;
+    memory[87] <= 9;
+    memory[88] <= 9;
+    memory[89] <= 9;
+    memory[90] <= 9;
+    memory[91] <= 9;
+    memory[92] <= 96;
+    memory[93] <= 108;
+    memory[94] <= 120;
+    memory[95] <= 132;
+    memory[96] <= 0;
+    memory[97] <= 1;
+    memory[98] <= 2;
+    memory[99] <= 3;
+    memory[100] <= 9;
+    memory[101] <= 91;
+    memory[102] <= 9;
+    memory[103] <= 9;
+    memory[104] <= 9;
+    memory[105] <= 9;
+    memory[106] <= 9;
+    memory[107] <= 9;
+    memory[108] <= 96;
+    memory[109] <= 108;
+    memory[110] <= 120;
+    memory[111] <= 132;
+    memory[112] <= 0;
+    memory[113] <= 1;
+    memory[114] <= 2;
+    memory[115] <= 3;
+    memory[116] <= 1;
+    memory[117] <= 2;
+    memory[118] <= 3;
+    memory[119] <= 9;
+    memory[120] <= 9;
+    memory[121] <= 19;
+    memory[122] <= 9;
+    memory[123] <= 9;
+    memory[124] <= 9;
+    memory[125] <= 9;
+    memory[126] <= 9;
+    memory[127] <= 96;
+    memory[128] <= 108;
+    memory[129] <= 120;
+    memory[130] <= 132;
+    memory[131] <= 0;
+    memory[132] <= 1;
+    memory[133] <= 2;
+    memory[134] <= 3;
+    memory[135] <= 9;
+    memory[136] <= 9;
+    memory[137] <= 9;
+    memory[138] <= 9;
+    memory[139] <= 9;
+    memory[140] <= 9;
+    memory[141] <= 9;
+    memory[142] <= 9;
+    memory[143] <= 96;
+    memory[144] <= 108;
+    memory[145] <= 120;
+    memory[146] <= 132;
+    memory[147] <= 0;
+    memory[148] <= 1;
+    memory[149] <= 2;
+    memory[150] <= 3;
+    memory[151] <= 9;
+    memory[152] <= 9;
+    memory[153] <= 9;
+    memory[154] <= 9;
+    memory[155] <= 9;
+    memory[156] <= 9;
+    memory[157] <= 9;
+    memory[158] <= 9;
+    memory[159] <= 96;
+    memory[160] <= 108;
+    memory[161] <= 120;
+    memory[162] <= 132;
+    memory[163] <= 0;
+    memory[164] <= 1;
+    memory[165] <= 2;
+    memory[166] <= 3;
+    memory[167] <= 9;
+    memory[168] <= 9;
+    memory[169] <= 9;
+    memory[170] <= 9;
+    memory[171] <= 9;
+    memory[172] <= 9;
+    memory[173] <= 9;
+    memory[174] <= 9;
+    memory[175] <= 96;
+    memory[176] <= 108;
+    memory[177] <= 120;
+    memory[178] <= 132;
+    memory[179] <= 0;
+    memory[180] <= 1;
+    memory[181] <= 2;
+    memory[182] <= 3;
+    memory[183] <= 9;
+    memory[184] <= 9;
+    memory[185] <= 9;
+    memory[186] <= 9;
+    memory[187] <= 9;
+    memory[188] <= 9;
+    memory[189] <= 9;
+    memory[190] <= 9;
+    memory[191] <= 96;
+    memory[192] <= 108;
+    memory[193] <= 120;
+    memory[194] <= 132;
+    memory[195] <= 0;
+    memory[196] <= 1;
+    memory[197] <= 2;
+    memory[198] <= 3;
+    memory[199] <= 9;
+    memory[200] <= 9;
+    memory[201] <= 9;
+    memory[202] <= 9;
+    memory[203] <= 9;
+    memory[204] <= 9;
+    memory[205] <= 9;
+    memory[206] <= 9;
+    memory[207] <= 96;
+    memory[208] <= 108;
+    memory[209] <= 120;
+    memory[210] <= 132;
+    memory[211] <= 0;
+    memory[212] <= 1;
+    memory[213] <= 2;
+    memory[214] <= 3;
+    memory[215] <= 9;
+    memory[216] <= 9;
+    memory[217] <= 9;
+    memory[218] <= 9;
+    memory[219] <= 9;
+    memory[220] <= 9;
+    memory[221] <= 9;
+    memory[222] <= 9;
+    memory[223] <= 96;
+    memory[224] <= 108;
+    memory[225] <= 120;
+    memory[226] <= 132;
+    memory[227] <= 0;
+    memory[228] <= 1;
+    memory[229] <= 2;
+    memory[230] <= 3;
+    memory[231] <= 9;
+    memory[232] <= 9;
+    memory[233] <= 9;
+    memory[234] <= 9;
+    memory[235] <= 9;
+    memory[236] <= 9;
+    memory[237] <= 9;
+    memory[238] <= 9;
+    memory[239] <= 96;
+    memory[240] <= 108;
+    memory[241] <= 120;
+    memory[242] <= 132;
+    memory[243] <= 0;
+    memory[244] <= 1;
+    memory[245] <= 2;
+    memory[246] <= 3;
+    memory[247] <= 9;
+    memory[248] <= 9;
+    memory[249] <= 9;
+    memory[250] <= 9;
+    memory[251] <= 9;
+    memory[252] <= 9;
+    memory[253] <= 9;
+    memory[254] <= 9;
+    memory[255] <= 96;
+    memory[256] <= 108;
+    memory[257] <= 120;
+    memory[258] <= 132;
+    memory[259] <= 0;
+    memory[260] <= 9;
+    memory[261] <= 9;
+    memory[262] <= 9;
+    memory[263] <= 9;
+    memory[264] <= 9;
+    memory[265] <= 9;
+    memory[266] <= 9;
+    memory[267] <= 9;
+    memory[268] <= 9;
+    memory[269] <= 9;
+    memory[270] <= 9;
+    memory[271] <= 9;
+    memory[272] <= 9;
+    memory[273] <= 9;
+    memory[274] <= 9;
+    memory[275] <= 9;
+    memory[276] <= 9;
+    memory[277] <= 9;
+    memory[278] <= 9;
+    memory[279] <= 9;
+    memory[280] <= 9;
+    memory[281] <= 9;
+    memory[282] <= 9;
+    memory[283] <= 9;
+    memory[284] <= 9;
+    memory[285] <= 9;
+    memory[286] <= 9;
+    memory[287] <= 9;
+    memory[288] <= 9;
+    memory[289] <= 9;
+    memory[290] <= 9;
+    memory[291] <= 9;
+    memory[292] <= 9;
+    memory[293] <= 9;
+    memory[294] <= 9;
+    memory[295] <= 9;
+    memory[296] <= 9;
+    memory[297] <= 9;
+    memory[298] <= 9;
+    memory[299] <= 9;
+    memory[300] <= 9;
+    memory[301] <= 9;
+    memory[302] <= 9;
+    memory[303] <= 9;
+    memory[304] <= 9;
+    memory[305] <= 9;
+    memory[306] <= 9;
+    memory[307] <= 9;
+    memory[308] <= 9;
+    memory[309] <= 9;
+    memory[310] <= 9;
+    memory[311] <= 9;
+    memory[312] <= 9;
+    memory[313] <= 9;
+    memory[314] <= 9;
+    memory[315] <= 9;
+    memory[316] <= 9;
+    memory[317] <= 9;
+    memory[318] <= 9;
+    memory[319] <= 9;
+    memory[320] <= 9;
+    memory[321] <= 9;
+    memory[322] <= 9;
+    memory[323] <= 9;
 
     
-    /*
     
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    /*
             memory[0] <= 4;
             memory[1] <=  4;
             memory[2] <=  2;

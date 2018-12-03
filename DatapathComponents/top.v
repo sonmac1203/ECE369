@@ -22,9 +22,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module top(Clk, PC_Reset, Clk_Reset, debug_program_counter, debug_write_data,debug_HI, debug_LO,
-           s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0,
-           mem0, mem1, mem2, mem3);
+//module top(Clk, PC_Reset, Clk_Reset, debug_program_counter, debug_write_data,debug_HI, debug_LO,
+//           s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0, v0, v1,
+//           mem0, mem1, mem2, mem3);
+           
+module top(Clk, PC_Reset, Clk_Reset, out7, en_out);
 
 
 input Clk, PC_Reset, Clk_Reset;
@@ -32,15 +34,43 @@ input Clk, PC_Reset, Clk_Reset;
 //output reg [31:0] debug_program_counter, debug_write_data,debug_HI, debug_LO;
 
 
-output  [31:0]  debug_program_counter,
-                    debug_write_data,
-                    debug_HI,
-                    debug_LO,
-                    s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0,
-                    mem0,
-                    mem1,
-                    mem2,
-                    mem3;
+//(* mark_debug = "true" *)  
+(* mark_debug = "true" *)  wire [31:0] 
+                           debug_program_counter,
+                           debug_write_data,
+                           debug_HI,
+                           debug_LO,
+                           s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0, v0, v1,
+                           mem0,
+                           mem1,
+                           mem2,
+                           mem3;       
+                           
+                           
+                           
+//output [31:0]  debug_program_counter,
+//                    debug_write_data,
+//                    debug_HI,
+//                    debug_LO,
+//                    s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0, v0, v1,
+//                    mem0,
+//                    mem1,
+//                    mem2,
+//                    mem3;
+
+
+    output [6:0] out7;
+    output [7:0] en_out;
+    
+    wire [6:0] out;
+//    output [6:0] Number;
+//    assign Number = out;
+    
+    //addv0v1 addv0tov1(v0, v1, out);
+    
+    //TwoDigitDisplay TDP(Clk, out, out7, en_out);
+    
+    Two4DigitDisplay top_Display(Clk, v0[15:0], v1[15:0], out7, en_out);
 
 
 wire [4:0] hard31 = 31;
@@ -151,6 +181,7 @@ wire[31:0]  IF_ID_Instruction_out,
             Mux14_out,
             Mux15_out,
             mux16_out,
+            mux17_out,
             ID_EX_address,
             ID_EX_ZE;
 
@@ -202,6 +233,12 @@ wire [5:0]  ALUOp,
     //module InstructionMemory(Address, Instruction);
     InstructionMemory IM(PCResult, IM_out);
 
+
+    //module Mux32Bit2To1(out, inA, inB, sel);
+    Mux32Bit2To1 Mux17(mux17_out, IM_out, hard0, AND1_out);    
+
+
+
     /*
         ___ _____      __  ___ ____
        |_ _|  ___|    / / |_ _|  _ \
@@ -216,7 +253,7 @@ wire [5:0]  ALUOp,
 //                      in_Instruction, out_Instruction,
 //                      in_PCplus4, out_PCplus4);
     IF_ID_Register IFID_Reg_1(Clk_out, Flush, AND1_out,
-                              IM_out, IF_ID_Instruction_out,
+                              mux17_out, IF_ID_Instruction_out,
                               PCAdder_out, IF_ID_address);
 
 
@@ -227,7 +264,8 @@ wire [5:0]  ALUOp,
 
     //module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2, debug_write_data);
     RegisterFile Register_1(IF_ID_Instruction_out[25:21], IF_ID_Instruction_out[20:16], mux7_out, Mux3_out, MEM_WB_RegWrite,
-                     Clk_out, ReadData1_out, ReadData2_out, debug_write_data, s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0);
+                     Clk_out, ReadData1_out, ReadData2_out, debug_write_data, s0, s1, s2, s3, s4, 
+                     s5, s6, s7, t0, t1, t2, t3, t4, a0, v0, v1);
 
     //module SignExtension(in, out);
     SignExtension SignExtend32_1(IF_ID_Instruction_out[15:0], SE_out);
@@ -548,9 +586,11 @@ wire [5:0]  ALUOp,
 
     //module Mux32Bit2To1(out, inA, inB, sel);
     Mux32Bit2To1 Mux3(Mux3_out, MEM_WB_DataMemOut, MEM_WB_ALU1_output, MEM_WB_MemToReg);
-
-
-
+    
+    
+    
+    
+    
 
 
 
