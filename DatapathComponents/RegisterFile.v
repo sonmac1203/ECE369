@@ -55,7 +55,7 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData,
 	/* Please fill in the implementation here... */
 	
 //	(* mark_debug = "true" *) input [31:0] WriteData;
-	input [31:0] WriteData;
+	(* mark_debug = "true" *) input [31:0] WriteData;
 	
 	output [31:0] debug_write_data,
 	              s0, s1, s2, s3, s4, s5, s6, s7, t0, t1, t2, t3, t4, a0, v0, v1;
@@ -66,7 +66,7 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData,
 	
 	output reg [31:0] ReadData1, ReadData2;
 
-	reg [31:0] registers [0:31];
+	(* mark_debug = "true" *) reg [31:0] registers [0:31];
 	
 	initial begin
 	   registers[0] = 32'b0;
