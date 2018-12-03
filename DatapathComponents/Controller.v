@@ -20,11 +20,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc, SEMCtrl, JRSrc);
+module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc, SEMCtrl, JRSrc, SADOp);
 
     input [31:0] Instruction;
 
-    output reg ALUSrc, RegDst, RegWrite, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc, JRSrc;
+    output reg ALUSrc, RegDst, RegWrite, MemRead, MemWrite, MemToReg, ALUSft, ZEROSrc, branch, JalSrc, JZEROSrc, JRSrc, SADOp;
     output reg [5:0] ALUOp;
     output reg [1:0] SEMCtrl;
     
@@ -37,60 +37,64 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
     // rotr   | 000000 | ----- | ----- | 000010 | rotr
     // sra    | 000000 | ----- | ----- | 000011 | sra
 
-    // add    | 000000 | ----- | 00000 | 100000 | add
-    // addu   | 000000 | ----- | 00000 | 100001 | addu
-    // sub    | 000000 | ----- | 00000 | 100010 | sub
-    // mult   | 000000 | ----- | 00000 | 011000 | mult
-    // multu  | 000000 | ----- | 00000 | 011001 | multu
-    // and    | 000000 | ----- | 00000 | 100100 | and
-    // or     | 000000 | ----- | 00000 | 100101 | or
-    // nor    | 000000 | ----- | 00000 | 100111 | nor
-    // xor    | 000000 | ----- | 00000 | 100110 | xor
-    // sllv   | 000000 | ----- | 00000 | 000100 | sll
-    // slt    | 000000 | ----- | 00000 | 101010 | slt
-    // movn   | 000000 | ----- | 00000 | 001011 | movn
-    // movz   | 000000 | ----- | 00000 | 001010 | movz
-    // srlv   | 000000 | ----- | 00000 | 000110 | srl
-    // rotrv  | 000000 | ----- | 00001 | 000110 | rotr
-    // srav   | 000000 | ----- | 00000 | 000111 | sra
-    // sltu   | 000000 | ----- | 00000 | 101011 | sltu
-    // mthi   | 000000 | ----- | 00000 | 010001 | mthi
-    // mtlo   | 000000 | ----- | 00000 | 010011 | mtlo
-    // mfhi   | 000000 | ----- | 00000 | 010000 | mfhi
-    // mflo   | 000000 | ----- | 00000 | 010010 | mflo
+    // add      | 000000 | ----- | 00000 | 100000 | add
+    // addu     | 000000 | ----- | 00000 | 100001 | addu
+    // sub      | 000000 | ----- | 00000 | 100010 | sub
+    // mult     | 000000 | ----- | 00000 | 011000 | mult
+    // multu    | 000000 | ----- | 00000 | 011001 | multu
+    // and      | 000000 | ----- | 00000 | 100100 | and
+    // or       | 000000 | ----- | 00000 | 100101 | or
+    // nor      | 000000 | ----- | 00000 | 100111 | nor
+    // xor      | 000000 | ----- | 00000 | 100110 | xor
+    // sllv     | 000000 | ----- | 00000 | 000100 | sll
+    // slt      | 000000 | ----- | 00000 | 101010 | slt
+    // movn     | 000000 | ----- | 00000 | 001011 | movn
+    // movz     | 000000 | ----- | 00000 | 001010 | movz
+    // srlv     | 000000 | ----- | 00000 | 000110 | srl
+    // rotrv    | 000000 | ----- | 00001 | 000110 | rotr
+    // srav     | 000000 | ----- | 00000 | 000111 | sra
+    // sltu     | 000000 | ----- | 00000 | 101011 | sltu
+    // mthi     | 000000 | ----- | 00000 | 010001 | mthi
+    // mtlo     | 000000 | ----- | 00000 | 010011 | mtlo
+    // mfhi     | 000000 | ----- | 00000 | 010000 | mfhi
+    // mflo     | 000000 | ----- | 00000 | 010010 | mflo
 
-    // mul    | 011100 | ----- | 00000 | 000010 | mul
-    // madd   | 011100 | ----- | 00000 | 000000 | madd
-    // msub   | 011100 | ----- | 00000 | 000100 | msub
+    // mul      | 011100 | ----- | 00000 | 000010 | mul
+    // madd     | 011100 | ----- | 00000 | 000000 | madd
+    // msub     | 011100 | ----- | 00000 | 000100 | msub
 
-    // seh    | 011111 | ----- | 11000 | 100000 | seh
-    // seb    | 011111 | ----- | 10000 | 100000 | seb
+    // seh      | 011111 | ----- | 11000 | 100000 | seh
+    // seb      | 011111 | ----- | 10000 | 100000 | seb
     
-    // addiu  | 001001 | ----- | ----- | ------ | addu
-    // addi   | 001000 | ----- | ----- | ------ | add
-    // andi   | 001100 | ----- | ----- | ------ | and
-    // ori    | 001101 | ----- | ----- | ------ | or
-    // xori   | 001110 | ----- | ----- | ------ | xor
-    // slti   | 001010 | ----- | ----- | ------ | slt
-    // sltiu  | 001011 | ----- | ----- | ------ | sltu
+    // addiu    | 001001 | ----- | ----- | ------ | addu
+    // addi     | 001000 | ----- | ----- | ------ | add
+    // andi     | 001100 | ----- | ----- | ------ | and
+    // ori      | 001101 | ----- | ----- | ------ | or
+    // xori     | 001110 | ----- | ----- | ------ | xor
+    // slti     | 001010 | ----- | ----- | ------ | slt
+    // sltiu    | 001011 | ----- | ----- | ------ | sltu
     
-    // lw     | 100011 | ----- | ----- | ------ | add
-    // sw     | 101011 | ----- | ----- | ------ | add
-    // sb     | 101000 | ----- | ----- | ------ | add
-    // lh     | 100001 | ----- | ----- | ------ | add
-    // lb     | 100000 | ----- | ----- | ------ | add
-    // sh     | 101001 | ----- | ----- | ------ | add
-    // lui    | 001111 | ----- | ----- | ------ | lui
+    // lw       | 100011 | ----- | ----- | ------ | add
+    // sw       | 101011 | ----- | ----- | ------ | add
+    // sb       | 101000 | ----- | ----- | ------ | add
+    // lh       | 100001 | ----- | ----- | ------ | add
+    // lb       | 100000 | ----- | ----- | ------ | add
+    // sh       | 101001 | ----- | ----- | ------ | add
+    // lui      | 001111 | ----- | ----- | ------ | lui
    
-    // bgez   | 000001 | 00001 | ----- | ------ | bgez
-    // bltz   | 000001 | 00000 | ----- | ------ | bltz
-    // beq    | 000100 | ----- | ----- | ------ | beq
-    // bne    | 000101 | ----- | ----- | ------ | bne
-    // bgtz   | 000111 | 00000 | ----- | ------ | bgtz
-    // blez   | 000110 | 00000 | ----- | ------ | blez
-    // j      | 000010 | ----- | ----- | ------ | j
-    // jr     | 000000 | ----- | ----- | 001000 | jr
-    // jal    | 000011 | ----- | ----- | ------ | jal
+    // bgez     | 000001 | 00001 | ----- | ------ | bgez
+    // bltz     | 000001 | 00000 | ----- | ------ | bltz
+    // beq      | 000100 | ----- | ----- | ------ | beq
+    // bne      | 000101 | ----- | ----- | ------ | bne
+    // bgtz     | 000111 | 00000 | ----- | ------ | bgtz
+    // blez     | 000110 | 00000 | ----- | ------ | blez
+    // j        | 000010 | ----- | ----- | ------ | j
+    // jr       | 000000 | ----- | ----- | 001000 | jr
+    // jal      | 000011 | ----- | ----- | ------ | jal
+    
+    // sad      | 000000 | ----- | ----- | 111111 | sad
+    // sadwinit | 000000 | ----- | ----- | 111110 | sadwinit
+    // sadfinit | 000000 | ----- | ----- | 111100 | sadfinit
     
     initial begin
         ALUSrc <= 0;
@@ -105,6 +109,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
          JalSrc <= 0;
          JZEROSrc <= 0;
          JRSrc <= 0;
+         SADOp <= 0;
         ALUOp <=  6'b0;
         SEMCtrl <= 2'b0;
     
@@ -126,6 +131,7 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
          JalSrc <= 0;
          JZEROSrc <= 0;
          JRSrc <= 0;
+         SADOp <= 0;
         ALUOp <=  6'b0;
         SEMCtrl <= 2'b0;
         
@@ -515,7 +521,43 @@ module Controller(Instruction, ALUSrc, RegDst, RegWrite, ALUOp, MemRead, MemWrit
                 JalSrc <= 1; 
                 JZEROSrc <= 0;   
                 JRSrc <= 1;                                                                             
-            end               
+            end
+            
+            //sad
+            else if(Instruction[5:0] == 6'b111111) begin
+                RegDst <= 1;
+                RegWrite <= 1;
+                ALUOp <= 6'b111111;
+                MemRead <= 0;
+                MemWrite <= 0;
+                MemToReg <= 1;
+                branch <= 0;
+                JalSrc <= 1;
+                SADOp <= 1;                                                                            
+            end
+            
+            //sadwinit
+            else if(Instruction[5:0] == 6'b111110) begin
+                RegWrite <= 0;
+                ALUOp <= 6'b111110;
+                MemRead <= 0;
+                MemWrite <= 0;
+                branch <= 0;
+                JalSrc <= 1;
+                SADOp <= 1;                                                                            
+            end
+            
+            //sadfinit
+            else if(Instruction[5:0] == 6'b111100) begin
+                RegWrite <= 0;
+                ALUOp <= 6'b111100;
+                MemRead <= 0;
+                MemWrite <= 0;
+                branch <= 0;
+                JalSrc <= 1;
+                SADOp <= 1;                                                                            
+            end
+                           
         end
         
         //Multiplication R-Type

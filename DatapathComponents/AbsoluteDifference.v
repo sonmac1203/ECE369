@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer:  Lena Voytek
 // 
 // Create Date: 10/17/2018 03:37:03 PM
 // Design Name: 
@@ -20,17 +20,24 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Adder(A, B, out);
+module AbsoluteDifference(A, B, out);
 
     input [31:0] A, B;
     output reg [31:0] out;
+    reg [31:0]  nonAbsOut;
     
     initial begin
         out <= 0;
     end
 
     always @ (*)    begin
-        out <= A + B;    
+        nonAbsOut <=  A - B;
+        if(nonAbsOut[31] == 1'b1) begin
+            out <= B - A;
+       end
+        else begin
+            out <= A - B;
+         end      
     end
 
 endmodule
